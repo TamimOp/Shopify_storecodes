@@ -1,0 +1,365 @@
+{%- style -%}
+  .zs-slider-section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .zs-slider-section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="zs-slider-section zs-slider-section-{{ section.id }}-padding" style="background-color: {{ section.settings.background_color }};">
+  <zs-feature-slider 
+    style="
+      --zs-slider-gap: {{ section.settings.block_gap }}px;
+      --zs-slider-animation-speed: {{ section.settings.animation_speed | times: 0.1 | times: section.blocks.size }}s;
+      --zs-slider-icon-size: {{ section.settings.icon_size }}px;
+    "
+  >
+    {%- for content in (1..10) -%}
+      <ol class="zs-slider-track-{{ section.id }}"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+        {%- for block in section.blocks -%}
+          <li class="zs-slider-block" {{ block.shopify_attributes }}>
+            <div class="zs-slider-icon">
+              {% if block.settings.icon != blank %}
+                <img src="{{ block.settings.icon | img_url: '96x96' }}" alt="{{ block.settings.title }}" loading="lazy">
+              {% endif %}
+            </div>
+            <div class="zs-slider-content">
+              <h3 
+                class="zs-slider-title"
+                style="
+                  font-size: {{ block.settings.title_size }}px;
+                  color: {{ block.settings.title_color }};
+                "
+              >
+                {{ block.settings.title }}
+              </h3>
+              <p 
+                class="zs-slider-text"
+                style="
+                  font-size: {{ block.settings.text_size }}px;
+                  color: {{ block.settings.text_color }};
+                "
+              >
+                {{ block.settings.text }}
+              </p>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endfor -%}
+  </zs-feature-slider>
+</section>
+
+<style>
+  .zs-slider-section {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  
+  zs-feature-slider {
+    display: grid;
+    grid: auto / auto-flow max-content;
+    transition: transform 0.6s ease-out;
+    justify-content: start;
+  }
+  
+  .zs-slider-track-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    animation-name: zs-slider-scroll-left;
+    animation-duration: var(--zs-slider-animation-speed);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  zs-feature-slider:hover .zs-slider-track-{{ section.id }} {
+    animation-play-state: paused;
+  }
+  
+  .zs-slider-block {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 30px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    min-width: 300px;
+    flex-shrink: 0;
+    margin: 0 calc(var(--zs-slider-gap) / 2);
+  }
+  
+  .zs-slider-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1.25rem;
+    margin-right: 1.25rem;
+    border-right: 1px solid #e5e5e5;
+  }
+  
+  .zs-slider-icon img {
+    width: var(--zs-slider-icon-size);
+    height: var(--zs-slider-icon-size);
+    object-fit: contain;
+    display: block;
+  }
+  
+  .zs-slider-content {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .zs-slider-title {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: normal;
+  }
+  
+  .zs-slider-text {
+    margin: 0;
+    line-height: 1.5;
+    opacity: 0.7;
+    white-space: normal;
+  }
+  
+  @keyframes zs-slider-scroll-left {
+    0% {
+      transform: translate(0);
+    }
+    100% {
+      transform: translate(-100%);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .zs-slider-block {
+      min-width: 280px;
+      padding: 1.25rem 1.5rem;
+    }
+    
+    .zs-slider-icon {
+      padding-right: 1rem;
+      margin-right: 1rem;
+    }
+    
+    .zs-slider-icon img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  @media (prefers-reduced-motion) {
+    zs-feature-slider {
+      display: flex;
+      overflow: hidden;
+    }
+    
+    zs-feature-slider .zs-slider-track-{{ section.id }}[data-duplicated] {
+      display: none;
+    }
+    
+    .zs-slider-track-{{ section.id }} {
+      flex-wrap: wrap;
+      align-items: normal;
+    }
+    
+    .zs-slider-block {
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+class ZsFeatureSlider extends HTMLElement {
+  constructor() {
+    super();
+    this.duplicatedLinks = this.querySelectorAll('ol[data-duplicated] a');
+  }
+
+  connectedCallback() {
+    this.init();
+  }
+
+  init() {
+    this.duplicatedLinks.forEach(link => {
+      link.setAttribute('tabindex', '-1');
+    });
+  }
+}
+
+if (!customElements.get('zs-feature-slider')) {
+  customElements.define('zs-feature-slider', ZsFeatureSlider);
+}
+</script>
+
+{% schema %}
+{
+  "name": "ZS Feature Slider",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "block_gap",
+      "label": "Gap Between Blocks",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size (Desktop)",
+      "min": 24,
+      "max": 96,
+      "step": 4,
+      "unit": "px",
+      "default": 48,
+      "info": "Controls icon size on desktop only. Mobile stays at 40px."
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "label": "Animation Speed",
+      "min": 30,
+      "max": 300,
+      "step": 5,
+      "unit": "s",
+      "default": 60,
+      "info": "Higher = slower"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "label": "Title Font Size",
+          "min": 12,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#000000"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Feature description goes here."
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "label": "Text Font Size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#666666"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Logo Slider",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Worldwide Delivery",
+            "text": "Bastibulum nulla tortor, eleifen odie."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Secured Payment",
+            "text": "Vestibulum nulla tortor, eleifen odio."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "In-Store Pickup",
+            "text": "Nulla tortor vestibulum, eleifen odio."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Limited Time Offers",
+            "text": "Bulumvesti nulla tortor, eleifen odio."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

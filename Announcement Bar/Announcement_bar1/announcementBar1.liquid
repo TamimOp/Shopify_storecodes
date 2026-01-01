@@ -1,0 +1,183 @@
+{{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-bar color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="announcement-bar__wrapper">
+      {% for block in section.blocks %}
+        <div class="announcement-bar__item" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}
+            <div class="announcement-bar__icon">
+              <img src="{{ block.settings.icon | image_url: width: 30 }}" 
+                   alt="{{ block.settings.icon.alt | default: 'icon' }}" 
+                   width="24" 
+                   height="24"
+                   loading="lazy">
+            </div>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <div class="announcement-bar__text" 
+                 style="font-size: {{ block.settings.text_size }}px; 
+                        {% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}
+                        font-weight: {{ block.settings.text_weight }};">
+              {{ block.settings.text }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .announcement-bar {
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    padding: 12px 0;
+  }
+
+  .announcement-bar__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .announcement-bar__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .announcement-bar__icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .announcement-bar__icon img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .announcement-bar__text {
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .announcement-bar__wrapper {
+      gap: 20px;
+      flex-direction: column;
+    }
+    
+    .announcement-bar__text {
+      white-space: normal;
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ZS Announcement Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+        "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Announcement Text",
+          "default": "Free Delivery Over £50"
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text Size",
+          "default": 14
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color"
+        },
+        {
+          "type": "select",
+          "id": "text_weight",
+          "label": "Text Weight",
+          "options": [
+            {
+              "value": "300",
+              "label": "Light"
+            },
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "500",
+              "label": "Medium"
+            },
+            {
+              "value": "600",
+              "label": "Semi Bold"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Delivery Over £50"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "90 Day Money Back Guarantee"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

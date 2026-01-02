@@ -1,0 +1,563 @@
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+<div class="zs-slider2" style="background-color: {{ section.settings.section_bg_color }}; padding: 50px 20px;">
+  <div class="zs-slider2__container">
+    {% if section.settings.section_title != blank %}
+      <h2 class="zs-slider2__title" style="color: {{ section.settings.title_color }}; font-size: {{ section.settings.title_size }}px; font-weight: {{ section.settings.title_weight }};">
+        {{ section.settings.section_title }}
+      </h2>
+    {% endif %}
+
+    <div class="zs-slider2__wrapper">
+      <!-- Swiper -->
+      <div class="swiper zs-slider2__swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide zs-slider2__slide" {{ block.shopify_attributes }}>
+              <div class="zs-slider2__video-card">
+                <div class="zs-slider2__video-wrapper" data-video-id="{{ forloop.index }}">
+                  {% if block.settings.video != blank %}
+                    <video 
+                      class="zs-slider2__video" 
+                      playsinline
+                      preload="metadata"
+                      muted
+                    >
+                      {% for source in block.settings.video.sources %}
+                        <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                      {% endfor %}
+                      Your browser does not support the video tag.
+                    </video>
+                    <button class="zs-slider2__play-button" aria-label="Play video">
+                      <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0L20 12L0 24V0Z" fill="white"/>
+                      </svg>
+                    </button>
+                  {% else %}
+                    <div class="zs-slider2__video-placeholder">
+                      <p>Upload a video</p>
+                    </div>
+                  {% endif %}
+                </div>
+                
+                {% if block.settings.video_caption != blank %}
+                  <div class="zs-slider2__caption" style="color: {{ section.settings.caption_color }}; font-size: {{ section.settings.caption_size }}px; font-weight: {{ section.settings.caption_weight }};">
+                    {{ block.settings.video_caption }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="zs-slider2__button-prev" style="background-color: {{ section.settings.arrow_bg_color }}; color: {{ section.settings.arrow_color }};">
+        &lt;
+      </div>
+      <div class="zs-slider2__button-next" style="background-color: {{ section.settings.arrow_bg_color }}; color: {{ section.settings.arrow_color }};">
+        &gt;
+      </div>
+
+      <!-- Pagination -->
+      <div class="zs-slider2__pagination"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .zs-slider2 {
+    width: 100%;
+  }
+
+  .zs-slider2__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .zs-slider2__title {
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .zs-slider2__wrapper {
+    position: relative;
+    padding: 0 0px 60px 0px;
+  }
+
+  .zs-slider2__swiper {
+    overflow: hidden;
+  }
+
+  .zs-slider2 .swiper-wrapper {
+    display: flex;
+  }
+
+  .zs-slider2__slide {
+    height: auto;
+    display: flex;
+  }
+
+  .zs-slider2__video-card {
+    background: transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .zs-slider2__video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 177.78%; /* 16:9 aspect ratio for portrait videos */
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .zs-slider2__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .zs-slider2__play-button {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s ease;
+    z-index: 2;
+    opacity: 1;
+  }
+
+  .zs-slider2__play-button svg {
+    width: 20px;
+    height: 24px;
+    display: block;
+    stroke: none;
+  }
+
+  .zs-slider2__play-button:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .zs-slider2__video-wrapper.playing .zs-slider2__play-button {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .zs-slider2__video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+  }
+
+  .zs-slider2__caption {
+    margin-top: 15px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .zs-slider2__button-prev,
+  .zs-slider2__button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .zs-slider2__button-prev:hover,
+  .zs-slider2__button-next:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .zs-slider2__button-prev {
+    left: 10px;
+  }
+
+  .zs-slider2__button-next {
+    right: 10px;
+  }
+
+  .zs-slider2__button-prev.swiper-button-disabled,
+  .zs-slider2__button-next.swiper-button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .zs-slider2__pagination {
+    text-align: center;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .zs-slider2 .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #d1d5db;
+    opacity: 1;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+  }
+
+  .zs-slider2 .swiper-pagination-bullet-active {
+    background: #1f2937;
+    width: 8px;
+    height: 8px;
+  }
+
+  @media (max-width: 1200px) {
+    .zs-slider2__wrapper {
+      padding: 0 70px 60px 70px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .zs-slider2{
+      padding: 20px 10px !important;
+    }
+    .zs-slider2__wrapper {
+      padding: 0 0px 60px 0px;
+    }
+
+    .zs-slider2__button-prev,
+    .zs-slider2__button-next {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+
+    .zs-slider2__button-prev {
+      left: 5px;
+    }
+
+    .zs-slider2__button-next {
+      right: 5px;
+    }
+  }
+
+@media (max-width: 480px) {
+    .zs-slider2__wrapper {
+      padding: 0 0px 60px 0px;
+    }
+
+    .zs-slider2__video-wrapper {
+      padding-bottom: 133.33%; /* 3:4 aspect ratio for smaller mobile videos */
+    }
+
+    .zs-slider2__play-button {
+      width: 50px;
+      height: 50px;
+    }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper
+    const swiper = new Swiper('.zs-slider2__swiper', {
+      slidesPerView: 4,
+      spaceBetween: 30,
+      centeredSlides: false,
+      loop: false,
+      navigation: {
+        nextEl: '.zs-slider2__button-next',
+        prevEl: '.zs-slider2__button-prev',
+      },
+      pagination: {
+        el: '.zs-slider2__pagination',
+        clickable: true,
+        dynamicBullets: false,
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 15,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 25,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        },
+      },
+    });
+
+    // Video play functionality
+    const videoWrappers = document.querySelectorAll('.zs-slider2__video-wrapper');
+    
+    videoWrappers.forEach(wrapper => {
+      const video = wrapper.querySelector('.zs-slider2__video');
+      const playButton = wrapper.querySelector('.zs-slider2__play-button');
+      
+      if (video && playButton) {
+        // Load video metadata to get first frame
+        video.load();
+        
+        // Play button click
+        playButton.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          // Pause all other videos
+          document.querySelectorAll('.zs-slider2__video').forEach(v => {
+            if (v !== video) {
+              v.pause();
+              v.currentTime = 0;
+              v.closest('.zs-slider2__video-wrapper').classList.remove('playing');
+            }
+          });
+          
+          // Play current video
+          video.play().catch(function(error) {
+            console.log('Video play error:', error);
+          });
+          wrapper.classList.add('playing');
+        });
+
+        // Video click to pause
+        video.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (!video.paused) {
+            video.pause();
+            wrapper.classList.remove('playing');
+          }
+        });
+
+        // Reset on video end
+        video.addEventListener('ended', function() {
+          wrapper.classList.remove('playing');
+          video.currentTime = 0;
+        });
+
+        // Show play button when paused
+        video.addEventListener('pause', function() {
+          wrapper.classList.remove('playing');
+        });
+
+        // Hide play button when playing
+        video.addEventListener('play', function() {
+          wrapper.classList.add('playing');
+        });
+      }
+    });
+
+    // Pause all videos when sliding
+    swiper.on('slideChange', function() {
+      const videos = document.querySelectorAll('.zs-slider2__video');
+      videos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+        video.closest('.zs-slider2__video-wrapper').classList.remove('playing');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Video Slider 2",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Succesverhalen van onze klanten:"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#f9fafb"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "caption_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Caption Font Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "caption_weight",
+      "label": "Caption Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow Background Color",
+      "default": "#f97316"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow Icon Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Upload Video"
+        },
+        {
+          "type": "text",
+          "id": "video_caption",
+          "label": "Video Caption"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Slider",
+      "blocks": [
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

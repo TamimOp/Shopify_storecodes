@@ -1,0 +1,938 @@
+/**
+ * Product Configurator Styles
+ * De Prefabriek - Shopify Theme
+ */
+
+/* ================================
+   CSS Variables & Base Styles
+================================ */
+:root {
+  --vpc-primary: 21 85% 49%;
+  --vpc-primary-color: #de4600;
+  --vpc-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* ================================
+   Configurator Selector Popup
+================================ */
+#vpc-configurator-selector-popup section {
+  padding: 30px;
+}
+
+#vpc-configurator-selector-popup section header {
+  margin-bottom: 30px;
+}
+
+#vpc-configurator-selector-popup section header h2 {
+  font-size: 30px;
+  text-align: center;
+}
+
+#vpc-configurator-selector-popup
+  .vpc-preview-info-popup__inner
+  .s-content-columns__card-content
+  p {
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+
+#vpc-configurator-selector-popup .cards {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+#vpc-configurator-selector-popup .cards h3 {
+  margin: 0;
+  font-size: 26px;
+  position: relative;
+  line-height: 1;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+#vpc-configurator-selector-popup .cards h3 span.new {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: #777;
+}
+
+#vpc-configurator-selector-popup .cards button,
+#vpc-configurator-selector-popup .cards a.c-button {
+  width: 100%;
+  margin-top: 16px;
+}
+
+#vpc-configurator-selector-popup .cards a.c-button.go-to-glass {
+  border: 2px solid var(--vpc-primary-color);
+  color: var(--vpc-primary-color);
+  background-color: #fff;
+  padding: 12px 44px;
+}
+
+#vpc-configurator-selector-popup .selector-card {
+  border: 1px solid #e6e6e6;
+  transition: 0.3s all;
+  padding: 28px;
+  border-radius: 8px;
+  flex: 1;
+}
+
+#vpc-configurator-selector-popup .selector-card img {
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 24px;
+}
+
+#vpc-configurator-selector-popup .card-primary {
+  border-color: hsl(var(--vpc-primary) / 0.2);
+  border-width: 2px;
+}
+
+#vpc-configurator-selector-popup .selector-card:hover {
+  border-color: hsl(var(--vpc-primary) / 1);
+  box-shadow: var(--vpc-shadow);
+}
+
+/* ================================
+   Brick Loader Animation
+================================ */
+.brick-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.brick-loader.active {
+  display: flex;
+}
+
+.brick-loader__inner {
+  text-align: center;
+}
+
+.brick-loader__brick {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  background-color: var(--vpc-primary-color);
+  animation: brick-loading 1.2s infinite ease-in-out;
+}
+
+.brick-loader__brick:nth-child(1) {
+  animation-delay: -1.1s;
+}
+.brick-loader__brick:nth-child(2) {
+  animation-delay: -1s;
+}
+.brick-loader__brick:nth-child(3) {
+  animation-delay: -0.9s;
+}
+.brick-loader__brick:nth-child(4) {
+  animation-delay: -0.8s;
+}
+.brick-loader__brick:nth-child(5) {
+  animation-delay: -0.7s;
+}
+.brick-loader__brick:nth-child(6) {
+  animation-delay: -0.6s;
+}
+.brick-loader__brick:nth-child(7) {
+  animation-delay: -0.5s;
+}
+.brick-loader__brick:nth-child(8) {
+  animation-delay: -0.4s;
+}
+.brick-loader__brick:nth-child(9) {
+  animation-delay: -0.3s;
+}
+.brick-loader__brick:nth-child(10) {
+  animation-delay: -0.2s;
+}
+
+@keyframes brick-loading {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.brick-loader__text {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* ================================
+   VPC Container & Layout
+================================ */
+.s-configurator-container {
+  width: 100%;
+}
+
+.s-configurator-container__content {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+#vpc-modern-skin--prefabriek {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+#vpc-modern-skin--prefabriek .vpc-sidebar {
+  order: 1;
+}
+
+#vpc-modern-skin--prefabriek #vpc-preview-wrap {
+  order: 2;
+}
+
+#vpc-container {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+#vpc-container.modern-sticky .vpc-sidebar {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.vpc-sidebar {
+  width: 380px;
+  min-width: 380px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.vpc-sidebar__inner {
+  position: relative;
+}
+
+.vpc-sidebar__top {
+  margin-bottom: 20px;
+}
+
+/* ================================
+   Size Calculator
+================================ */
+.vpc-size-calculator {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.vpc-addon-header .vpc-component-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.vpc-addon-options label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.vpc-addon-options input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.extension-size {
+  background: var(--vpc-primary-color);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.vpc-error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
+}
+
+.vpc-error-message.visible {
+  display: block;
+}
+
+.vpc-error-message__link {
+  color: var(--vpc-primary-color);
+  text-decoration: underline;
+}
+
+/* ================================
+   Exterior/Interior Switcher
+================================ */
+.vpc-switcher {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.vpc-switcher__item {
+  flex: 1;
+}
+
+.vpc-switcher__input {
+  display: none;
+}
+
+.vpc-switcher__label {
+  display: block;
+  padding: 12px 20px;
+  text-align: center;
+  background: #f0f0f0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.vpc-switcher__label--active,
+.vpc-switcher__input:checked + .vpc-switcher__label {
+  background: var(--vpc-primary-color);
+  color: white;
+}
+
+/* ================================
+   Component Accordions
+================================ */
+.vpc-component {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.vpc-component.hidden {
+  display: none !important;
+}
+
+.vpc-component-header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  transition: background 0.3s ease;
+}
+
+.vpc-component-header:hover {
+  background: #f8f9fa;
+}
+
+.vpc-component-title {
+  flex: 1;
+}
+
+.vpc-component-name {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+}
+
+.vpc-selected-option {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  margin-top: 3px;
+}
+
+.vpc-selected-option.option-selected:not(.no-check-mark-icon)::before {
+  content: "✓ ";
+  color: var(--vpc-primary-color);
+}
+
+.vpc-component-arrow {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.vpc-component-arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
+  transform: translate(-50%, -70%) rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.vpc-component.open .vpc-component-arrow::after {
+  transform: translate(-50%, -30%) rotate(-135deg);
+}
+
+/* ================================
+   Options Grid
+================================ */
+.vpc-options {
+  padding: 15px 20px;
+  background: #f8f9fa;
+}
+
+.vpc-group {
+  margin-bottom: 15px;
+}
+
+.vpc-group-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.vpc-single-option-wrap {
+  display: inline-block;
+  margin: 5px;
+}
+
+.vpc-single-option-wrap input[type="radio"],
+.vpc-single-option-wrap input[type="checkbox"] {
+  display: none;
+}
+
+.vpc-single-option-wrap label.custom {
+  display: block;
+  width: 70px;
+  height: 70px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+}
+
+.vpc-single-option-wrap input:checked + label.custom {
+  border-color: var(--vpc-primary-color);
+  box-shadow: 0 0 0 2px var(--vpc-primary-color);
+}
+
+/* Text labels for yes/no options */
+.vpc-single-option-wrap label.custom.custom--text {
+  width: auto;
+  min-width: 60px;
+  height: auto;
+  padding: 10px 15px;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: none;
+}
+
+/* Tooltip on hover */
+.vpc-single-option-wrap label.custom[data-oriontip]:hover::after {
+  content: attr(data-oriontip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  z-index: 100;
+  margin-bottom: 5px;
+}
+
+/* ================================
+   Steps Navigation
+================================ */
+.vpc-step-1,
+.vpc-step-2,
+.vpc-step-3 {
+  display: none;
+}
+
+.vpc-step-1.active-step,
+.vpc-step-2.active-step,
+.vpc-step-3.active-step {
+  display: block;
+}
+
+/* ================================
+   Step 2 - Summary
+================================ */
+#vpc-step-2 {
+  padding: 20px;
+}
+
+.vpc-step-2__heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.vpc-step-2__section {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.vpc-step-2__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vpc-step-2__section-heading {
+  font-size: 16px;
+  margin: 0;
+}
+
+.vpc-step-2__section-price {
+  font-weight: 600;
+  color: var(--vpc-primary-color);
+}
+
+.vpc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vpc-table tr {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.vpc-table tr:last-child {
+  border-bottom: none;
+}
+
+.vpc-table th,
+.vpc-table td {
+  padding: 10px 0;
+  text-align: left;
+}
+
+.vpc-table__heading {
+  font-weight: 500;
+  color: #666;
+}
+
+.vpc-table__value {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Radio button labels in step 2 */
+.radio-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="radio"]:checked + .radio-label {
+  border-color: var(--vpc-primary-color);
+  background: rgba(222, 70, 0, 0.05);
+}
+
+.radio-label__price {
+  font-weight: 600;
+  color: var(--vpc-primary-color);
+}
+
+/* ================================
+   Step 3 - Quote Form
+================================ */
+#vpc-step-3 {
+  padding: 20px;
+}
+
+#vpc-step-3 h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+#vpc-step-3 p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.list--checkmarks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+}
+
+.list--checkmarks .list__item {
+  padding-left: 25px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.list--checkmarks .list__item::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--vpc-primary-color);
+  font-weight: bold;
+}
+
+#rqa_form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+#rqa_form input[type="text"],
+#rqa_form input[type="email"],
+#rqa_form input[type="number"],
+#rqa_form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+#rqa_form input:focus,
+#rqa_form textarea:focus {
+  border-color: var(--vpc-primary-color);
+  outline: none;
+}
+
+#rqa_form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#rqa_form input[type="submit"] {
+  width: 100%;
+  background: var(--vpc-primary-color);
+  color: white;
+  border: none;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#rqa_form input[type="submit"]:hover {
+  background: #c43d00;
+}
+
+.disclaimer-link {
+  font-size: 12px;
+  color: #999;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.disclaimer-link a {
+  color: var(--vpc-primary-color);
+}
+
+/* ================================
+   Preview Area
+================================ */
+#vpc-preview-wrap {
+  flex: 1;
+  min-width: 0;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+#vpc-preview-container {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.s-configurator-container__preview-images {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+}
+
+.s-configurator-container__exterior-images,
+.s-configurator-container__interior-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.s-configurator-container__interior-images {
+  display: none;
+}
+
+.s-configurator-container--interior .s-configurator-container__exterior-images {
+  display: none;
+}
+
+.s-configurator-container--interior .s-configurator-container__interior-images {
+  display: block;
+}
+
+.s-configurator-container__preview-images .c-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.s-configurator-container__preview-images .c-image.c-image--base {
+  z-index: 1 !important;
+}
+
+.s-configurator-container__preview-images .c-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* ================================
+   Save Popup / Help Modal
+================================ */
+.vpc-save-popup {
+  position: relative;
+}
+
+.vpc-save-popup__button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.vpc-save-popup__button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--vpc-primary-color);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.vpc-save-popup__overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+}
+
+.vpc-save-popup__inner {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  z-index: 9999;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.vpc-save-popup.active .vpc-save-popup__overlay,
+.vpc-save-popup.active .vpc-save-popup__inner {
+  display: block;
+}
+
+.vpc-save-popup__close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.vpc-save-popup__close-button-img {
+  width: 24px;
+  height: 24px;
+}
+
+/* ================================
+   Zipcode Calculator
+================================ */
+.zipcode-calculator,
+.zipcode-calculatorAA {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.zipcode-error {
+  color: #dc3545;
+  font-size: 14px;
+  display: none;
+}
+
+.zipcode-error.visible {
+  display: block;
+}
+
+/* ================================
+   Responsive Styles
+================================ */
+@media (max-width: 1280px) {
+  #vpc-configurator-selector-popup button.c-button,
+  #vpc-configurator-selector-popup a.c-button {
+    font-size: 16px;
+  }
+
+  .vpc-sidebar {
+    width: 350px;
+    min-width: 350px;
+  }
+}
+
+@media (max-width: 960px) {
+  #vpc-configurator-selector-popup section .cards {
+    flex-direction: column;
+  }
+
+  #vpc-configurator-selector-popup .cards button,
+  #vpc-configurator-selector-popup .cards a.c-button,
+  #vpc-configurator-selector-popup .cards a.c-button.go-to-glass {
+    padding: 12px;
+  }
+
+  #vpc-configurator-selector-popup {
+    align-items: start;
+  }
+
+  #vpc-configurator-selector-popup section {
+    padding: 25px;
+  }
+
+  #vpc-configurator-selector-popup section header {
+    margin-bottom: 20px;
+  }
+
+  #vpc-configurator-selector-popup section header h2 {
+    font-size: 24px;
+  }
+
+  #vpc-configurator-selector-popup .vpc-preview-info-popup__inner {
+    max-height: calc(100vh - 100px);
+  }
+
+  #vpc-modern-skin--prefabriek {
+    flex-direction: column;
+  }
+
+  #vpc-modern-skin--prefabriek .vpc-sidebar {
+    width: 100%;
+    min-width: 100%;
+    position: relative;
+    top: 0;
+    max-height: none;
+    order: 2;
+  }
+
+  #vpc-modern-skin--prefabriek #vpc-preview-wrap {
+    position: relative;
+    top: 0;
+    order: 1;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .vpc-sidebar {
+    padding: 15px;
+  }
+
+  .vpc-single-option-wrap label.custom {
+    width: 50px;
+    height: 50px;
+  }
+
+  .vpc-step-2__heading,
+  #vpc-step-3 h2 {
+    font-size: 20px;
+  }
+}

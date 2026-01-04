@@ -1,0 +1,1893 @@
+{% comment %}
+  Product Configurator Template
+  De Prefabriek - Shopify Theme
+  
+  Include CSS and JS files:
+  - assets/configurator.css
+  - assets/configurator.js
+{% endcomment %}
+
+{{ 'configurator.css' | asset_url | stylesheet_tag }}
+
+<section id="section-number-1" class="section-number-1 s-configurator-container step-1-visible" data-visiblestep="1">
+  <div class="c-content s-configurator-container__content">
+
+    {% comment %} Help Popup {% endcomment %}
+    {% if section.settings.show_help_button %}
+    <div id="vpc-save" class="vpc-save-popup">
+      <button type="button" class="vpc-save-popup__button">
+        <span class="vpc-save-popup__button-icon">?</span>
+        <span class="vpc-save-popup__button-label">{{ section.settings.help_button_text }}</span>
+      </button>
+      <div class="vpc-save-popup__overlay"></div>
+      <div class="vpc-save-popup__inner">
+        <button class="vpc-save-popup__close-button">
+          <svg class="vpc-save-popup__close-button-img" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <section class="s-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-lg-11">
+                <header class="c-header s-content-columns__header">
+                  <h2 class="c-heading c-heading--h3 c-header__heading s-content-columns__header-heading">
+                    {{ section.settings.help_popup_heading }}
+                  </h2>
+                </header>
+                {{ section.settings.help_popup_content }}
+                <button class="c-button c-button--box c-button--box-colorone c-button--box-min-width vpc-save-popup__start-button">
+                  Doorgaan met ontwerpen
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    {% endif %}
+
+    {% comment %} Main Configurator Container {% endcomment %}
+    <div id="vpc-container" class="o-wrap VPC_Modern_Skin modern-sticky" data-curr="€">
+      <div id="vpc-modern-skin--prefabriek">
+
+        {% comment %} Loading Animation {% endcomment %}
+        <div class="brick-loader">
+          <div class="brick-loader__inner">
+            {% for i in (1..10) %}
+              <div class="brick-loader__brick"></div>
+            {% endfor %}
+            <div class="brick-loader__text">Aanvraag behandelen</div>
+          </div>
+        </div>
+
+        {% comment %} Sidebar {% endcomment %}
+        <div class="vpc-sidebar" id="vpc-sidebar">
+          <div class="vpc-sidebar__inner" id="vpc-sidebar__inner">
+            <div class="vpc-sidebar__top">
+
+              {% comment %} Size Calculator {% endcomment %}
+              <div class="vpc-component vpc-size-calculator addon-component">
+                <div class="vpc-addon-header">
+                  <div class="vpc-component-title">
+                    <h2 class="vpc-component-name heading-four">Grootte van jouw aanbouw</h2>
+                  </div>
+                </div>
+                <div class="vpc-addon-options">
+                  <div class="vpc-group">
+                    <div id="vpc-form-builder-wrap">
+                      <input type="hidden" id="extension-size-hidden" value="9" name="extension-size" required>
+                      <form class="formbuilt" id="size-calculator-form" novalidate>
+                        <div>
+                          <label for="extension-depth">Diepte (cm)</label>
+                          <input type="number" 
+                                 name="extension-depth" 
+                                 id="extension-depth"
+                                 min="{{ section.settings.min_depth }}" 
+                                 max="{{ section.settings.max_depth }}" 
+                                 value="{{ section.settings.default_depth }}"
+                                 inputmode="numeric" 
+                                 pattern="[0-9]*" 
+                                 class="validate vpc-required-field" 
+                                 maxlength="4" 
+                                 required>
+                        </div>
+                        <div>
+                          <label for="extension-length">Breedte (cm)</label>
+                          <input type="number" 
+                                 name="extension-length" 
+                                 id="extension-length"
+                                 min="{{ section.settings.min_width }}" 
+                                 max="{{ section.settings.max_width }}" 
+                                 value="{{ section.settings.default_width }}"
+                                 inputmode="numeric" 
+                                 pattern="[0-9]*" 
+                                 class="validate vpc-required-field" 
+                                 maxlength="4" 
+                                 required>
+                        </div>
+                        <div class="extension-size">
+                          <span class="extension-size__result">9</span> m<sup>2</sup>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <p class="vpc-error-message">
+                  <span class="vpc-error-message__length">Minimale breedte is {{ section.settings.min_width }} cm en maximum is {{ section.settings.max_width }} cm.</span>
+                  <span class="vpc-error-message__depth">Minimale diepte is {{ section.settings.min_depth }} cm en maximum is {{ section.settings.max_depth }} cm.</span>
+                  <span class="vpc-error-message__divider"></span>
+                  <span class="vpc-error-message__contact">
+                    Afwijkende maten? Neem dan <a href="{{ section.settings.contact_page | default: '/pages/contact' }}" class="vpc-error-message__link">contact</a> met ons op om de mogelijkheden te bespreken!
+                  </span>
+                </p>
+              </div>
+
+              {% comment %} Exterior/Interior Switcher {% endcomment %}
+              <ul class="vpc-switcher">
+                <li class="vpc-switcher__item">
+                  <input class="vpc-switcher__input" type="radio" id="vpc-exterior-button" name="vpc-view-switcher" checked required>
+                  <label class="vpc-switcher__label vpc-switcher__label--exterior vpc-switcher__label--active" for="vpc-exterior-button">Buitenzijde</label>
+                </li>
+                <li class="vpc-switcher__item">
+                  <input class="vpc-switcher__input" type="radio" id="vpc-interior-button" name="vpc-view-switcher" required>
+                  <label class="vpc-switcher__label vpc-switcher__label--interior" for="vpc-interior-button">Binnenzijde</label>
+                </li>
+              </ul>
+            </div>
+
+            {% comment %} Step 1 - Configuration Options {% endcomment %}
+            <div class="vpc-step-1 vpc-sidebar__step-1 active-step">
+              <div id="vpc-components" class="vpc-components">
+
+                {% comment %} ============================================
+                    EXTERIOR COMPONENTS
+                ============================================ {% endcomment %}
+
+                {% comment %} Gevelbekleding (Facade Cladding) {% endcomment %}
+                <div id="component-gevelbekleding" class="vpc-component exterior-element" data-component_id="component-gevelbekleding">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Gevelbekleding</span>
+                      <span class="vpc-selected vpc-selected-option option-selected">baksteen rood</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    
+                    {% comment %} Steenstrips baksteen {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Steenstrips baksteen</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-baksteen-rood">
+                        <input id="option-baksteen-rood" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="baksteen rood"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_baksteen_rood.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-rood-130x130.png"
+                               data-price="0"
+                               data-oid="option-baksteen-rood"
+                               data-index="1"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-baksteen-rood" 
+                               for="option-baksteen-rood" 
+                               data-oriontip="baksteen rood" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-rood-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-baksteen-geel">
+                        <input id="option-baksteen-geel" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="baksteen geel"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_baksteen_geel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-geel-130x130.png"
+                               data-price="0"
+                               data-oid="option-baksteen-geel"
+                               data-index="1"
+                               required>
+                        <label id="cboption-baksteen-geel" 
+                               for="option-baksteen-geel" 
+                               data-oriontip="baksteen geel" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-geel-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-baksteen-zwart">
+                        <input id="option-baksteen-zwart" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="baksteen zwart"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_baksteen_zwart.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-zwart-130x130.png"
+                               data-price="0"
+                               data-oid="option-baksteen-zwart"
+                               data-index="1"
+                               required>
+                        <label id="cboption-baksteen-zwart" 
+                               for="option-baksteen-zwart" 
+                               data-oriontip="baksteen zwart" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-zwart-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-baksteen-wit">
+                        <input id="option-baksteen-wit" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="baksteen wit"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_baksteen_wit.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-wit-130x130.png"
+                               data-price="0"
+                               data-oid="option-baksteen-wit"
+                               data-index="1"
+                               required>
+                        <label id="cboption-baksteen-wit" 
+                               for="option-baksteen-wit" 
+                               data-oriontip="baksteen wit" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Baksteen-wit-130x130.png')"></label>
+                      </div>
+                    </div>
+
+                    {% comment %} Kunststof rabat (keralit) {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Kunststof rabat (keralit)</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-keralit-zwart">
+                        <input id="option-keralit-zwart" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="kunststof rabat (keralit) zwart"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_zwart-classic_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-zwart-130x130.png"
+                               data-price="0"
+                               data-oid="option-keralit-zwart"
+                               data-index="1"
+                               required>
+                        <label id="cboption-keralit-zwart" 
+                               for="option-keralit-zwart" 
+                               data-oriontip="kunststof rabat (keralit) zwart" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-zwart-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-keralit-antraciet">
+                        <input id="option-keralit-antraciet" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="kunststof rabat (keralit) antraciet"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_antraciet-classic-normal_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-antraciet-130x130.png"
+                               data-price="0"
+                               data-oid="option-keralit-antraciet"
+                               data-index="1"
+                               required>
+                        <label id="cboption-keralit-antraciet" 
+                               for="option-keralit-antraciet" 
+                               data-oriontip="kunststof rabat (keralit) antraciet" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-antraciet-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-keralit-cremewit">
+                        <input id="option-keralit-cremewit" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="kunststof rabat (keralit) cremewit"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_creme-classic_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-cremewit-130x130.png"
+                               data-price="0"
+                               data-oid="option-keralit-cremewit"
+                               data-index="1"
+                               required>
+                        <label id="cboption-keralit-cremewit" 
+                               for="option-keralit-cremewit" 
+                               data-oriontip="kunststof rabat (keralit) cremewit" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-cremewit-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-keralit-groen">
+                        <input id="option-keralit-groen" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="kunststof rabat (keralit) groen"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_donkergroen-classic_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-groen-130x130.png"
+                               data-price="0"
+                               data-oid="option-keralit-groen"
+                               data-index="1"
+                               required>
+                        <label id="cboption-keralit-groen" 
+                               for="option-keralit-groen" 
+                               data-oriontip="kunststof rabat (keralit) groen" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Keralith-groen-130x130.png')"></label>
+                      </div>
+                    </div>
+
+                    {% comment %} Hout {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Hout</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-redcedar-horizontaal">
+                        <input id="option-redcedar-horizontaal" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="red cedar rabat (hout) horizontaal"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Rabat_Horizontaal_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Redcedar@2x-130x130.jpg"
+                               data-price="400"
+                               data-oid="option-redcedar-horizontaal"
+                               data-index="1"
+                               required>
+                        <label id="cboption-redcedar-horizontaal" 
+                               for="option-redcedar-horizontaal" 
+                               data-oriontip="red cedar rabat (hout) horizontaal" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Redcedar@2x-130x130.jpg')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-redcedar-verticaal">
+                        <input id="option-redcedar-verticaal" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="red cedar rabat (hout) verticaal"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Rabat_Verticaal_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Redcedar-Copy-2@2x-130x130.jpg"
+                               data-price="400"
+                               data-oid="option-redcedar-verticaal"
+                               data-index="1"
+                               required>
+                        <label id="cboption-redcedar-verticaal" 
+                               for="option-redcedar-verticaal" 
+                               data-oriontip="red cedar rabat (hout) verticaal" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Redcedar-Copy-2@2x-130x130.jpg')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-frake-horizontaal">
+                        <input id="option-frake-horizontaal" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="open gevelbekleding frake (hout) horizontaal"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Frake-horizontaal_Exterieur_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Frake-icoon-Horizontaal-130x130.png"
+                               data-price="0"
+                               data-oid="option-frake-horizontaal"
+                               data-index="1"
+                               required>
+                        <label id="cboption-frake-horizontaal" 
+                               for="option-frake-horizontaal" 
+                               data-oriontip="open gevelbekleding frake (hout) horizontaal" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Frake-icoon-Horizontaal-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-frake-verticaal">
+                        <input id="option-frake-verticaal" 
+                               type="radio" 
+                               name="Gevelbekleding" 
+                               value="open gevelbekleding frake (hout) verticaal"
+                               data-component-id="component-gevelbekleding" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Frake-verticaal_Exterieur_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Frake-icoon-Verticaal-130x130.png"
+                               data-price="0"
+                               data-oid="option-frake-verticaal"
+                               data-index="1"
+                               required>
+                        <label id="cboption-frake-verticaal" 
+                               for="option-frake-verticaal" 
+                               data-oriontip="open gevelbekleding frake (hout) verticaal" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Frake-icoon-Verticaal-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Rollaag {% endcomment %}
+                <div id="component-rollaag" class="vpc-component exterior-element" data-component_id="component-rollaag">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Rollaag</span>
+                      <span class="vpc-selected vpc-selected-option option-selected no-check-mark-icon">nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-rollaag-nee">
+                        <input id="option-rollaag-nee" 
+                               type="radio" 
+                               name="Rollaag" 
+                               value="nee"
+                               data-component-id="component-rollaag" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-rollaag-nee"
+                               data-index="19"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-rollaag-nee" 
+                               for="option-rollaag-nee" 
+                               data-oriontip="nee" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-rollaag-rood">
+                        <input id="option-rollaag-rood" 
+                               type="radio" 
+                               name="Rollaag" 
+                               value="rollaag baksteen rood"
+                               data-component-id="component-rollaag" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_rood-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png"
+                               data-price="690"
+                               data-oid="option-rollaag-rood"
+                               data-index="19"
+                               required>
+                        <label id="cboption-rollaag-rood" 
+                               for="option-rollaag-rood" 
+                               data-oriontip="rollaag baksteen rood" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-rollaag-geel" style="display: none;">
+                        <input id="option-rollaag-geel" 
+                               type="radio" 
+                               name="Rollaag" 
+                               value="rollaag baksteen geel"
+                               data-component-id="component-rollaag" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_geel-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png"
+                               data-price="690"
+                               data-oid="option-rollaag-geel"
+                               data-index="19"
+                               required>
+                        <label id="cboption-rollaag-geel" 
+                               for="option-rollaag-geel" 
+                               data-oriontip="rollaag baksteen geel" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-rollaag-zwart" style="display: none;">
+                        <input id="option-rollaag-zwart" 
+                               type="radio" 
+                               name="Rollaag" 
+                               value="rollaag baksteen zwart"
+                               data-component-id="component-rollaag" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_zwart-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png"
+                               data-price="690"
+                               data-oid="option-rollaag-zwart"
+                               data-index="19"
+                               required>
+                        <label id="cboption-rollaag-zwart" 
+                               for="option-rollaag-zwart" 
+                               data-oriontip="rollaag baksteen zwart" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-rollaag-wit" style="display: none;">
+                        <input id="option-rollaag-wit" 
+                               type="radio" 
+                               name="Rollaag" 
+                               value="rollaag baksteen wit"
+                               data-component-id="component-rollaag" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_wit-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png"
+                               data-price="690"
+                               data-oid="option-rollaag-wit"
+                               data-index="19"
+                               required>
+                        <label id="cboption-rollaag-wit" 
+                               for="option-rollaag-wit" 
+                               data-oriontip="rollaag baksteen wit" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Rollaag-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Kozijn (Door/Window Frames) {% endcomment %}
+                <div id="component-kozijn" class="vpc-component exterior-element" data-component_id="component-kozijn">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Kozijn</span>
+                      <span class="vpc-selected vpc-selected-option option-selected">openslaande deuren wit (kunststof)</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    
+                    {% comment %} Kunststof Options {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Kunststof</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-1">
+                        <input id="option-kozijn-kunststof-1" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren wit (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Draai_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png"
+                               data-price="0"
+                               data-oid="option-kozijn-kunststof-1"
+                               data-index="15"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-kozijn-kunststof-1" 
+                               for="option-kozijn-kunststof-1" 
+                               data-oriontip="openslaande deuren wit (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-2">
+                        <input id="option-kozijn-kunststof-2" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren antraciet (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Kozijn-Kunststof_zwart_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-130x130.png"
+                               data-price="500"
+                               data-oid="option-kozijn-kunststof-2"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-2" 
+                               for="option-kozijn-kunststof-2" 
+                               data-oriontip="openslaande deuren antraciet (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-3">
+                        <input id="option-kozijn-kunststof-3" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren met roedes wit (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_WIT_Exterieur.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-copy-130x130.png"
+                               data-price="1550"
+                               data-oid="option-kozijn-kunststof-3"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-3" 
+                               for="option-kozijn-kunststof-3" 
+                               data-oriontip="openslaande deuren met roedes wit (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-copy-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-4">
+                        <input id="option-kozijn-kunststof-4" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren met roedes antraciet (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_ZWART_Exterieur.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-met-roede-7016-130x130.png"
+                               data-price="1550"
+                               data-oid="option-kozijn-kunststof-4"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-4" 
+                               for="option-kozijn-kunststof-4" 
+                               data-oriontip="openslaande deuren met roedes antraciet (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-met-roede-7016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-5">
+                        <input id="option-kozijn-kunststof-5" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui wit (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png"
+                               data-price="2100"
+                               data-oid="option-kozijn-kunststof-5"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-5" 
+                               for="option-kozijn-kunststof-5" 
+                               data-oriontip="2 delige schuifpui wit (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-6">
+                        <input id="option-kozijn-kunststof-6" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui antraciet (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-130x130.png"
+                               data-price="2100"
+                               data-oid="option-kozijn-kunststof-6"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-6" 
+                               for="option-kozijn-kunststof-6" 
+                               data-oriontip="2 delige schuifpui antraciet (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-7">
+                        <input id="option-kozijn-kunststof-7" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="4 delige schuifpui wit (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_TRANSP_Kozijn_Kunststof_Wit_Schuif_4-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png"
+                               data-price="2900"
+                               data-oid="option-kozijn-kunststof-7"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-7" 
+                               for="option-kozijn-kunststof-7" 
+                               data-oriontip="4 delige schuifpui wit (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-kunststof-8">
+                        <input id="option-kozijn-kunststof-8" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="4 delige schuifpui antraciet (kunststof)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_4-vlak_EXTERIEUR-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-4delig-schuif-7016-130x130.png"
+                               data-price="2900"
+                               data-oid="option-kozijn-kunststof-8"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-kunststof-8" 
+                               for="option-kozijn-kunststof-8" 
+                               data-oriontip="4 delige schuifpui antraciet (kunststof)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-4delig-schuif-7016-130x130.png')"></label>
+                      </div>
+                    </div>
+
+                    {% comment %} Aluminium Options {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Aluminium</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-1">
+                        <input id="option-kozijn-aluminium-1" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren wit (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_WIT_ALU_draaideur__DEF_Exterieur_-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png"
+                               data-price="2400"
+                               data-oid="option-kozijn-aluminium-1"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-1" 
+                               for="option-kozijn-aluminium-1" 
+                               data-oriontip="openslaande deuren wit (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-2">
+                        <input id="option-kozijn-aluminium-2" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren antraciet (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Kozijn-ALU-zwart_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-2-130x130.png"
+                               data-price="2400"
+                               data-oid="option-kozijn-aluminium-2"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-2" 
+                               for="option-kozijn-aluminium-2" 
+                               data-oriontip="openslaande deuren antraciet (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-2-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-3">
+                        <input id="option-kozijn-aluminium-3" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui wit (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png"
+                               data-price="3800"
+                               data-oid="option-kozijn-aluminium-3"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-3" 
+                               for="option-kozijn-aluminium-3" 
+                               data-oriontip="2 delige schuifpui wit (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-4">
+                        <input id="option-kozijn-aluminium-4" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui antraciet (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Zwart_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-2-130x130.png"
+                               data-price="3800"
+                               data-oid="option-kozijn-aluminium-4"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-4" 
+                               for="option-kozijn-aluminium-4" 
+                               data-oriontip="2 delige schuifpui antraciet (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-2-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-5">
+                        <input id="option-kozijn-aluminium-5" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="4 delige schuifpui wit (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_TRANSP_Kozijn_Aluminium_Wit_Schuif_4-vlak_EXTERIEUR-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png"
+                               data-price="4400"
+                               data-oid="option-kozijn-aluminium-5"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-5" 
+                               for="option-kozijn-aluminium-5" 
+                               data-oriontip="4 delige schuifpui wit (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-6">
+                        <input id="option-kozijn-aluminium-6" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="4 delige schuifpui antraciet (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_4-vlak_EXTERIEUR-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-7016-130x130.png"
+                               data-price="4400"
+                               data-oid="option-kozijn-aluminium-6"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-6" 
+                               for="option-kozijn-aluminium-6" 
+                               data-oriontip="4 delige schuifpui antraciet (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-7016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-7">
+                        <input id="option-kozijn-aluminium-7" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="harmonicapui wit (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/09/20.269_Harmonica-wit_Zonder-roede_Exterieur_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/EXT_Kozijn-harmonica-9016-130x130.png"
+                               data-price="5400"
+                               data-oid="option-kozijn-aluminium-7"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-7" 
+                               for="option-kozijn-aluminium-7" 
+                               data-oriontip="harmonicapui wit (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/EXT_Kozijn-harmonica-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-aluminium-8">
+                        <input id="option-kozijn-aluminium-8" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="harmonicapui antraciet (aluminium)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/09/20.269_Harmonica-Zwart_Zonder-roede_Exterieur_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/EXT_Kozijn-harmonica-7016-130x130.png"
+                               data-price="5400"
+                               data-oid="option-kozijn-aluminium-8"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-aluminium-8" 
+                               for="option-kozijn-aluminium-8" 
+                               data-oriontip="harmonicapui antraciet (aluminium)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/EXT_Kozijn-harmonica-7016-130x130.png')"></label>
+                      </div>
+                    </div>
+
+                    {% comment %} Hout Options {% endcomment %}
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Hout</div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-hout-1">
+                        <input id="option-kozijn-hout-1" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren wit gegrond (hout)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Draai_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png"
+                               data-price="3000"
+                               data-oid="option-kozijn-hout-1"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-hout-1" 
+                               for="option-kozijn-hout-1" 
+                               data-oriontip="openslaande deuren wit gegrond (hout)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-dubbeledeur-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-hout-2">
+                        <input id="option-kozijn-hout-2" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="openslaande deuren antraciet gegrond (hout)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Kozijn-Hout_zwart_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-1-130x130.png"
+                               data-price="3000"
+                               data-oid="option-kozijn-hout-2"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-hout-2" 
+                               for="option-kozijn-hout-2" 
+                               data-oriontip="openslaande deuren antraciet gegrond (hout)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-dubbeledeur-7016-1-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-hout-3">
+                        <input id="option-kozijn-hout-3" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui wit gegrond (hout)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png"
+                               data-price="3400"
+                               data-oid="option-kozijn-hout-3"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-hout-3" 
+                               for="option-kozijn-hout-3" 
+                               data-oriontip="2 delige schuifpui wit gegrond (hout)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-2delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-hout-4">
+                        <input id="option-kozijn-hout-4" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="2 delige schuifpui antraciet gegrond (hout)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Zwart_Schuif_2-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-1-130x130.png"
+                               data-price="3400"
+                               data-oid="option-kozijn-hout-4"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-hout-4" 
+                               for="option-kozijn-hout-4" 
+                               data-oriontip="2 delige schuifpui antraciet gegrond (hout)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Kozijn-2delig-schuif-7016-1-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-kozijn-hout-5">
+                        <input id="option-kozijn-hout-5" 
+                               type="radio" 
+                               name="Kozijn" 
+                               value="4 delige schuifpui wit gegrond (hout)"
+                               data-component-id="component-kozijn" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_4-vlak_EXTERIEUR.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png"
+                               data-price="4000"
+                               data-oid="option-kozijn-hout-5"
+                               data-index="15"
+                               required>
+                        <label id="cboption-kozijn-hout-5" 
+                               for="option-kozijn-hout-5" 
+                               data-oriontip="4 delige schuifpui wit gegrond (hout)" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Kozijn-4delig-schuif-9016-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Daklicht (Skylights) {% endcomment %}
+                <div id="component-daklicht" class="vpc-component exterior-element" data-component_id="component-daklicht">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Daklicht</span>
+                      <span class="vpc-selected vpc-selected-option option-selected no-check-mark-icon">geen daklicht</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-geen">
+                        <input id="option-daklicht-geen" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="geen daklicht"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-daklicht-geen"
+                               data-index="60"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-daklicht-geen" 
+                               for="option-daklicht-geen" 
+                               data-oriontip="geen daklicht" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-1vaks">
+                        <input id="option-daklicht-1vaks" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="1 vaks lessenaar"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_1-luik_Exterieur-3.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-1vlak-130x130.png"
+                               data-price="900"
+                               data-oid="option-daklicht-1vaks"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-1vaks" 
+                               for="option-daklicht-1vaks" 
+                               data-oriontip="1 vaks lessenaar" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-1vlak-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-2vaks">
+                        <input id="option-daklicht-2vaks" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="2 vaks lessenaar"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_2-luik_Exterieur-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-2vlak-130x130.png"
+                               data-price="1800"
+                               data-oid="option-daklicht-2vaks"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-2vaks" 
+                               for="option-daklicht-2vaks" 
+                               data-oriontip="2 vaks lessenaar" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-2vlak-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-3vaks">
+                        <input id="option-daklicht-3vaks" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="3 vaks lessenaar"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_3-luik_Exterieur-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-3m-130x130.png"
+                               data-price="2700"
+                               data-oid="option-daklicht-3vaks"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-3vaks" 
+                               for="option-daklicht-3vaks" 
+                               data-oriontip="3 vaks lessenaar" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-3m-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-4vaks">
+                        <input id="option-daklicht-4vaks" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="4 vaks lessenaar"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_4-luik_Exterieur-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-4-vlaks-130x130.png"
+                               data-price="3600"
+                               data-oid="option-daklicht-4vaks"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-4vaks" 
+                               for="option-daklicht-4vaks" 
+                               data-oriontip="4 vaks lessenaar" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-lessenaar-4-vlaks-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-4zadel">
+                        <input id="option-daklicht-4zadel" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="4 vaks zadeldak"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_4-luik_Zadel_Exterieur_TRANSP-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-4-vlaks-130x130.png"
+                               data-price="3600"
+                               data-oid="option-daklicht-4zadel"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-4zadel" 
+                               for="option-daklicht-4zadel" 
+                               data-oriontip="4 vaks zadeldak" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-4-vlaks-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-6zadel">
+                        <input id="option-daklicht-6zadel" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="6 vaks zadeldak"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_6-luik_Zadel_Exterieur-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-6-vlaks-130x130.png"
+                               data-price="5400"
+                               data-oid="option-daklicht-6zadel"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-6zadel" 
+                               for="option-daklicht-6zadel" 
+                               data-oriontip="6 vaks zadeldak" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-6-vlaks-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daklicht-8zadel">
+                        <input id="option-daklicht-8zadel" 
+                               type="radio" 
+                               name="Daklicht" 
+                               value="8 vaks zadeldak"
+                               data-component-id="component-daklicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_8-luik_Zadel_Exterieur-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-8-vlaks-130x130.png"
+                               data-price="7200"
+                               data-oid="option-daklicht-8zadel"
+                               data-index="60"
+                               required>
+                        <label id="cboption-daklicht-8zadel" 
+                               for="option-daklicht-8zadel" 
+                               data-oriontip="8 vaks zadeldak" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Icoon-EXT-Daklicht-zadeldak-8-vlaks-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Groen Dak (Green Roof) {% endcomment %}
+                <div id="component-groen-dak" class="vpc-component exterior-element" data-component_id="component-groen-dak">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Groen dak</span>
+                      <span class="vpc-selected vpc-selected-option option-selected no-check-mark-icon">geen groen dak</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-groen-dak-geen">
+                        <input id="option-groen-dak-geen" 
+                               type="radio" 
+                               name="Groen dak" 
+                               value="geen groen dak"
+                               data-component-id="component-groen-dak" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-groen-dak-geen"
+                               data-index="50"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-groen-dak-geen" 
+                               for="option-groen-dak-geen" 
+                               data-oriontip="geen groen dak" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-groen-dak-sedum">
+                        <input id="option-groen-dak-sedum" 
+                               type="radio" 
+                               name="Groen dak" 
+                               value="sedum mix mat"
+                               data-component-id="component-groen-dak" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_sedumdak_MIX_minder-ruig_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Groendak-130x130.png"
+                               data-price="5050"
+                               data-oid="option-groen-dak-sedum"
+                               data-index="50"
+                               required>
+                        <label id="cboption-groen-dak-sedum" 
+                               for="option-groen-dak-sedum" 
+                               data-oriontip="sedum mix mat" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Groendak-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Daktrim {% endcomment %}
+                <div id="component-daktrim" class="vpc-component exterior-element" data-component_id="component-daktrim">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Daktrim</span>
+                      <span class="vpc-selected vpc-selected-option option-selected">aluminium daktrim</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-daktrim-alu">
+                        <input id="option-daktrim-alu" 
+                               type="radio" 
+                               name="Daktrim" 
+                               value="aluminium daktrim"
+                               data-component-id="component-daktrim" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Trim-130x130.png"
+                               data-price="0"
+                               data-oid="option-daktrim-alu"
+                               data-index="20"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-daktrim-alu" 
+                               for="option-daktrim-alu" 
+                               data-oriontip="aluminium daktrim" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Trim-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daktrim-alu-zwart">
+                        <input id="option-daktrim-alu-zwart" 
+                               type="radio" 
+                               name="Daktrim" 
+                               value="aluminium daktrim zwart"
+                               data-component-id="component-daktrim" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Trim-130x130.png"
+                               data-price="320"
+                               data-oid="option-daktrim-alu-zwart"
+                               data-index="20"
+                               required>
+                        <label id="cboption-daktrim-alu-zwart" 
+                               for="option-daktrim-alu-zwart" 
+                               data-oriontip="aluminium daktrim zwart" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Trim-130x130.png')"></label>
+                      </div>
+                      
+                      <div class="vpc-single-option-wrap" data-oid="option-daktrim-kraal">
+                        <input id="option-daktrim-kraal" 
+                               type="radio" 
+                               name="Daktrim" 
+                               value="zinken kraal"
+                               data-component-id="component-daktrim" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Kraal-130x130.png"
+                               data-price="710"
+                               data-oid="option-daktrim-kraal"
+                               data-index="20"
+                               required>
+                        <label id="cboption-daktrim-kraal" 
+                               for="option-daktrim-kraal" 
+                               data-oriontip="zinken kraal" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Kraal-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} ============================================
+                    INTERIOR COMPONENTS
+                ============================================ {% endcomment %}
+
+                {% comment %} Stucwerk (Plastering) {% endcomment %}
+                <div id="component-stucwerk" class="vpc-component interior-element" data-component_id="component-stucwerk" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Stucwerk</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign stucwerk_options = "Nee,Ja, wanden en plafond" | split: "," %}
+                      
+                      {% for option in stucwerk_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-stucwerk-{{ forloop.index }}">
+                          <input id="option-stucwerk-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Stucwerk" 
+                                 value="{{ option }}"
+                                 data-component-id="component-stucwerk" 
+                                 data-class="interior-element"
+                                 data-price="0"
+                                 data-oid="option-stucwerk-{{ forloop.index }}"
+                                 data-index="10"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-stucwerk-{{ forloop.index }}" 
+                                 for="option-stucwerk-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Schilderwerk (Painting) {% endcomment %}
+                <div id="component-schilderwerk" class="vpc-component interior-element" data-component_id="component-schilderwerk" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Schilderwerk</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign schilderwerk_options = "Nee,Ja, wanden en plafond wit" | split: "," %}
+                      
+                      {% for option in schilderwerk_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-schilderwerk-{{ forloop.index }}">
+                          <input id="option-schilderwerk-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Schilderwerk" 
+                                 value="{{ option }}"
+                                 data-component-id="component-schilderwerk" 
+                                 data-class="interior-element"
+                                 data-price="0"
+                                 data-oid="option-schilderwerk-{{ forloop.index }}"
+                                 data-index="11"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-schilderwerk-{{ forloop.index }}" 
+                                 for="option-schilderwerk-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Radiator {% endcomment %}
+                <div id="component-radiator" class="vpc-component interior-element" data-component_id="component-radiator" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Radiator</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign radiator_options = "Nee,Ja, 1x radiator,Ja, 2x radiator" | split: "," %}
+                      
+                      {% for option in radiator_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-radiator-{{ forloop.index }}">
+                          <input id="option-radiator-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Radiator" 
+                                 value="{{ option }}"
+                                 data-component-id="component-radiator" 
+                                 data-class="interior-element"
+                                 data-img="{{ 'radiator-' | append: forloop.index | append: '.png' | asset_url }}"
+                                 data-icon="{{ 'icon-radiator-' | append: forloop.index | append: '.png' | asset_url }}"
+                                 data-price="0"
+                                 data-oid="option-radiator-{{ forloop.index }}"
+                                 data-index="12"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-radiator-{{ forloop.index }}" 
+                                 for="option-radiator-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Vloerverwarming (Floor Heating) {% endcomment %}
+                <div id="component-vloerverwarming" class="vpc-component interior-element" data-component_id="component-vloerverwarming" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Vloerverwarming</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign vloerverwarming_options = "Nee,Ja" | split: "," %}
+                      
+                      {% for option in vloerverwarming_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-vloerverwarming-{{ forloop.index }}">
+                          <input id="option-vloerverwarming-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Vloerverwarming" 
+                                 value="{{ option }}"
+                                 data-component-id="component-vloerverwarming" 
+                                 data-class="interior-element"
+                                 data-price="0"
+                                 data-oid="option-vloerverwarming-{{ forloop.index }}"
+                                 data-index="13"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-vloerverwarming-{{ forloop.index }}" 
+                                 for="option-vloerverwarming-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Verlichting (Lighting) {% endcomment %}
+                <div id="component-verlichting" class="vpc-component interior-element" data-component_id="component-verlichting" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Verlichting</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign verlichting_options = "Nee,Ja, 4x spots,Ja, 6x spots,Ja, 8x spots" | split: "," %}
+                      
+                      {% for option in verlichting_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-verlichting-{{ forloop.index }}">
+                          <input id="option-verlichting-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Verlichting" 
+                                 value="{{ option }}"
+                                 data-component-id="component-verlichting" 
+                                 data-class="interior-element"
+                                 data-img="{{ 'verlichting-' | append: forloop.index | append: '.png' | asset_url }}"
+                                 data-icon="{{ 'icon-verlichting-' | append: forloop.index | append: '.png' | asset_url }}"
+                                 data-price="0"
+                                 data-oid="option-verlichting-{{ forloop.index }}"
+                                 data-index="14"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-verlichting-{{ forloop.index }}" 
+                                 for="option-verlichting-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Stopcontacten (Power Outlets) {% endcomment %}
+                <div id="component-stopcontacten" class="vpc-component interior-element" data-component_id="component-stopcontacten" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Stopcontacten</span>
+                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% assign stopcontacten_options = "Nee,Ja, 2x stopcontact,Ja, 4x stopcontact,Ja, 6x stopcontact" | split: "," %}
+                      
+                      {% for option in stopcontacten_options %}
+                        <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-{{ forloop.index }}">
+                          <input id="option-stopcontacten-{{ forloop.index }}" 
+                                 type="radio" 
+                                 name="Stopcontacten" 
+                                 value="{{ option }}"
+                                 data-component-id="component-stopcontacten" 
+                                 data-class="interior-element"
+                                 data-price="0"
+                                 data-oid="option-stopcontacten-{{ forloop.index }}"
+                                 data-index="15"
+                                 {% if forloop.first %}checked data-default="1"{% endif %}
+                                 required>
+                          <label id="cboption-stopcontacten-{{ forloop.index }}" 
+                                 for="option-stopcontacten-{{ forloop.index }}" 
+                                 data-oriontip="{{ option }}" 
+                                 class="custom custom--text">{{ option }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {% comment %} Step 1 Navigation {% endcomment %}
+              <div class="vpc-step-navigation">
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step" onclick="VPCConfigurator.goToStep(2)">
+                  Volgende stap
+                </button>
+              </div>
+            </div>
+
+            {% comment %} Step 2 - Summary {% endcomment %}
+            <div id="vpc-step-2" class="vpc-step-2 vpc-sidebar__step-2">
+              <h2 class="vpc-step-2__heading">Samenvatting</h2>
+              
+              {% comment %} Dimensions Summary {% endcomment %}
+              <div class="vpc-step-2__section vpc-step-2__section--dimensions">
+                <div class="vpc-step-2__section-header">
+                  <h3 class="vpc-step-2__section-heading">Afmetingen</h3>
+                </div>
+                <table class="vpc-table">
+                  <tr>
+                    <th class="vpc-table__heading">Diepte</th>
+                    <td class="vpc-table__value vpc-table__extension-depth-value">200</td>
+                  </tr>
+                  <tr>
+                    <th class="vpc-table__heading">Breedte</th>
+                    <td class="vpc-table__value vpc-table__extension-length-value">450</td>
+                  </tr>
+                  <tr>
+                    <th class="vpc-table__heading">Extra woonruimte</th>
+                    <td class="vpc-table__value vpc-table__extension-size-value">9</td>
+                  </tr>
+                </table>
+              </div>
+
+              {% comment %} Exterior Summary {% endcomment %}
+              <div class="vpc-step-2__section vpc-step-2__section--exterior">
+                <div class="vpc-step-2__section-header">
+                  <h3 class="vpc-step-2__section-heading">Buitenzijde</h3>
+                  <span class="vpc-step-2__section-price">
+                    vanaf <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--exterior">€0</span>
+                  </span>
+                </div>
+              </div>
+
+              {% comment %} Interior Summary {% endcomment %}
+              <div class="vpc-step-2__section vpc-step-2__section--interior">
+                <div class="vpc-step-2__section-header">
+                  <h3 class="vpc-step-2__section-heading">Binnenzijde</h3>
+                  <span class="vpc-step-2__section-price">
+                    vanaf <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--interior">€0</span>
+                  </span>
+                </div>
+              </div>
+
+              {% comment %} Additional Options Form {% endcomment %}
+              <form id="step-2-form" class="vpc-step-2__form">
+                {% comment %} Achterom (Rear Access) {% endcomment %}
+                <div class="vpc-step-2__form-group">
+                  <h4>Achterom beschikbaar?</h4>
+                  <p class="vpc-step-2__form-description">Is de achterzijde van uw woning bereikbaar met een kleine vrachtwagen?</p>
+                  <div class="vpc-step-2__radio-options">
+                    <input type="radio" id="achterom-ja" name="achterom" value="ja" data-price="0">
+                    <label for="achterom-ja" class="radio-label">
+                      <span class="radio-label__text">Ja</span>
+                      <span class="radio-label__price">€0</span>
+                    </label>
+                    <input type="radio" id="achterom-nee" name="achterom" value="nee" data-price="500">
+                    <label for="achterom-nee" class="radio-label">
+                      <span class="radio-label__text">Nee</span>
+                      <span class="radio-label__price">€500</span>
+                    </label>
+                  </div>
+                </div>
+
+                {% comment %} Doorbraak (Breakthrough) {% endcomment %}
+                <div class="vpc-step-2__form-group">
+                  <h4>Doorbraak?</h4>
+                  <p class="vpc-step-2__form-description">Wilt u een doorbraak naar de bestaande woning?</p>
+                  <div class="vpc-step-2__radio-options">
+                    <input type="radio" id="doorbraak-ja" name="doorbraak" value="ja" data-price="1500">
+                    <label for="doorbraak-ja" class="radio-label">
+                      <span class="radio-label__text">Ja</span>
+                      <span class="radio-label__price">€1.500</span>
+                    </label>
+                    <input type="radio" id="doorbraak-nee" name="doorbraak" value="nee" data-price="0">
+                    <label for="doorbraak-nee" class="radio-label">
+                      <span class="radio-label__text">Nee</span>
+                      <span class="radio-label__price">€0</span>
+                    </label>
+                  </div>
+                </div>
+
+                {% comment %} Postcode {% endcomment %}
+                <div class="vpc-step-2__form-group">
+                  <h4>Uw postcode</h4>
+                  <p class="vpc-step-2__form-description">Voor het berekenen van de transportkosten</p>
+                  <input type="text" 
+                         name="postcode" 
+                         id="postcode" 
+                         placeholder="1234 AB" 
+                         pattern="[1-9][0-9]{3}\s?[A-Za-z]{2}"
+                         required>
+                  <p class="zipcode-error">Voer een geldige Nederlandse postcode in</p>
+                  <div class="zipcode-calculator" style="display: none">
+                    <p>Afstand: <span class="distance-count">0</span> km</p>
+                    <p>Transportkosten: <span class="distance-price">€0</span></p>
+                    <input type="hidden" name="transport_price" class="zipcode-result" value="0">
+                  </div>
+                </div>
+              </form>
+
+              {% comment %} Step 2 Navigation {% endcomment %}
+              <div class="vpc-step-navigation">
+                <button type="button" class="c-button c-button--box c-button--outline vpc-prev-step" onclick="VPCConfigurator.goToStep(1)">
+                  Vorige stap
+                </button>
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step" onclick="VPCConfigurator.goToStep(3)">
+                  Offerte aanvragen
+                </button>
+              </div>
+            </div>
+
+            {% comment %} Step 3 - Quote Form {% endcomment %}
+            <div id="vpc-step-3" class="vpc-step-3 vpc-sidebar__step-3">
+              <h2>{{ section.settings.form_heading }}</h2>
+              {{ section.settings.form_description }}
+
+              <ul class="list--checkmarks">
+                <li class="list__item">Gratis en vrijblijvend</li>
+                <li class="list__item">Binnen 2 werkdagen reactie</li>
+                <li class="list__item">Persoonlijk advies op maat</li>
+              </ul>
+
+              <form id="rqa_form" method="POST" action="/contact#contact_form">
+                {% comment %} Hidden fields for tracking {% endcomment %}
+                <input type="hidden" name="form_type" value="configurator_quote">
+                <input type="hidden" name="configuration_data" id="configuration_data" value="">
+                <input type="hidden" name="gclid" id="gclid" value="">
+                <input type="hidden" name="utm_source" id="utm_source" value="">
+                <input type="hidden" name="utm_medium" id="utm_medium" value="">
+                <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+
+                <div class="form-group">
+                  <label for="rqa_name">Naam *</label>
+                  <input type="text" id="rqa_name" name="contact[name]" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="rqa_email">E-mailadres *</label>
+                  <input type="email" id="rqa_email" name="contact[email]" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="rqa_phone">Telefoonnummer</label>
+                  <input type="text" id="rqa_phone" name="contact[phone]">
+                </div>
+
+                <div class="form-group">
+                  <label for="rqa_address">Adres</label>
+                  <input type="text" id="rqa_address" name="contact[address]">
+                </div>
+
+                <div class="form-group">
+                  <label for="rqa_city">Woonplaats</label>
+                  <input type="text" id="rqa_city" name="contact[city]">
+                </div>
+
+                <div class="form-group">
+                  <label for="rqa_message">Opmerkingen</label>
+                  <textarea id="rqa_message" name="contact[body]" rows="4"></textarea>
+                </div>
+
+                <input type="submit" value="Offerte aanvragen" class="c-button c-button--box c-button--box-colorone">
+
+                <p class="disclaimer-link">
+                  Door dit formulier te versturen gaat u akkoord met onze <a href="{{ section.settings.privacy_page | default: '/pages/privacybeleid' }}">privacyverklaring</a>.
+                </p>
+              </form>
+
+              {% comment %} Step 3 Navigation {% endcomment %}
+              <div class="vpc-step-navigation">
+                <button type="button" class="c-button c-button--box c-button--outline vpc-prev-step" onclick="VPCConfigurator.goToStep(2)">
+                  Vorige stap
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {% comment %} Preview Container {% endcomment %}
+        <div id="vpc-preview-wrap" class="vpc-preview-wrap">
+          <div id="vpc-preview-container" class="vpc-preview-container">
+            <div class="s-configurator-container__preview-images">
+              
+              {% comment %} Exterior Preview Images {% endcomment %}
+              <div class="s-configurator-container__exterior-images">
+                {% comment %} Base exterior image {% endcomment %}
+                <div class="c-image c-image--base exterior-element" style="z-index: 0">
+                  {% if section.settings.base_exterior_image %}
+                    <img src="{{ section.settings.base_exterior_image | image_url: width: 1200 }}" 
+                         alt="Uitbouw buitenaanzicht" 
+                         loading="lazy">
+                  {% else %}
+                    <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-1280x960.jpg" 
+                         alt="Uitbouw buitenaanzicht" 
+                         loading="lazy"
+                         srcset="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-2560x1920.jpg 2560w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-1800x1350.jpg 1800w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-1400x1050.jpg 1400w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-1280x960.jpg 1280w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-980x735.jpg 980w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Exterieur-1-480x360.jpg 480w"
+                         sizes="(min-width: 1920px) 2560px, (min-width: 1440px) 1800px, (min-width: 1280px) 1400px, (min-width: 980px) 1280px, (min-width: 576px) 980px, 480px">
+                  {% endif %}
+                </div>
+                {% comment %} Dynamic option images will be added here via JavaScript {% endcomment %}
+              </div>
+
+              {% comment %} Interior Preview Images {% endcomment %}
+              <div class="s-configurator-container__interior-images" style="display: none">
+                {% comment %} Base interior image {% endcomment %}
+                <div class="c-image c-image--base interior-element" style="z-index: 0">
+                  {% if section.settings.base_interior_image %}
+                    <img src="{{ section.settings.base_interior_image | image_url: width: 1200 }}" 
+                         alt="Uitbouw binnenaanzicht" 
+                         loading="lazy">
+                  {% else %}
+                    <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-1280x960.jpg" 
+                         alt="Uitbouw binnenaanzicht" 
+                         loading="lazy"
+                         srcset="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-2560x1920.jpg 2560w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-1800x1350.jpg 1800w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-1400x1050.jpg 1400w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-1280x960.jpg 1280w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-980x735.jpg 980w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_BASIS_05-05-2020_Interieur-1-480x360.jpg 480w"
+                         sizes="(min-width: 1920px) 2560px, (min-width: 1440px) 1800px, (min-width: 1280px) 1400px, (min-width: 980px) 1280px, (min-width: 576px) 980px, 480px">
+                  {% endif %}
+                </div>
+                {% comment %} Dynamic option images will be added here via JavaScript {% endcomment %}
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script src="{{ 'configurator.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product Configurator",
+  "tag": "section",
+  "class": "section-configurator",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Algemene instellingen"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titel",
+      "default": "Ontwerp jouw aanbouw"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Beschrijving",
+      "default": "<p>Configureer jouw perfecte uitbouw met onze online tool.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Afmetingen"
+    },
+    {
+      "type": "number",
+      "id": "min_depth",
+      "label": "Minimale diepte (cm)",
+      "default": 150
+    },
+    {
+      "type": "number",
+      "id": "max_depth",
+      "label": "Maximale diepte (cm)",
+      "default": 400
+    },
+    {
+      "type": "number",
+      "id": "min_width",
+      "label": "Minimale breedte (cm)",
+      "default": 200
+    },
+    {
+      "type": "number",
+      "id": "max_width",
+      "label": "Maximale breedte (cm)",
+      "default": 1500
+    },
+    {
+      "type": "number",
+      "id": "default_depth",
+      "label": "Standaard diepte (cm)",
+      "default": 200
+    },
+    {
+      "type": "number",
+      "id": "default_width",
+      "label": "Standaard breedte (cm)",
+      "default": 450
+    },
+    {
+      "type": "header",
+      "content": "Preview afbeeldingen"
+    },
+    {
+      "type": "image_picker",
+      "id": "base_exterior_image",
+      "label": "Basis afbeelding buitenzijde"
+    },
+    {
+      "type": "image_picker",
+      "id": "base_interior_image",
+      "label": "Basis afbeelding binnenzijde"
+    },
+    {
+      "type": "header",
+      "content": "Hulp popup"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_help_button",
+      "label": "Toon hulp knop",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "help_button_text",
+      "label": "Hulp knop tekst",
+      "default": "Hulp bij de configurator?"
+    },
+    {
+      "type": "text",
+      "id": "help_popup_heading",
+      "label": "Popup titel",
+      "default": "Deze functie is helaas nog niet actief"
+    },
+    {
+      "type": "richtext",
+      "id": "help_popup_content",
+      "label": "Popup inhoud",
+      "default": "<p>Ons team werkt voortdurend aan het verbeteren van de configurator om nieuwe functies en betere ervaringen te bieden aan onze gebruikers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Offerte formulier"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Formulier titel",
+      "default": "Offerte aanvragen"
+    },
+    {
+      "type": "richtext",
+      "id": "form_description",
+      "label": "Formulier beschrijving",
+      "default": "<p>Vul onderstaand formulier in en ontvang binnen 2 werkdagen een vrijblijvende offerte.</p>"
+    },
+    {
+      "type": "url",
+      "id": "privacy_page",
+      "label": "Privacybeleid pagina"
+    },
+    {
+      "type": "header",
+      "content": "Contact pagina"
+    },
+    {
+      "type": "url",
+      "id": "contact_page",
+      "label": "Contact pagina link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Configurator",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

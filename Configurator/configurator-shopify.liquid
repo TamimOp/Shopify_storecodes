@@ -1976,7 +1976,7 @@
                                data-component-id="component-radiator" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-1-130x130.png"
                                data-price="0"
                                data-oid="option-radiator-2"
                                data-index="20"
@@ -1985,7 +1985,7 @@
                                for="option-radiator-2" 
                                data-oriontip="radiator links" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-130x130.png" alt="radiator links">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-1-130x130.png" alt="radiator links">
                         </label>
                       </div>
                       
@@ -1998,7 +1998,7 @@
                                data-component-id="component-radiator" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Rechts.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-rechts-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-2-130x130.png"
                                data-price="0"
                                data-oid="option-radiator-3"
                                data-index="20"
@@ -2007,7 +2007,7 @@
                                for="option-radiator-3" 
                                data-oriontip="radiator rechts" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-rechts-130x130.png" alt="radiator rechts">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-2-130x130.png" alt="radiator rechts">
                         </label>
                       </div>
                       
@@ -2020,7 +2020,7 @@
                                data-component-id="component-radiator" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links-Rechts.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-rechts-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-3-130x130.png"
                                data-price="0"
                                data-oid="option-radiator-4"
                                data-index="20"
@@ -2029,7 +2029,7 @@
                                for="option-radiator-4" 
                                data-oriontip="radiator links & rechts" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-rechts-130x130.png" alt="radiator links & rechts">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-3-130x130.png" alt="radiator links & rechts">
                         </label>
                       </div>
                     </div>
@@ -2047,27 +2047,50 @@
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign vloerverwarming_options = "Nee,Ja" | split: "," %}
+                      {% comment %} Option 1: Nee {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-vloerverwarming-1">
+                        <input id="option-vloerverwarming-1" 
+                               type="radio" 
+                               name="Vloerverwarming" 
+                               value="Nee"
+                               data-component-id="component-vloerverwarming" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-vloerverwarming-1"
+                               data-index="13"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-vloerverwarming-1" 
+                               for="option-vloerverwarming-1" 
+                               data-oriontip="Nee" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="Nee">
+                        </label>
+                      </div>
                       
-                      {% for option in vloerverwarming_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-vloerverwarming-{{ forloop.index }}">
-                          <input id="option-vloerverwarming-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Vloerverwarming" 
-                                 value="{{ option }}"
-                                 data-component-id="component-vloerverwarming" 
-                                 data-class="interior-element"
-                                 data-price="0"
-                                 data-oid="option-vloerverwarming-{{ forloop.index }}"
-                                 data-index="13"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-vloerverwarming-{{ forloop.index }}" 
-                                 for="option-vloerverwarming-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      {% comment %} Option 2: Ja {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-vloerverwarming-2">
+                        <input id="option-vloerverwarming-2" 
+                               type="radio" 
+                               name="Vloerverwarming" 
+                               value="Ja"
+                               data-component-id="component-vloerverwarming" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_vloerverwarming-130x130.png"
+                               data-price="0"
+                               data-oid="option-vloerverwarming-2"
+                               data-index="13"
+                               required>
+                        <label id="cboption-vloerverwarming-2" 
+                               for="option-vloerverwarming-2" 
+                               data-oriontip="Ja" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_vloerverwarming-130x130.png" alt="Ja">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2092,7 +2115,7 @@
                                data-component-id="component-verlichting-lichtpunt" 
                                data-class="interior-element"
                                data-img=""
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
                                data-price="0"
                                data-oid="option-lichtpunt-1"
                                data-index="25"
@@ -2102,7 +2125,7 @@
                                for="option-lichtpunt-1" 
                                data-oriontip="geen lichtpunt" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" alt="geen lichtpunt">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen lichtpunt">
                         </label>
                       </div>
                       
@@ -2115,7 +2138,7 @@
                                data-component-id="component-verlichting-lichtpunt" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Links_TRANSP.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-links-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-1-130x130.png"
                                data-price="0"
                                data-oid="option-lichtpunt-2"
                                data-index="25"
@@ -2124,7 +2147,7 @@
                                for="option-lichtpunt-2" 
                                data-oriontip="lichtpunt links" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-links-130x130.png" alt="lichtpunt links">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-1-130x130.png" alt="lichtpunt links">
                         </label>
                       </div>
                       
@@ -2137,7 +2160,7 @@
                                data-component-id="component-verlichting-lichtpunt" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_midden-icm.-daklicht_TRANSP.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-midden-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-2-130x130.png"
                                data-price="0"
                                data-oid="option-lichtpunt-3"
                                data-index="25"
@@ -2146,7 +2169,7 @@
                                for="option-lichtpunt-3" 
                                data-oriontip="lichtpunt midden" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-midden-130x130.png" alt="lichtpunt midden">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-2-130x130.png" alt="lichtpunt midden">
                         </label>
                       </div>
                       
@@ -2159,7 +2182,7 @@
                                data-component-id="component-verlichting-lichtpunt" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Rechts_TRANSP.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-rechts-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-3-130x130.png"
                                data-price="0"
                                data-oid="option-lichtpunt-4"
                                data-index="25"
@@ -2168,7 +2191,7 @@
                                for="option-lichtpunt-4" 
                                data-oriontip="lichtpunt rechts" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-rechts-130x130.png" alt="lichtpunt rechts">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-3-130x130.png" alt="lichtpunt rechts">
                         </label>
                       </div>
                     </div>
@@ -2425,7 +2448,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-6.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L1-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-1-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-l1"
                                data-index="10"
@@ -2434,7 +2457,7 @@
                                for="option-stopcontacten-l1" 
                                data-oriontip="L1" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L1-130x130.png" alt="L1">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-1-130x130.png" alt="L1">
                         </label>
                       </div>
                       {% comment %} L2 {% endcomment %}
@@ -2446,7 +2469,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-5.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L2-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-2-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-l2"
                                data-index="10"
@@ -2455,7 +2478,7 @@
                                for="option-stopcontacten-l2" 
                                data-oriontip="L2" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L2-130x130.png" alt="L2">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-2-130x130.png" alt="L2">
                         </label>
                       </div>
                       {% comment %} L3 {% endcomment %}
@@ -2467,7 +2490,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-4.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L3-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-3-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-l3"
                                data-index="10"
@@ -2476,7 +2499,7 @@
                                for="option-stopcontacten-l3" 
                                data-oriontip="L3" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L3-130x130.png" alt="L3">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-3-130x130.png" alt="L3">
                         </label>
                       </div>
                     </div>
@@ -2492,7 +2515,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R1-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-4-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-r1"
                                data-index="10"
@@ -2501,7 +2524,7 @@
                                for="option-stopcontacten-r1" 
                                data-oriontip="R1" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R1-130x130.png" alt="R1">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-4-130x130.png" alt="R1">
                         </label>
                       </div>
                       {% comment %} R2 {% endcomment %}
@@ -2513,7 +2536,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-2.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R2-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-5-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-r2"
                                data-index="10"
@@ -2522,7 +2545,7 @@
                                for="option-stopcontacten-r2" 
                                data-oriontip="R2" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R2-130x130.png" alt="R2">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-5-130x130.png" alt="R2">
                         </label>
                       </div>
                       {% comment %} R3 {% endcomment %}
@@ -2534,7 +2557,7 @@
                                data-component-id="component-stopcontacten" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-3.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R3-130x130.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-6-130x130.png"
                                data-price="150"
                                data-oid="option-stopcontacten-r3"
                                data-index="10"
@@ -2543,7 +2566,7 @@
                                for="option-stopcontacten-r3" 
                                data-oriontip="R3" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R3-130x130.png" alt="R3">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wcd-positie-6-130x130.png" alt="R3">
                         </label>
                       </div>
                     </div>

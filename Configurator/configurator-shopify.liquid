@@ -1820,69 +1820,115 @@
                   <div class="vpc-component-header">
                     <div class="vpc-component-title">
                       <span class="vpc-component-name">Stucwerk</span>
-                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                      <span class="vpc-selected vpc-selected-option">geen stucwerk, stucplaten zijn zichtbaar</span>
                     </div>
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign stucwerk_options = "Nee,Ja, wanden en plafond" | split: "," %}
+                      {% comment %} Option 1: geen stucwerk {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stucwerk-1">
+                        <input id="option-stucwerk-1" 
+                               type="radio" 
+                               name="Stucwerk" 
+                               value="geen stucwerk, stucplaten zijn zichtbaar"
+                               data-component-id="component-stucwerk" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_gipsplaat_Donker_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-stucwerk-1"
+                               data-index="1"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-stucwerk-1" 
+                               for="option-stucwerk-1" 
+                               data-oriontip="geen stucwerk, stucplaten zijn zichtbaar" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen stucwerk">
+                        </label>
+                      </div>
                       
-                      {% for option in stucwerk_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-stucwerk-{{ forloop.index }}">
-                          <input id="option-stucwerk-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Stucwerk" 
-                                 value="{{ option }}"
-                                 data-component-id="component-stucwerk" 
-                                 data-class="interior-element"
-                                 data-price="0"
-                                 data-oid="option-stucwerk-{{ forloop.index }}"
-                                 data-index="10"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-stucwerk-{{ forloop.index }}" 
-                                 for="option-stucwerk-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      {% comment %} Option 2: ja voorzien van stucwerk {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stucwerk-2">
+                        <input id="option-stucwerk-2" 
+                               type="radio" 
+                               name="Stucwerk" 
+                               value="ja voorzien van stucwerk (€ 25,- per m2, op nacalculatie)"
+                               data-component-id="component-stucwerk" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Afwerking-binnenwand_Stucwerk-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_JA-130x130.png"
+                               data-price="0"
+                               data-oid="option-stucwerk-2"
+                               data-index="1"
+                               required>
+                        <label id="cboption-stucwerk-2" 
+                               for="option-stucwerk-2" 
+                               data-oriontip="ja voorzien van stucwerk" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_JA-130x130.png" alt="ja voorzien van stucwerk">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {% comment %} Schilderwerk (Painting) {% endcomment %}
-                <div id="component-schilderwerk" class="vpc-component interior-element" data-component_id="component-schilderwerk" style="display: none">
+                {% comment %} Schilderwerk (Painting) - Hidden by default, shown when Stucwerk = "ja" {% endcomment %}
+                <div id="component-schilderwerk" class="vpc-component interior-element hidden" data-component_id="component-schilderwerk" data-depends-on="Stucwerk" data-depends-value="ja" style="display: none">
                   <div class="vpc-component-header">
                     <div class="vpc-component-title">
                       <span class="vpc-component-name">Schilderwerk</span>
-                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                      <span class="vpc-selected vpc-selected-option">geen schilderwerk</span>
                     </div>
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign schilderwerk_options = "Nee,Ja, wanden en plafond wit" | split: "," %}
+                      {% comment %} Option 1: geen schilderwerk {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-schilderwerk-1">
+                        <input id="option-schilderwerk-1" 
+                               type="radio" 
+                               name="Schilderwerk" 
+                               value="geen schilderwerk"
+                               data-component-id="component-schilderwerk" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-schilderwerk-1"
+                               data-index="5"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-schilderwerk-1" 
+                               for="option-schilderwerk-1" 
+                               data-oriontip="geen schilderwerk" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen schilderwerk">
+                        </label>
+                      </div>
                       
-                      {% for option in schilderwerk_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-schilderwerk-{{ forloop.index }}">
-                          <input id="option-schilderwerk-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Schilderwerk" 
-                                 value="{{ option }}"
-                                 data-component-id="component-schilderwerk" 
-                                 data-class="interior-element"
-                                 data-price="0"
-                                 data-oid="option-schilderwerk-{{ forloop.index }}"
-                                 data-index="11"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-schilderwerk-{{ forloop.index }}" 
-                                 for="option-schilderwerk-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      {% comment %} Option 2: ja voorzien van schilderwerk {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-schilderwerk-2">
+                        <input id="option-schilderwerk-2" 
+                               type="radio" 
+                               name="Schilderwerk" 
+                               value="ja voorzien van schilderwerk (€ 15,- per m2, op nacalculatie)"
+                               data-component-id="component-schilderwerk" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Afwerking-binnenwand_Schilderwerk-9016.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_JA-130x130.png"
+                               data-price="0"
+                               data-oid="option-schilderwerk-2"
+                               data-index="5"
+                               required>
+                        <label id="cboption-schilderwerk-2" 
+                               for="option-schilderwerk-2" 
+                               data-oriontip="ja voorzien van schilderwerk" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_JA-130x130.png" alt="ja voorzien van schilderwerk">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2268,6 +2314,278 @@
                   </div>
                 </div>
 
+                {% comment %} Wandlampen (Wall Lamps) {% endcomment %}
+                <div id="component-wandlampen" class="vpc-component interior-element" data-component_id="component-wandlampen" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Wandlampen</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen wandlampen</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-group-name"></div>
+                      {% comment %} Option: geen wandlampen {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-0">
+                        <input id="option-wandlampen-0" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="geen wandlampen"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-wandlampen-0"
+                               data-index="10"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-wandlampen-0" 
+                               for="option-wandlampen-0" 
+                               data-oriontip="geen wandlampen" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen wandlampen">
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">wandlampen links</div>
+                      {% comment %} L1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-l1">
+                        <input id="option-wandlampen-l1" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="L1"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_4-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L1-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-l1"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-l1" 
+                               for="option-wandlampen-l1" 
+                               data-oriontip="L1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L1-130x130.png" alt="L1">
+                        </label>
+                      </div>
+                      {% comment %} L2 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-l2">
+                        <input id="option-wandlampen-l2" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="L2"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_5-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L2-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-l2"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-l2" 
+                               for="option-wandlampen-l2" 
+                               data-oriontip="L2" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L2-130x130.png" alt="L2">
+                        </label>
+                      </div>
+                      {% comment %} L3 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-l3">
+                        <input id="option-wandlampen-l3" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="L3"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_6-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L3-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-l3"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-l3" 
+                               for="option-wandlampen-l3" 
+                               data-oriontip="L3" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L3-130x130.png" alt="L3">
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">wandlampen rechts</div>
+                      {% comment %} R1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-r1">
+                        <input id="option-wandlampen-r1" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="R1"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_1-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R1-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-r1"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-r1" 
+                               for="option-wandlampen-r1" 
+                               data-oriontip="R1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R1-130x130.png" alt="R1">
+                        </label>
+                      </div>
+                      {% comment %} R2 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-r2">
+                        <input id="option-wandlampen-r2" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="R2"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_2-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R2-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-r2"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-r2" 
+                               for="option-wandlampen-r2" 
+                               data-oriontip="R2" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R2-130x130.png" alt="R2">
+                        </label>
+                      </div>
+                      {% comment %} R3 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-r3">
+                        <input id="option-wandlampen-r3" 
+                               type="checkbox" 
+                               name="Wandlampen[]" 
+                               value="R3"
+                               data-component-id="component-wandlampen" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_3-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R3-130x130.png"
+                               data-price="165"
+                               data-oid="option-wandlampen-r3"
+                               data-index="10"
+                               required>
+                        <label id="cboption-wandlampen-r3" 
+                               for="option-wandlampen-r3" 
+                               data-oriontip="R3" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R3-130x130.png" alt="R3">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Wandlampen type (Wall Lamp Control Type) - Hidden by default, shown when Wandlampen selected {% endcomment %}
+                <div id="component-wandlampen-type" class="vpc-component interior-element hidden" data-component_id="component-wandlampen-type" data-depends-on="Wandlampen" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Wandlampen type</span>
+                      <span class="vpc-selected vpc-selected-option">geschakeld links</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% comment %} geschakeld links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-type-1">
+                        <input id="option-wandlampen-type-1" 
+                               type="radio" 
+                               name="Wandlampen type" 
+                               value="geschakeld links"
+                               data-component-id="component-wandlampen-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Links_Wandlamp.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Schakelaar-links-130x130.png"
+                               data-price="0"
+                               data-oid="option-wandlampen-type-1"
+                               data-index="9"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-wandlampen-type-1" 
+                               for="option-wandlampen-type-1" 
+                               data-oriontip="geschakeld links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Schakelaar-links-130x130.png" alt="geschakeld links">
+                        </label>
+                      </div>
+                      {% comment %} geschakeld rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-type-2">
+                        <input id="option-wandlampen-type-2" 
+                               type="radio" 
+                               name="Wandlampen type" 
+                               value="geschakeld rechts"
+                               data-component-id="component-wandlampen-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Rechts_Wandlamp.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Schakelaar-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-wandlampen-type-2"
+                               data-index="9"
+                               required>
+                        <label id="cboption-wandlampen-type-2" 
+                               for="option-wandlampen-type-2" 
+                               data-oriontip="geschakeld rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Schakelaar-rechts-130x130.png" alt="geschakeld rechts">
+                        </label>
+                      </div>
+                      {% comment %} gedimd links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-type-3">
+                        <input id="option-wandlampen-type-3" 
+                               type="radio" 
+                               name="Wandlampen type" 
+                               value="gedimd links"
+                               data-component-id="component-wandlampen-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Links_Wandlamp.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Dimmer-links-130x130.png"
+                               data-price="100"
+                               data-oid="option-wandlampen-type-3"
+                               data-index="9"
+                               required>
+                        <label id="cboption-wandlampen-type-3" 
+                               for="option-wandlampen-type-3" 
+                               data-oriontip="gedimd links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Dimmer-links-130x130.png" alt="gedimd links">
+                        </label>
+                      </div>
+                      {% comment %} gedimd rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-wandlampen-type-4">
+                        <input id="option-wandlampen-type-4" 
+                               type="radio" 
+                               name="Wandlampen type" 
+                               value="gedimd rechts"
+                               data-component-id="component-wandlampen-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Rechts_Wandlamp.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Dimmer-rechts-130x130.png"
+                               data-price="100"
+                               data-oid="option-wandlampen-type-4"
+                               data-index="9"
+                               required>
+                        <label id="cboption-wandlampen-type-4" 
+                               for="option-wandlampen-type-4" 
+                               data-oriontip="gedimd rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Dimmer-rechts-130x130.png" alt="gedimd rechts">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
               {% comment %} Step 1 Navigation {% endcomment %}
@@ -2484,7 +2802,7 @@
               </div>
 
               {% comment %} Interior Preview Images {% endcomment %}
-              <div class="s-configurator-container__interior-images">
+              <div class="s-configurator-container__interior-images" style="display: none;">
                 {% comment %} Base interior image {% endcomment %}
                 <div class="c-image c-image--base interior-element" style="z-index: 0">
                   {% if section.settings.base_interior_image %}
@@ -2499,7 +2817,24 @@
                          sizes="(min-width: 1920px) 2560px, (min-width: 1440px) 1800px, (min-width: 1280px) 1400px, (min-width: 980px) 1280px, (min-width: 576px) 980px, 480px">
                   {% endif %}
                 </div>
-                {% comment %} Dynamic option images will be added here via JavaScript {% endcomment %}
+                
+                {% comment %} Pre-populated interior option images - Kozijn Interior (default: openslaande deuren wit kunststof) {% endcomment %}
+                <div class="c-image interior-element option-kozijn-interior-1" style="z-index: 15;">
+                  <img class="c-image__img" alt="Kozijn interieur" data-index="15" 
+                       src="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Draai_INTERIEUR-1-1280x960.png"
+                       srcset="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Draai_INTERIEUR-1-2560x1920.png 2560w, https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Draai_INTERIEUR-1-1280x960.png 1280w"
+                       sizes="(min-width: 1280px) 1280px, 100vw">
+                </div>
+                
+                {% comment %} Stucwerk option image (default: geen stucwerk, gipsplaat) {% endcomment %}
+                <div class="c-image interior-element option-stucwerk-1" style="z-index: 1;">
+                  <img class="c-image__img" alt="Gipsplaat" data-index="1" 
+                       src="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_gipsplaat_Donker_TRANSP-1280x960.png"
+                       srcset="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_gipsplaat_Donker_TRANSP-2560x1920.png 2560w, https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_gipsplaat_Donker_TRANSP-1280x960.png 1280w"
+                       sizes="(min-width: 1280px) 1280px, 100vw">
+                </div>
+                
+                {% comment %} Dynamic option images will be added/updated here via JavaScript {% endcomment %}
               </div>
 
             </div>

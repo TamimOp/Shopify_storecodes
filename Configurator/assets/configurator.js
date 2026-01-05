@@ -203,33 +203,125 @@
     const index = input.dataset.index;
     const optionId = input.dataset.oid;
 
-    // Update state
-    state.selectedOptions[componentId] = {
-      value,
-      price,
-      imgUrl,
-      imgHtml,
-      class: optionClass,
-      index,
-      optionId,
-    };
+    // Handle Wandlampen checkbox mutual exclusion
+    if (input.name === "Wandlampen[]" && input.type === "checkbox") {
+      handleWandlampenCheckbox(input);
+      // Update all Wandlampen preview images
+      updateWandlampenPreview(component);
+    }
+
+    // Update state (skip for checkbox inputs as they're handled separately)
+    if (input.type !== "checkbox") {
+      state.selectedOptions[componentId] = {
+        value,
+        price,
+        imgUrl,
+        imgHtml,
+        class: optionClass,
+        index,
+        optionId,
+      };
+    }
 
     // Update selected label
     const selectedSpan = component?.querySelector(".vpc-selected-option");
     if (selectedSpan) {
-      selectedSpan.textContent = value;
+      // For checkbox groups like Wandlampen, show all selected values
+      if (input.name === "Wandlampen[]") {
+        const checkedInputs = component.querySelectorAll(
+          'input[name="Wandlampen[]"]:checked'
+        );
+        const values = Array.from(checkedInputs).map((i) => i.value);
+        selectedSpan.textContent = values.join(", ");
+      } else {
+        selectedSpan.textContent = value;
+      }
     }
 
     // Update prices
     calculatePrices();
 
     // Update preview image - remove old overlay for this component and add new one
-    updatePreviewImage(componentId, optionId, imgUrl, optionClass, index);
+    // Skip for Wandlampen as it's handled in updateWandlampenPreview
+    if (input.name !== "Wandlampen[]") {
+      updatePreviewImage(componentId, optionId, imgUrl, optionClass, index);
+    }
 
     // Handle conditional options (e.g., rollaag based on gevelbekleding)
     handleConditionalOptions(input);
 
     // Keep dropdown open after selection - do not auto-close
+  }
+
+  function updateWandlampenPreview(component) {
+    if (!component) return;
+
+    const container = elements.interiorImages;
+    if (!container) return;
+
+    // Remove all existing Wandlampen images
+    container
+      .querySelectorAll('.c-image[data-component="component-wandlampen"]')
+      .forEach((el) => {
+        el.remove();
+      });
+
+    // Add images for all checked Wandlampen options
+    const checkedInputs = component.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked'
+    );
+    checkedInputs.forEach((input) => {
+      const imgUrl = input.dataset.img;
+      const optionId = input.dataset.oid;
+      const optionClass = input.dataset.class;
+      const index = input.dataset.index;
+
+      if (imgUrl && imgUrl.trim() && input.value !== "geen wandlampen") {
+        const imgContainer = document.createElement("div");
+        imgContainer.className = `c-image ${optionClass} ${optionId}`;
+        imgContainer.dataset.component = "component-wandlampen";
+        imgContainer.style.zIndex = parseInt(index) + 10 || 10;
+
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.alt = optionId;
+        img.loading = "lazy";
+        img.className = `c-image__img ${optionId}`;
+
+        imgContainer.appendChild(img);
+        container.appendChild(imgContainer);
+      }
+    });
+  }
+
+  function handleWandlampenCheckbox(input) {
+    const component = input.closest(".vpc-component");
+    const allCheckboxes = component.querySelectorAll(
+      'input[name="Wandlampen[]"]'
+    );
+    const geenWandlampenInput = component.querySelector(
+      'input[value="geen wandlampen"]'
+    );
+
+    if (input.value === "geen wandlampen" && input.checked) {
+      // If "geen wandlampen" is selected, uncheck all other options
+      allCheckboxes.forEach((cb) => {
+        if (cb.value !== "geen wandlampen") {
+          cb.checked = false;
+        }
+      });
+    } else if (input.value !== "geen wandlampen" && input.checked) {
+      // If any lamp option is selected, uncheck "geen wandlampen"
+      if (geenWandlampenInput) {
+        geenWandlampenInput.checked = false;
+      }
+    }
+
+    // If nothing is selected, auto-select "geen wandlampen"
+    const anyChecked = Array.from(allCheckboxes).some((cb) => cb.checked);
+    if (!anyChecked && geenWandlampenInput) {
+      geenWandlampenInput.checked = true;
+    }
   }
 
   function handleConditionalOptions(selectedInput) {
@@ -248,6 +340,76 @@
       selectedInput.name.toLowerCase().includes("overstek");
     if (overstek) {
       updateDaktrimOptions(selectedInput.value);
+    }
+
+    // Handle Schilderwerk visibility based on Stucwerk selection
+    if (selectedInput.name === "Stucwerk") {
+      updateSchilderwerkVisibility(selectedInput.value);
+    }
+
+    // Handle Wandlampen type visibility based on Wandlampen selection
+    if (selectedInput.name === "Wandlampen[]") {
+      updateWandlampenTypeVisibility();
+    }
+  }
+
+  function updateSchilderwerkVisibility(stucwerkValue) {
+    const schilderwerkComponent = document.querySelector(
+      "#component-schilderwerk"
+    );
+    if (!schilderwerkComponent) return;
+
+    // Show Schilderwerk only if Stucwerk is "ja" (contains "voorzien van stucwerk")
+    const isStucwerkSelected =
+      stucwerkValue && stucwerkValue.toLowerCase().includes("ja");
+
+    if (isStucwerkSelected) {
+      schilderwerkComponent.classList.remove("hidden");
+      schilderwerkComponent.style.removeProperty("display");
+    } else {
+      schilderwerkComponent.classList.add("hidden");
+      // Reset Schilderwerk to default (nee) when hidden
+      const defaultInput = schilderwerkComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+  }
+
+  function updateWandlampenTypeVisibility() {
+    const wandlampenTypeComponent = document.querySelector(
+      "#component-wandlampen-type"
+    );
+    if (!wandlampenTypeComponent) return;
+
+    // Check if any Wandlampen option (other than "geen wandlampen") is selected
+    const wandlampenInputs = document.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked'
+    );
+    let hasLampSelected = false;
+
+    wandlampenInputs.forEach((input) => {
+      if (input.value !== "geen wandlampen") {
+        hasLampSelected = true;
+      }
+    });
+
+    if (hasLampSelected) {
+      wandlampenTypeComponent.classList.remove("hidden");
+      wandlampenTypeComponent.style.removeProperty("display");
+    } else {
+      wandlampenTypeComponent.classList.add("hidden");
+      // Reset Wandlampen type to default when hidden
+      const defaultInput = wandlampenTypeComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
     }
   }
 
@@ -335,12 +497,23 @@
     let exteriorTotal = 0;
     let interiorTotal = 0;
 
+    // Calculate from state for radio-based components
     Object.values(state.selectedOptions).forEach((option) => {
       if (option.class === "exterior-element") {
         exteriorTotal += option.price;
       } else if (option.class === "interior-element") {
         interiorTotal += option.price;
       }
+    });
+
+    // Handle checkbox components like Wandlampen separately
+    // Remove Wandlampen from state calculation and recalculate from checked inputs
+    const wandlampenInputs = document.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked'
+    );
+    wandlampenInputs.forEach((input) => {
+      const price = parseFloat(input.dataset.price) || 0;
+      interiorTotal += price;
     });
 
     // Add step 2 form prices

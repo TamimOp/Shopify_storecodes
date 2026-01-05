@@ -652,16 +652,24 @@
     const hasOverstek =
       overstekValue && !overstekValue.toLowerCase().includes("geen");
 
-    // Check if Daktrim zwart is selected
+    // Check if Daktrim zwart or kraal is selected
     const daktrimInput = document.querySelector(
       'input[name="Daktrim"]:checked'
     );
-    const isZwart =
-      daktrimInput && daktrimInput.value.toLowerCase().includes("zwart");
+    const daktrimValue = daktrimInput ? daktrimInput.value.toLowerCase() : "";
+    const isZwart = daktrimValue.includes("zwart");
+    const isKraal = daktrimValue.includes("kraal");
 
     // Determine which hidden option should be selected
     let targetValue = "";
-    if (hasOverstek && isZwart) {
+    if (isKraal) {
+      // Kraal options
+      if (hasOverstek) {
+        targetValue = "kraal met overstek";
+      } else {
+        targetValue = "kraal zonder";
+      }
+    } else if (hasOverstek && isZwart) {
       targetValue = "daktrim overstek zwart";
     } else if (hasOverstek && !isZwart) {
       targetValue = "daktrim overstek";

@@ -192,7 +192,6 @@
 }
 
 .s-configurator-container__content {
-  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -752,6 +751,7 @@ input[type="radio"]:checked + .radio-label {
   height: 100%;
   object-fit: contain;
   object-position: center;
+  transform: scale(1.4);
 }
 
 /* ================================

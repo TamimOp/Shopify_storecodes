@@ -191,6 +191,14 @@
   // ================================
   // Option Selection
   // ================================
+  // List of checkbox-based components that allow multiple selections
+  const CHECKBOX_COMPONENTS = [
+    "Wandlampen[]",
+    "Stopcontacten[]",
+    "Verlichting lichtpunt[]",
+    "Spotjes[]",
+  ];
+
   function handleOptionChange(e) {
     const input = e.target;
     const component = input.closest(".vpc-component");
@@ -203,11 +211,11 @@
     const index = input.dataset.index;
     const optionId = input.dataset.oid;
 
-    // Handle Wandlampen checkbox mutual exclusion
-    if (input.name === "Wandlampen[]" && input.type === "checkbox") {
-      handleWandlampenCheckbox(input);
-      // Update all Wandlampen preview images
-      updateWandlampenPreview(component);
+    // Handle checkbox-based components with mutual exclusion
+    if (input.type === "checkbox" && CHECKBOX_COMPONENTS.includes(input.name)) {
+      handleCheckboxComponent(input);
+      // Update all preview images for this checkbox component
+      updateCheckboxComponentPreview(component, input.name);
     }
 
     // Update state (skip for checkbox inputs as they're handled separately)
@@ -226,10 +234,13 @@
     // Update selected label
     const selectedSpan = component?.querySelector(".vpc-selected-option");
     if (selectedSpan) {
-      // For checkbox groups like Wandlampen, show all selected values
-      if (input.name === "Wandlampen[]") {
+      // For checkbox groups, show all selected values
+      if (
+        input.type === "checkbox" &&
+        CHECKBOX_COMPONENTS.includes(input.name)
+      ) {
         const checkedInputs = component.querySelectorAll(
-          'input[name="Wandlampen[]"]:checked'
+          `input[name="${input.name}"]:checked`
         );
         const values = Array.from(checkedInputs).map((i) => i.value);
         selectedSpan.textContent = values.join(", ");
@@ -242,8 +253,10 @@
     calculatePrices();
 
     // Update preview image - remove old overlay for this component and add new one
-    // Skip for Wandlampen as it's handled in updateWandlampenPreview
-    if (input.name !== "Wandlampen[]") {
+    // Skip for checkbox components as they're handled in updateCheckboxComponentPreview
+    if (
+      !(input.type === "checkbox" && CHECKBOX_COMPONENTS.includes(input.name))
+    ) {
       updatePreviewImage(componentId, optionId, imgUrl, optionClass, index);
     }
 
@@ -253,22 +266,60 @@
     // Keep dropdown open after selection - do not auto-close
   }
 
-  function updateWandlampenPreview(component) {
+  function handleCheckboxComponent(input) {
+    const component = input.closest(".vpc-component");
+    const inputName = input.name;
+    const allCheckboxes = component.querySelectorAll(
+      `input[name="${inputName}"]`
+    );
+
+    // Find the "geen" option (first option with empty data-img or "geen" in value)
+    const geenOption = component.querySelector(
+      `input[name="${inputName}"][data-default="1"]`
+    );
+    const isGeenOption =
+      input.dataset.default === "1" ||
+      input.value.toLowerCase().includes("geen");
+
+    if (isGeenOption && input.checked) {
+      // If "geen" option is selected, uncheck all other options
+      allCheckboxes.forEach((cb) => {
+        if (cb !== input) {
+          cb.checked = false;
+        }
+      });
+    } else if (!isGeenOption && input.checked) {
+      // If any other option is selected, uncheck the "geen" option
+      if (geenOption) {
+        geenOption.checked = false;
+      }
+    }
+
+    // If nothing is selected, auto-select the "geen" option
+    const anyChecked = Array.from(allCheckboxes).some((cb) => cb.checked);
+    if (!anyChecked && geenOption) {
+      geenOption.checked = true;
+    }
+  }
+
+  function updateCheckboxComponentPreview(component, inputName) {
     if (!component) return;
 
     const container = elements.interiorImages;
     if (!container) return;
 
-    // Remove all existing Wandlampen images
+    const componentId = component.dataset.component_id;
+
+    // Remove all existing images for this component
     container
-      .querySelectorAll('.c-image[data-component="component-wandlampen"]')
+      .querySelectorAll(`.c-image[data-component="${componentId}"]`)
       .forEach((el) => {
         el.remove();
       });
 
-    // Add images for all checked Wandlampen options
+    // Add images for all checked options (except "geen" options)
     const checkedInputs = component.querySelectorAll(
-      'input[name="Wandlampen[]"]:checked'
+      `input[name="${inputName}"]:checked`
     );
     checkedInputs.forEach((input) => {
       const imgUrl = input.dataset.img;
@@ -276,10 +327,15 @@
       const optionClass = input.dataset.class;
       const index = input.dataset.index;
 
-      if (imgUrl && imgUrl.trim() && input.value !== "geen wandlampen") {
+      // Only add image if it has a valid URL and is not a "geen" option
+      if (
+        imgUrl &&
+        imgUrl.trim() &&
+        !input.value.toLowerCase().includes("geen")
+      ) {
         const imgContainer = document.createElement("div");
         imgContainer.className = `c-image ${optionClass} ${optionId}`;
-        imgContainer.dataset.component = "component-wandlampen";
+        imgContainer.dataset.component = componentId;
         imgContainer.style.zIndex = parseInt(index) + 10 || 10;
 
         const img = document.createElement("img");
@@ -294,34 +350,13 @@
     });
   }
 
+  // Keep old functions for backwards compatibility (can be removed later)
+  function updateWandlampenPreview(component) {
+    updateCheckboxComponentPreview(component, "Wandlampen[]");
+  }
+
   function handleWandlampenCheckbox(input) {
-    const component = input.closest(".vpc-component");
-    const allCheckboxes = component.querySelectorAll(
-      'input[name="Wandlampen[]"]'
-    );
-    const geenWandlampenInput = component.querySelector(
-      'input[value="geen wandlampen"]'
-    );
-
-    if (input.value === "geen wandlampen" && input.checked) {
-      // If "geen wandlampen" is selected, uncheck all other options
-      allCheckboxes.forEach((cb) => {
-        if (cb.value !== "geen wandlampen") {
-          cb.checked = false;
-        }
-      });
-    } else if (input.value !== "geen wandlampen" && input.checked) {
-      // If any lamp option is selected, uncheck "geen wandlampen"
-      if (geenWandlampenInput) {
-        geenWandlampenInput.checked = false;
-      }
-    }
-
-    // If nothing is selected, auto-select "geen wandlampen"
-    const anyChecked = Array.from(allCheckboxes).some((cb) => cb.checked);
-    if (!anyChecked && geenWandlampenInput) {
-      geenWandlampenInput.checked = true;
-    }
+    handleCheckboxComponent(input);
   }
 
   function handleConditionalOptions(selectedInput) {
@@ -506,14 +541,20 @@
       }
     });
 
-    // Handle checkbox components like Wandlampen separately
-    // Remove Wandlampen from state calculation and recalculate from checked inputs
-    const wandlampenInputs = document.querySelectorAll(
-      'input[name="Wandlampen[]"]:checked'
-    );
-    wandlampenInputs.forEach((input) => {
-      const price = parseFloat(input.dataset.price) || 0;
-      interiorTotal += price;
+    // Handle all checkbox-based components separately
+    CHECKBOX_COMPONENTS.forEach((componentName) => {
+      const checkedInputs = document.querySelectorAll(
+        `input[name="${componentName}"]:checked`
+      );
+      checkedInputs.forEach((input) => {
+        const price = parseFloat(input.dataset.price) || 0;
+        const optionClass = input.dataset.class;
+        if (optionClass === "exterior-element") {
+          exteriorTotal += price;
+        } else if (optionClass === "interior-element") {
+          interiorTotal += price;
+        }
+      });
     });
 
     // Add step 2 form prices

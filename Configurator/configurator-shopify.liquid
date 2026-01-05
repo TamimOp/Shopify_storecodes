@@ -2278,38 +2278,174 @@
                   </div>
                 </div>
 
-                {% comment %} Stopcontacten (Power Outlets) {% endcomment %}
+                {% comment %} Stopcontacten (Power Outlets) - Checkbox based like Wandlampen {% endcomment %}
                 <div id="component-stopcontacten" class="vpc-component interior-element" data-component_id="component-stopcontacten" style="display: none">
                   <div class="vpc-component-header">
                     <div class="vpc-component-title">
                       <span class="vpc-component-name">Stopcontacten</span>
-                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen stopcontacten</span>
                     </div>
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign stopcontacten_options = "Nee,Ja, 2x stopcontact,Ja, 4x stopcontact,Ja, 6x stopcontact" | split: "," %}
-                      
-                      {% for option in stopcontacten_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-{{ forloop.index }}">
-                          <input id="option-stopcontacten-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Stopcontacten" 
-                                 value="{{ option }}"
-                                 data-component-id="component-stopcontacten" 
-                                 data-class="interior-element"
-                                 data-price="0"
-                                 data-oid="option-stopcontacten-{{ forloop.index }}"
-                                 data-index="15"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-stopcontacten-{{ forloop.index }}" 
-                                 for="option-stopcontacten-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      <div class="vpc-group-name"></div>
+                      {% comment %} Option: geen stopcontacten {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-0">
+                        <input id="option-stopcontacten-0" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="geen stopcontacten"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-stopcontacten-0"
+                               data-index="10"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-stopcontacten-0" 
+                               for="option-stopcontacten-0" 
+                               data-oriontip="geen stopcontacten" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen stopcontacten">
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">stopcontacten links</div>
+                      {% comment %} L1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-l1">
+                        <input id="option-stopcontacten-l1" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="L1"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-6.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L1-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-l1"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-l1" 
+                               for="option-stopcontacten-l1" 
+                               data-oriontip="L1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L1-130x130.png" alt="L1">
+                        </label>
+                      </div>
+                      {% comment %} L2 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-l2">
+                        <input id="option-stopcontacten-l2" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="L2"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-5.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L2-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-l2"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-l2" 
+                               for="option-stopcontacten-l2" 
+                               data-oriontip="L2" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L2-130x130.png" alt="L2">
+                        </label>
+                      </div>
+                      {% comment %} L3 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-l3">
+                        <input id="option-stopcontacten-l3" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="L3"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-4.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L3-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-l3"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-l3" 
+                               for="option-stopcontacten-l3" 
+                               data-oriontip="L3" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-L3-130x130.png" alt="L3">
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">stopcontacten rechts</div>
+                      {% comment %} R1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-r1">
+                        <input id="option-stopcontacten-r1" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="R1"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R1-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-r1"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-r1" 
+                               for="option-stopcontacten-r1" 
+                               data-oriontip="R1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R1-130x130.png" alt="R1">
+                        </label>
+                      </div>
+                      {% comment %} R2 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-r2">
+                        <input id="option-stopcontacten-r2" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="R2"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R2-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-r2"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-r2" 
+                               for="option-stopcontacten-r2" 
+                               data-oriontip="R2" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R2-130x130.png" alt="R2">
+                        </label>
+                      </div>
+                      {% comment %} R3 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-stopcontacten-r3">
+                        <input id="option-stopcontacten-r3" 
+                               type="checkbox" 
+                               name="Stopcontacten[]" 
+                               value="R3"
+                               data-component-id="component-stopcontacten" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_stroompunten-3.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R3-130x130.png"
+                               data-price="150"
+                               data-oid="option-stopcontacten-r3"
+                               data-index="10"
+                               required>
+                        <label id="cboption-stopcontacten-r3" 
+                               for="option-stopcontacten-r3" 
+                               data-oriontip="R3" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Stopcontact-R3-130x130.png" alt="R3">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>

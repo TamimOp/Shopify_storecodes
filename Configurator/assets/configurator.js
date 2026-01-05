@@ -386,6 +386,45 @@
     if (selectedInput.name === "Wandlampen[]") {
       updateWandlampenTypeVisibility();
     }
+
+    // Handle Verlichting lichtpunt type visibility based on Verlichting lichtpunt selection
+    if (selectedInput.name === "Verlichting lichtpunt[]") {
+      updateLichtpuntTypeVisibility();
+    }
+  }
+
+  function updateLichtpuntTypeVisibility() {
+    const lichtpuntTypeComponent = document.querySelector(
+      "#component-verlichting-lichtpunt-type"
+    );
+    if (!lichtpuntTypeComponent) return;
+
+    // Check if any lichtpunt option (other than "geen lichtpunt") is selected
+    const lichtpuntInputs = document.querySelectorAll(
+      'input[name="Verlichting lichtpunt[]"]:checked'
+    );
+    let hasLichtpuntSelected = false;
+
+    lichtpuntInputs.forEach((input) => {
+      if (!input.value.toLowerCase().includes("geen")) {
+        hasLichtpuntSelected = true;
+      }
+    });
+
+    if (hasLichtpuntSelected) {
+      lichtpuntTypeComponent.classList.remove("hidden");
+      lichtpuntTypeComponent.style.removeProperty("display");
+    } else {
+      lichtpuntTypeComponent.classList.add("hidden");
+      // Reset to default when hidden
+      const defaultInput = lichtpuntTypeComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
   }
 
   function updateSchilderwerkVisibility(stucwerkValue) {

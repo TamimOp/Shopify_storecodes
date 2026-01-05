@@ -2175,6 +2175,106 @@
                   </div>
                 </div>
 
+                {% comment %} Verlichting lichtpunt type - Hidden by default, shown when Verlichting lichtpunt is selected {% endcomment %}
+                <div id="component-verlichting-lichtpunt-type" class="vpc-component interior-element hidden" data-component_id="component-verlichting-lichtpunt-type" data-depends-on="Verlichting lichtpunt[]" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Verlichting lichtpunt type</span>
+                      <span class="vpc-selected vpc-selected-option">geschakeld links</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% comment %} geschakeld links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-type-1">
+                        <input id="option-lichtpunt-type-1" 
+                               type="radio" 
+                               name="Verlichting lichtpunt type" 
+                               value="geschakeld links"
+                               data-component-id="component-verlichting-lichtpunt-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Links_Centraalpunt.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-links-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-type-1"
+                               data-index="10"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-lichtpunt-type-1" 
+                               for="option-lichtpunt-type-1" 
+                               data-oriontip="geschakeld links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-links-130x130.png" alt="geschakeld links">
+                        </label>
+                      </div>
+                      {% comment %} geschakeld rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-type-2">
+                        <input id="option-lichtpunt-type-2" 
+                               type="radio" 
+                               name="Verlichting lichtpunt type" 
+                               value="geschakeld rechts"
+                               data-component-id="component-verlichting-lichtpunt-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Rechts_Centraalpunt.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-type-2"
+                               data-index="10"
+                               required>
+                        <label id="cboption-lichtpunt-type-2" 
+                               for="option-lichtpunt-type-2" 
+                               data-oriontip="geschakeld rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-rechts-130x130.png" alt="geschakeld rechts">
+                        </label>
+                      </div>
+                      {% comment %} gedimd links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-type-3">
+                        <input id="option-lichtpunt-type-3" 
+                               type="radio" 
+                               name="Verlichting lichtpunt type" 
+                               value="gedimd links"
+                               data-component-id="component-verlichting-lichtpunt-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Links_Centraalpunt.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-links-dimmer-130x130.png"
+                               data-price="70"
+                               data-oid="option-lichtpunt-type-3"
+                               data-index="10"
+                               required>
+                        <label id="cboption-lichtpunt-type-3" 
+                               for="option-lichtpunt-type-3" 
+                               data-oriontip="gedimd links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-links-dimmer-130x130.png" alt="gedimd links">
+                        </label>
+                      </div>
+                      {% comment %} gedimd rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-type-4">
+                        <input id="option-lichtpunt-type-4" 
+                               type="radio" 
+                               name="Verlichting lichtpunt type" 
+                               value="gedimd rechts"
+                               data-component-id="component-verlichting-lichtpunt-type" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Rechts_Centraalpunt.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-rechts-dimmer-130x130.png"
+                               data-price="70"
+                               data-oid="option-lichtpunt-type-4"
+                               data-index="10"
+                               required>
+                        <label id="cboption-lichtpunt-type-4" 
+                               for="option-lichtpunt-type-4" 
+                               data-oriontip="gedimd rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_Schakelaar-rechts-dimmer-130x130.png" alt="gedimd rechts">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {% comment %} Spotjes (Spots) {% endcomment %}
                 <div id="component-spotjes" class="vpc-component interior-element" data-component_id="component-spotjes" style="display: none">
                   <div class="vpc-component-header">
@@ -2497,16 +2597,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_4-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L1-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-1-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-l1"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-l1" 
                                for="option-wandlampen-l1" 
-                               data-oriontip="L1" 
+                               data-oriontip="L1 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L1-130x130.png" alt="L1">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-1-130x130.png" alt="L1">
                         </label>
                       </div>
                       {% comment %} L2 {% endcomment %}
@@ -2518,16 +2618,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_5-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L2-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-2-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-l2"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-l2" 
                                for="option-wandlampen-l2" 
-                               data-oriontip="L2" 
+                               data-oriontip="L2 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L2-130x130.png" alt="L2">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-2-130x130.png" alt="L2">
                         </label>
                       </div>
                       {% comment %} L3 {% endcomment %}
@@ -2539,16 +2639,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_6-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L3-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-3-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-l3"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-l3" 
                                for="option-wandlampen-l3" 
-                               data-oriontip="L3" 
+                               data-oriontip="L3 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-L3-130x130.png" alt="L3">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_wandlamp-positie-3-130x130.png" alt="L3">
                         </label>
                       </div>
                     </div>
@@ -2564,16 +2664,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_1-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R1-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-4-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-r1"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-r1" 
                                for="option-wandlampen-r1" 
-                               data-oriontip="R1" 
+                               data-oriontip="R1 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R1-130x130.png" alt="R1">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-4-130x130.png" alt="R1">
                         </label>
                       </div>
                       {% comment %} R2 {% endcomment %}
@@ -2585,16 +2685,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_2-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R2-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-5-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-r2"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-r2" 
                                for="option-wandlampen-r2" 
-                               data-oriontip="R2" 
+                               data-oriontip="R2 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R2-130x130.png" alt="R2">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-5-130x130.png" alt="R2">
                         </label>
                       </div>
                       {% comment %} R3 {% endcomment %}
@@ -2606,16 +2706,16 @@
                                data-component-id="component-wandlampen" 
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_INT_Wandlamp_3-1.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R3-130x130.png"
-                               data-price="165"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-6-130x130.png"
+                               data-price="209"
                                data-oid="option-wandlampen-r3"
                                data-index="10"
                                required>
                         <label id="cboption-wandlampen-r3" 
                                for="option-wandlampen-r3" 
-                               data-oriontip="R3" 
+                               data-oriontip="R3 (lamp & armatuur niet inbegrepen)" 
                                class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Wandlamp-R3-130x130.png" alt="R3">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_wandlamp-positie-6-130x130.png" alt="R3">
                         </label>
                       </div>
                     </div>

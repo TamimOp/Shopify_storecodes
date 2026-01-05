@@ -247,6 +247,21 @@
       } else {
         selectedSpan.textContent = value;
       }
+
+      // Handle checkmark visibility based on value
+      // If value contains "geen" or "nee", add no-check-mark-icon class and remove option-selected
+      // Otherwise, add option-selected class to show checkmark
+      const valueLower = value.toLowerCase();
+      const isNegativeOption =
+        valueLower.includes("geen") || valueLower === "nee";
+
+      if (isNegativeOption) {
+        selectedSpan.classList.add("no-check-mark-icon");
+        selectedSpan.classList.remove("option-selected");
+      } else {
+        selectedSpan.classList.remove("no-check-mark-icon");
+        selectedSpan.classList.add("option-selected");
+      }
     }
 
     // Update prices
@@ -369,12 +384,25 @@
       updateRollaagOptions(value);
     }
 
-    // Handle daktrim visibility based on overstek selection
-    const overstek =
-      selectedInput.closest('[data-component_id*="overstek"]') ||
-      selectedInput.name.toLowerCase().includes("overstek");
-    if (overstek) {
+    // Handle daktrim and spots visibility based on overstek selection
+    if (selectedInput.name === "Overstek") {
       updateDaktrimOptions(selectedInput.value);
+      updateSpotsOverstekVisibility(selectedInput.value);
+    }
+
+    // Handle daktrim preview when Daktrim color changes
+    if (selectedInput.name === "Daktrim") {
+      updateDaktrimPreview();
+    }
+
+    // Handle Spots in overstek type visibility based on Spots in overstek selection
+    if (selectedInput.name === "Spots in overstek") {
+      updateSpotsOverstekTypeVisibility(selectedInput.value);
+    }
+
+    // Handle Buitenlicht type visibility based on Buitenlicht selection
+    if (selectedInput.name === "Buitenlicht") {
+      updateBuitenlichtTypeVisibility(selectedInput.value);
     }
 
     // Handle Schilderwerk visibility based on Stucwerk selection
@@ -487,6 +515,88 @@
     }
   }
 
+  // Show/hide Spots in overstek based on Overstek selection
+  function updateSpotsOverstekVisibility(overstekValue) {
+    const spotsOverstekComponent = document.querySelector(
+      "#component-spots-overstek"
+    );
+    if (!spotsOverstekComponent) return;
+
+    // Show Spots in overstek only if Overstek is NOT "geen overstek"
+    const hasOverstek =
+      overstekValue && !overstekValue.toLowerCase().includes("geen");
+
+    if (hasOverstek) {
+      spotsOverstekComponent.classList.remove("hidden");
+      spotsOverstekComponent.style.removeProperty("display");
+    } else {
+      spotsOverstekComponent.classList.add("hidden");
+      // Reset to default when hidden
+      const defaultInput = spotsOverstekComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      // Also hide and reset Spots in overstek type
+      updateSpotsOverstekTypeVisibility("geen");
+    }
+  }
+
+  // Show/hide Spots in overstek type based on Spots in overstek selection
+  function updateSpotsOverstekTypeVisibility(spotsValue) {
+    const spotsTypeComponent = document.querySelector(
+      "#component-spots-overstek-type"
+    );
+    if (!spotsTypeComponent) return;
+
+    // Show type only if spots != "geen"
+    const hasSpots = spotsValue && !spotsValue.toLowerCase().includes("geen");
+
+    if (hasSpots) {
+      spotsTypeComponent.classList.remove("hidden");
+      spotsTypeComponent.style.removeProperty("display");
+    } else {
+      spotsTypeComponent.classList.add("hidden");
+      // Reset to default when hidden
+      const defaultInput = spotsTypeComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+  }
+
+  // Show/hide Buitenlicht type based on Buitenlicht selection
+  function updateBuitenlichtTypeVisibility(buitenlichtValue) {
+    const buitenlichtTypeComponent = document.querySelector(
+      "#component-buitenlicht-type"
+    );
+    if (!buitenlichtTypeComponent) return;
+
+    // Show type only if Buitenlicht != "geen"
+    const hasBuitenlicht =
+      buitenlichtValue && !buitenlichtValue.toLowerCase().includes("geen");
+
+    if (hasBuitenlicht) {
+      buitenlichtTypeComponent.classList.remove("hidden");
+      buitenlichtTypeComponent.style.removeProperty("display");
+    } else {
+      buitenlichtTypeComponent.classList.add("hidden");
+      // Reset to default when hidden
+      const defaultInput = buitenlichtTypeComponent.querySelector(
+        'input[data-default="1"]'
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+  }
+
   function updateRollaagOptions(gevelbekledingValue) {
     const rollaagComponent = document.querySelector("#component-5e68ad185da99");
     if (!rollaagComponent) return;
@@ -542,6 +652,25 @@
     const hasOverstek =
       overstekValue && !overstekValue.toLowerCase().includes("geen");
 
+    // Check if Daktrim zwart is selected
+    const daktrimInput = document.querySelector(
+      'input[name="Daktrim"]:checked'
+    );
+    const isZwart =
+      daktrimInput && daktrimInput.value.toLowerCase().includes("zwart");
+
+    // Determine which hidden option should be selected
+    let targetValue = "";
+    if (hasOverstek && isZwart) {
+      targetValue = "daktrim overstek zwart";
+    } else if (hasOverstek && !isZwart) {
+      targetValue = "daktrim overstek";
+    } else if (!hasOverstek && isZwart) {
+      targetValue = "daktrim zonder overstek zwart";
+    } else {
+      targetValue = "daktrim zonder overstek";
+    }
+
     daktrimHidden
       .querySelectorAll(".vpc-single-option-wrap")
       .forEach((wrap) => {
@@ -549,19 +678,29 @@
         if (!input) return;
 
         const value = input.value.toLowerCase();
+        const targetLower = targetValue.toLowerCase();
 
-        if (hasOverstek) {
-          wrap.style.display =
-            value.includes("overstek") && !value.includes("zonder")
-              ? ""
-              : "none";
+        if (value === targetLower) {
+          wrap.style.display = "";
+          if (!input.checked) {
+            input.checked = true;
+            // Trigger change to update preview
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+          }
         } else {
-          wrap.style.display =
-            value.includes("zonder") || value === "daktrim zonder overstek"
-              ? ""
-              : "none";
+          wrap.style.display = "none";
         }
       });
+  }
+
+  // Also update daktrim preview when Daktrim color changes
+  function updateDaktrimPreview() {
+    const overstekInput = document.querySelector(
+      'input[name="Overstek"]:checked'
+    );
+    if (overstekInput) {
+      updateDaktrimOptions(overstekInput.value);
+    }
   }
 
   // ================================

@@ -936,3 +936,123 @@ input[type="radio"]:checked + .radio-label {
     font-size: 20px;
   }
 }
+
+/* ================================
+   Floating Price Banner
+================================ */
+.vpc-price-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1a2b3c 0%, #2c3e50 100%);
+  border-radius: 8px;
+  margin-top: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vpc-price-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vpc-price-label {
+  font-size: 12px;
+  color: #768e9d;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vpc-price-value,
+#vpc-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.vpc-price-right .c-button {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ================================
+   Preview View Switcher
+================================ */
+.vpc-preview__switcher {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.vpc-preview__switcher-btn {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 2px solid #e0e0e0;
+  background: #ffffff;
+  color: #666666;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vpc-preview__switcher-btn:hover {
+  border-color: var(--vpc-primary-color);
+  color: var(--vpc-primary-color);
+}
+
+.vpc-preview__switcher-btn.active {
+  border-color: var(--vpc-primary-color);
+  background-color: var(--vpc-primary-color);
+  color: #ffffff;
+}
+
+/* Interior images hidden by default */
+.s-configurator-container__interior-images {
+  display: none;
+}
+
+/* Show interior, hide exterior when in interior mode */
+.vpc-preview-container.interior-mode
+  .s-configurator-container__exterior-images {
+  display: none;
+}
+
+.vpc-preview-container.interior-mode
+  .s-configurator-container__interior-images {
+  display: block;
+}
+
+/* ================================
+   Price Banner Responsive
+================================ */
+@media (max-width: 768px) {
+  .vpc-price-container {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .vpc-price-left {
+    align-items: center;
+  }
+
+  .vpc-price-value,
+  #vpc-price {
+    font-size: 24px;
+  }
+
+  .vpc-price-right .c-button {
+    width: 100%;
+  }
+
+  .vpc-preview__switcher-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}

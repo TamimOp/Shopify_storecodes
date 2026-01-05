@@ -354,7 +354,7 @@
 
     state.exteriorPrice = exteriorTotal;
     state.interiorPrice = interiorTotal;
-    state.totalPrice = exteriorTotal + interiorTotal;
+    state.totalPrice = CONFIG.basePrice + exteriorTotal + interiorTotal;
 
     updatePriceDisplay();
   }
@@ -367,11 +367,23 @@
       ".vpc-step-2__section-price-value--interior"
     );
 
+    // Update floating price banner
+    const floatingPriceEl = document.getElementById("vpc-price");
+    const hiddenPriceEl = document.getElementById("vpc-total-price-result");
+
     if (exteriorPriceEl) {
       exteriorPriceEl.textContent = formatPrice(state.exteriorPrice);
     }
     if (interiorPriceEl) {
       interiorPriceEl.textContent = formatPrice(state.interiorPrice);
+    }
+
+    // Update floating price banner with total
+    if (floatingPriceEl) {
+      floatingPriceEl.textContent = formatPrice(state.totalPrice);
+    }
+    if (hiddenPriceEl) {
+      hiddenPriceEl.value = formatPrice(state.totalPrice);
     }
   }
 
@@ -451,9 +463,20 @@
     const section = document.querySelector(".s-configurator-container");
     const exteriorComponents = document.querySelectorAll(".exterior-element");
     const interiorComponents = document.querySelectorAll(".interior-element");
+    const exteriorImages = document.querySelector(
+      ".s-configurator-container__exterior-images"
+    );
+    const interiorImages = document.querySelector(
+      ".s-configurator-container__interior-images"
+    );
 
     if (view === "interior") {
       section?.classList.add("s-configurator-container--interior");
+
+      // Toggle preview images
+      if (exteriorImages) exteriorImages.style.display = "none";
+      if (interiorImages) interiorImages.style.display = "block";
+
       exteriorComponents.forEach((el) => {
         if (!el.classList.contains("c-image")) {
           el.style.display = "none";
@@ -475,8 +498,21 @@
       document
         .querySelector(".vpc-switcher__label--interior")
         ?.classList.add("vpc-switcher__label--active");
+
+      // Update preview switcher buttons
+      document
+        .querySelector(".vpc-preview__switcher-btn--exterior")
+        ?.classList.remove("active");
+      document
+        .querySelector(".vpc-preview__switcher-btn--interior")
+        ?.classList.add("active");
     } else {
       section?.classList.remove("s-configurator-container--interior");
+
+      // Toggle preview images
+      if (exteriorImages) exteriorImages.style.display = "block";
+      if (interiorImages) interiorImages.style.display = "none";
+
       exteriorComponents.forEach((el) => {
         if (
           !el.classList.contains("c-image") &&
@@ -498,6 +534,14 @@
       document
         .querySelector(".vpc-switcher__label--exterior")
         ?.classList.add("vpc-switcher__label--active");
+
+      // Update preview switcher buttons
+      document
+        .querySelector(".vpc-preview__switcher-btn--interior")
+        ?.classList.remove("active");
+      document
+        .querySelector(".vpc-preview__switcher-btn--exterior")
+        ?.classList.add("active");
     }
   }
 

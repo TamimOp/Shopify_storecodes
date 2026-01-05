@@ -1278,6 +1278,539 @@
                   </div>
                 </div>
 
+                {% comment %} Overstek (Roof Overhang) {% endcomment %}
+                <div id="component-overstek" class="vpc-component exterior-element" data-component_id="component-overstek">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Overstek</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen overstek</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Geen</div>
+                      <div class="vpc-single-option-wrap" data-oid="option-overstek-geen">
+                        <input id="option-overstek-geen" 
+                               type="radio" 
+                               name="Overstek" 
+                               value="geen overstek"
+                               data-component-id="component-overstek" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Zonder-overstek-130x130.png"
+                               data-price="0"
+                               data-oid="option-overstek-geen"
+                               data-index="20"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-overstek-geen" 
+                               for="option-overstek-geen" 
+                               data-oriontip="geen overstek" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Zonder-overstek-130x130.png')"></label>
+                      </div>
+                    </div>
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Kunststof</div>
+                      <div class="vpc-single-option-wrap" data-oid="option-overstek-kunststof-wit">
+                        <input id="option-overstek-kunststof-wit" 
+                               type="radio" 
+                               name="Overstek" 
+                               value="kunststof wit"
+                               data-component-id="component-overstek" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Overstek-kunststof-wit.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-wit-130x130.png"
+                               data-price="1300"
+                               data-oid="option-overstek-kunststof-wit"
+                               data-index="20"
+                               required>
+                        <label id="cboption-overstek-kunststof-wit" 
+                               for="option-overstek-kunststof-wit" 
+                               data-oriontip="kunststof wit" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-wit-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-overstek-kunststof-antraciet">
+                        <input id="option-overstek-kunststof-antraciet" 
+                               type="radio" 
+                               name="Overstek" 
+                               value="kunststof antraciet"
+                               data-component-id="component-overstek" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Overstek-kunststof-zwart.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-zwart-130x130.png"
+                               data-price="1300"
+                               data-oid="option-overstek-kunststof-antraciet"
+                               data-index="20"
+                               required>
+                        <label id="cboption-overstek-kunststof-antraciet" 
+                               for="option-overstek-kunststof-antraciet" 
+                               data-oriontip="kunststof antraciet" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-zwart-130x130.png')"></label>
+                      </div>
+                    </div>
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Hout</div>
+                      <div class="vpc-single-option-wrap" data-oid="option-overstek-hout-wit">
+                        <input id="option-overstek-hout-wit" 
+                               type="radio" 
+                               name="Overstek" 
+                               value="hout wit gegrond"
+                               data-component-id="component-overstek" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Overstek-hout-wit.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-wit-130x130.png"
+                               data-price="900"
+                               data-oid="option-overstek-hout-wit"
+                               data-index="20"
+                               required>
+                        <label id="cboption-overstek-hout-wit" 
+                               for="option-overstek-hout-wit" 
+                               data-oriontip="hout wit gegrond" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Iconen_EXT_Overstek-wit-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Buitenlicht (Exterior Light) {% endcomment %}
+                <div id="component-buitenlicht" class="vpc-component exterior-element" data-component_id="component-buitenlicht">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Buitenlicht</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen buitenlicht</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenlicht-geen">
+                        <input id="option-buitenlicht-geen" 
+                               type="radio" 
+                               name="Buitenlicht" 
+                               value="geen buitenlicht"
+                               data-component-id="component-buitenlicht" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-buitenlicht-geen"
+                               data-index="10"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-buitenlicht-geen" 
+                               for="option-buitenlicht-geen" 
+                               data-oriontip="geen buitenlicht" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenlicht-links">
+                        <input id="option-buitenlicht-links" 
+                               type="radio" 
+                               name="Buitenlicht" 
+                               value="buitenlicht links"
+                               data-component-id="component-buitenlicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_buiten_Links.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-links-130x130.png"
+                               data-price="240"
+                               data-oid="option-buitenlicht-links"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenlicht-links" 
+                               for="option-buitenlicht-links" 
+                               data-oriontip="buitenlicht links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenlicht-rechts">
+                        <input id="option-buitenlicht-rechts" 
+                               type="radio" 
+                               name="Buitenlicht" 
+                               value="buitenlicht rechts"
+                               data-component-id="component-buitenlicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_buiten_Rechts.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-rechts-130x130.png"
+                               data-price="240"
+                               data-oid="option-buitenlicht-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenlicht-rechts" 
+                               for="option-buitenlicht-rechts" 
+                               data-oriontip="buitenlicht rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-rechts-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenlicht-beide">
+                        <input id="option-buitenlicht-beide" 
+                               type="radio" 
+                               name="Buitenlicht" 
+                               value="buitenlicht links en rechts"
+                               data-component-id="component-buitenlicht" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_buiten_Links_en_Rechts.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-links-rechts-130x130.png"
+                               data-price="480"
+                               data-oid="option-buitenlicht-beide"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenlicht-beide" 
+                               for="option-buitenlicht-beide" 
+                               data-oriontip="buitenlicht links en rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Verlichting-links-rechts-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Buitenstopcontact (Exterior Outlet) {% endcomment %}
+                <div id="component-buitenstopcontact" class="vpc-component exterior-element" data-component_id="component-buitenstopcontact">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Buitenstopcontact</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen buitenstopcontact</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-geen">
+                        <input id="option-buitenstopcontact-geen" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="geen buitenstopcontact"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-buitenstopcontact-geen"
+                               data-index="10"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-buitenstopcontact-geen" 
+                               for="option-buitenstopcontact-geen" 
+                               data-oriontip="geen buitenstopcontact" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-enkel-links">
+                        <input id="option-buitenstopcontact-enkel-links" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="enkel links"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Links-enkel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-links-130x130.png"
+                               data-price="160"
+                               data-oid="option-buitenstopcontact-enkel-links"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-enkel-links" 
+                               for="option-buitenstopcontact-enkel-links" 
+                               data-oriontip="enkel links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-enkel-rechts">
+                        <input id="option-buitenstopcontact-enkel-rechts" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="enkel rechts"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Rechts-enkel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-rechts-130x130.png"
+                               data-price="160"
+                               data-oid="option-buitenstopcontact-enkel-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-enkel-rechts" 
+                               for="option-buitenstopcontact-enkel-rechts" 
+                               data-oriontip="enkel rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-rechts-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-enkel-beide">
+                        <input id="option-buitenstopcontact-enkel-beide" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="enkel links en rechts"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Links_en_Rechts-enkel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-links-rechts-130x130.png"
+                               data-price="320"
+                               data-oid="option-buitenstopcontact-enkel-beide"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-enkel-beide" 
+                               for="option-buitenstopcontact-enkel-beide" 
+                               data-oriontip="enkel links en rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_Elektra-wcd-enkel-links-rechts-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-dubbel-links">
+                        <input id="option-buitenstopcontact-dubbel-links" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="dubbel links"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Links-dubbel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-links-130x130.png"
+                               data-price="231"
+                               data-oid="option-buitenstopcontact-dubbel-links"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-dubbel-links" 
+                               for="option-buitenstopcontact-dubbel-links" 
+                               data-oriontip="dubbel links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-dubbel-rechts">
+                        <input id="option-buitenstopcontact-dubbel-rechts" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="dubbel rechts"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Rechts-dubbel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-rechts-130x130.png"
+                               data-price="231"
+                               data-oid="option-buitenstopcontact-dubbel-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-dubbel-rechts" 
+                               for="option-buitenstopcontact-dubbel-rechts" 
+                               data-oriontip="dubbel rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-rechts-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenstopcontact-dubbel-beide">
+                        <input id="option-buitenstopcontact-dubbel-beide" 
+                               type="radio" 
+                               name="Buitenstopcontact" 
+                               value="dubbel links en rechts"
+                               data-component-id="component-buitenstopcontact" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Elektra_Links_en_rechts-dubbel.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-links-en-rechts-130x130.png"
+                               data-price="462"
+                               data-oid="option-buitenstopcontact-dubbel-beide"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenstopcontact-dubbel-beide" 
+                               for="option-buitenstopcontact-dubbel-beide" 
+                               data-oriontip="dubbel links en rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_EXT_Elektra-wcd-dubbel-links-en-rechts-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Buitenkraan (Exterior Faucet) {% endcomment %}
+                <div id="component-buitenkraan" class="vpc-component exterior-element" data-component_id="component-buitenkraan">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Buitenkraan</span>
+                      <span class="vpc-selected vpc-selected-option no-check-mark-icon">geen buitenkraan</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenkraan-geen">
+                        <input id="option-buitenkraan-geen" 
+                               type="radio" 
+                               name="Buitenkraan" 
+                               value="geen buitenkraan"
+                               data-component-id="component-buitenkraan" 
+                               data-class="exterior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-buitenkraan-geen"
+                               data-index="10"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-buitenkraan-geen" 
+                               for="option-buitenkraan-geen" 
+                               data-oriontip="geen buitenkraan" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenkraan-links">
+                        <input id="option-buitenkraan-links" 
+                               type="radio" 
+                               name="Buitenkraan" 
+                               value="buitenkraan links"
+                               data-component-id="component-buitenkraan" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Waterkraan-Links-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-links-130x130.png"
+                               data-price="528"
+                               data-oid="option-buitenkraan-links"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenkraan-links" 
+                               for="option-buitenkraan-links" 
+                               data-oriontip="buitenkraan links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenkraan-rechts">
+                        <input id="option-buitenkraan-rechts" 
+                               type="radio" 
+                               name="Buitenkraan" 
+                               value="buitenkraan rechts"
+                               data-component-id="component-buitenkraan" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Waterkraan-rechts-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-rechts-130x130.png"
+                               data-price="528"
+                               data-oid="option-buitenkraan-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenkraan-rechts" 
+                               for="option-buitenkraan-rechts" 
+                               data-oriontip="buitenkraan rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-rechts-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-buitenkraan-beide">
+                        <input id="option-buitenkraan-beide" 
+                               type="radio" 
+                               name="Buitenkraan" 
+                               value="buitenkraan links en rechts"
+                               data-component-id="component-buitenkraan" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Waterkraan-Links-Rechts-1.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-links-rechts-130x130.png"
+                               data-price="1056"
+                               data-oid="option-buitenkraan-beide"
+                               data-index="10"
+                               required>
+                        <label id="cboption-buitenkraan-beide" 
+                               for="option-buitenkraan-beide" 
+                               data-oriontip="buitenkraan links en rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_kraan-links-rechts-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Regenpijp (Rain Pipe) {% endcomment %}
+                <div id="component-regenpijp" class="vpc-component exterior-element" data-component_id="component-regenpijp">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Regenpijp</span>
+                      <span class="vpc-selected vpc-selected-option">PVC links</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">PVC</div>
+                      <div class="vpc-single-option-wrap" data-oid="option-regenpijp-pvc-links">
+                        <input id="option-regenpijp-pvc-links" 
+                               type="radio" 
+                               name="Regenpijp" 
+                               value="PVC links"
+                               data-component-id="component-regenpijp" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_PVC-HWA-links_TRANSP-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-pvc-links-130x130.png"
+                               data-price="0"
+                               data-oid="option-regenpijp-pvc-links"
+                               data-index="10"
+                               checked
+                               data-default="1"
+                               required>
+                        <label id="cboption-regenpijp-pvc-links" 
+                               for="option-regenpijp-pvc-links" 
+                               data-oriontip="PVC links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-pvc-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-regenpijp-pvc-rechts">
+                        <input id="option-regenpijp-pvc-rechts" 
+                               type="radio" 
+                               name="Regenpijp" 
+                               value="PVC rechts"
+                               data-component-id="component-regenpijp" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_PVC-HWA-rechts_TRANSP-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-pvc-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-regenpijp-pvc-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-regenpijp-pvc-rechts" 
+                               for="option-regenpijp-pvc-rechts" 
+                               data-oriontip="PVC rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-pvc-rechts-130x130.png')"></label>
+                      </div>
+                    </div>
+                    <div class="vpc-group">
+                      <div class="vpc-group-name">Zink</div>
+                      <div class="vpc-single-option-wrap" data-oid="option-regenpijp-zink-links">
+                        <input id="option-regenpijp-zink-links" 
+                               type="radio" 
+                               name="Regenpijp" 
+                               value="zink links"
+                               data-component-id="component-regenpijp" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Zink-HWA-links_TRANSP-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-zink-links-130x130.png"
+                               data-price="460"
+                               data-oid="option-regenpijp-zink-links"
+                               data-index="10"
+                               required>
+                        <label id="cboption-regenpijp-zink-links" 
+                               for="option-regenpijp-zink-links" 
+                               data-oriontip="zink links" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-zink-links-130x130.png')"></label>
+                      </div>
+                      <div class="vpc-single-option-wrap" data-oid="option-regenpijp-zink-rechts">
+                        <input id="option-regenpijp-zink-rechts" 
+                               type="radio" 
+                               name="Regenpijp" 
+                               value="zink rechts"
+                               data-component-id="component-regenpijp" 
+                               data-class="exterior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Zink-HWA-rechts_TRANSP-2.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-zink-rechts-130x130.png"
+                               data-price="460"
+                               data-oid="option-regenpijp-zink-rechts"
+                               data-index="10"
+                               required>
+                        <label id="cboption-regenpijp-zink-rechts" 
+                               for="option-regenpijp-zink-rechts" 
+                               data-oriontip="zink rechts" 
+                               class="custom"
+                               style="background-image: url('https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_EXT_hwa-zink-rechts-130x130.png')"></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {% comment %} ============================================
                     INTERIOR COMPONENTS
                 ============================================ {% endcomment %}
@@ -1358,36 +1891,101 @@
                 <div id="component-radiator" class="vpc-component interior-element" data-component_id="component-radiator" style="display: none">
                   <div class="vpc-component-header">
                     <div class="vpc-component-title">
-                      <span class="vpc-component-name">Radiator</span>
-                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                      <span class="vpc-component-name">Radiator(en)</span>
+                      <span class="vpc-selected vpc-selected-option">geen radiator</span>
                     </div>
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign radiator_options = "Nee,Ja, 1x radiator,Ja, 2x radiator" | split: "," %}
+                      {% comment %} Option 1: geen radiator {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-radiator-1">
+                        <input id="option-radiator-1" 
+                               type="radio" 
+                               name="Radiator(en)" 
+                               value="geen radiator"
+                               data-component-id="component-radiator" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-radiator-1"
+                               data-index="20"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-radiator-1" 
+                               for="option-radiator-1" 
+                               data-oriontip="geen radiator" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_ALG_NEE-130x130.png" alt="geen radiator">
+                        </label>
+                      </div>
                       
-                      {% for option in radiator_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-radiator-{{ forloop.index }}">
-                          <input id="option-radiator-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Radiator" 
-                                 value="{{ option }}"
-                                 data-component-id="component-radiator" 
-                                 data-class="interior-element"
-                                 data-img="{{ 'radiator-' | append: forloop.index | append: '.png' | asset_url }}"
-                                 data-icon="{{ 'icon-radiator-' | append: forloop.index | append: '.png' | asset_url }}"
-                                 data-price="0"
-                                 data-oid="option-radiator-{{ forloop.index }}"
-                                 data-index="12"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-radiator-{{ forloop.index }}" 
-                                 for="option-radiator-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      {% comment %} Option 2: radiator links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-radiator-2">
+                        <input id="option-radiator-2" 
+                               type="radio" 
+                               name="Radiator(en)" 
+                               value="radiator links"
+                               data-component-id="component-radiator" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-130x130.png"
+                               data-price="0"
+                               data-oid="option-radiator-2"
+                               data-index="20"
+                               required>
+                        <label id="cboption-radiator-2" 
+                               for="option-radiator-2" 
+                               data-oriontip="radiator links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-130x130.png" alt="radiator links">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 3: radiator rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-radiator-3">
+                        <input id="option-radiator-3" 
+                               type="radio" 
+                               name="Radiator(en)" 
+                               value="radiator rechts"
+                               data-component-id="component-radiator" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Rechts.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-radiator-3"
+                               data-index="20"
+                               required>
+                        <label id="cboption-radiator-3" 
+                               for="option-radiator-3" 
+                               data-oriontip="radiator rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-rechts-130x130.png" alt="radiator rechts">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 4: radiator links & rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-radiator-4">
+                        <input id="option-radiator-4" 
+                               type="radio" 
+                               name="Radiator(en)" 
+                               value="radiator links & rechts"
+                               data-component-id="component-radiator" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links-Rechts.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-radiator-4"
+                               data-index="20"
+                               required>
+                        <label id="cboption-radiator-4" 
+                               for="option-radiator-4" 
+                               data-oriontip="radiator links & rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Radiator-links-rechts-130x130.png" alt="radiator links & rechts">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1428,40 +2026,208 @@
                   </div>
                 </div>
 
-                {% comment %} Verlichting (Lighting) {% endcomment %}
-                <div id="component-verlichting" class="vpc-component interior-element" data-component_id="component-verlichting" style="display: none">
+                {% comment %} Verlichting lichtpunt (Ceiling Light) {% endcomment %}
+                <div id="component-verlichting-lichtpunt" class="vpc-component interior-element" data-component_id="component-verlichting-lichtpunt" style="display: none">
                   <div class="vpc-component-header">
                     <div class="vpc-component-title">
-                      <span class="vpc-component-name">Verlichting</span>
-                      <span class="vpc-selected vpc-selected-option">Nee</span>
+                      <span class="vpc-component-name">Verlichting lichtpunt</span>
+                      <span class="vpc-selected vpc-selected-option">geen lichtpunt</span>
                     </div>
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
                     <div class="vpc-group">
-                      {% assign verlichting_options = "Nee,Ja, 4x spots,Ja, 6x spots,Ja, 8x spots" | split: "," %}
+                      {% comment %} Option 1: geen lichtpunt {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-1">
+                        <input id="option-lichtpunt-1" 
+                               type="checkbox" 
+                               name="Verlichting lichtpunt[]" 
+                               value="geen lichtpunt"
+                               data-component-id="component-verlichting-lichtpunt" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-1"
+                               data-index="25"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-lichtpunt-1" 
+                               for="option-lichtpunt-1" 
+                               data-oriontip="geen lichtpunt" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" alt="geen lichtpunt">
+                        </label>
+                      </div>
                       
-                      {% for option in verlichting_options %}
-                        <div class="vpc-single-option-wrap" data-oid="option-verlichting-{{ forloop.index }}">
-                          <input id="option-verlichting-{{ forloop.index }}" 
-                                 type="radio" 
-                                 name="Verlichting" 
-                                 value="{{ option }}"
-                                 data-component-id="component-verlichting" 
-                                 data-class="interior-element"
-                                 data-img="{{ 'verlichting-' | append: forloop.index | append: '.png' | asset_url }}"
-                                 data-icon="{{ 'icon-verlichting-' | append: forloop.index | append: '.png' | asset_url }}"
-                                 data-price="0"
-                                 data-oid="option-verlichting-{{ forloop.index }}"
-                                 data-index="14"
-                                 {% if forloop.first %}checked data-default="1"{% endif %}
-                                 required>
-                          <label id="cboption-verlichting-{{ forloop.index }}" 
-                                 for="option-verlichting-{{ forloop.index }}" 
-                                 data-oriontip="{{ option }}" 
-                                 class="custom custom--text">{{ option }}</label>
-                        </div>
-                      {% endfor %}
+                      {% comment %} Option 2: lichtpunt links {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-2">
+                        <input id="option-lichtpunt-2" 
+                               type="checkbox" 
+                               name="Verlichting lichtpunt[]" 
+                               value="lichtpunt links"
+                               data-component-id="component-verlichting-lichtpunt" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Links_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-links-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-2"
+                               data-index="25"
+                               required>
+                        <label id="cboption-lichtpunt-2" 
+                               for="option-lichtpunt-2" 
+                               data-oriontip="lichtpunt links" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-links-130x130.png" alt="lichtpunt links">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 3: lichtpunt midden {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-3">
+                        <input id="option-lichtpunt-3" 
+                               type="checkbox" 
+                               name="Verlichting lichtpunt[]" 
+                               value="lichtpunt midden"
+                               data-component-id="component-verlichting-lichtpunt" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_midden-icm.-daklicht_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-midden-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-3"
+                               data-index="25"
+                               required>
+                        <label id="cboption-lichtpunt-3" 
+                               for="option-lichtpunt-3" 
+                               data-oriontip="lichtpunt midden" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-midden-130x130.png" alt="lichtpunt midden">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 4: lichtpunt rechts {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-lichtpunt-4">
+                        <input id="option-lichtpunt-4" 
+                               type="checkbox" 
+                               name="Verlichting lichtpunt[]" 
+                               value="lichtpunt rechts"
+                               data-component-id="component-verlichting-lichtpunt" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Rechts_TRANSP.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-rechts-130x130.png"
+                               data-price="0"
+                               data-oid="option-lichtpunt-4"
+                               data-index="25"
+                               required>
+                        <label id="cboption-lichtpunt-4" 
+                               for="option-lichtpunt-4" 
+                               data-oriontip="lichtpunt rechts" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-rechts-130x130.png" alt="lichtpunt rechts">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% comment %} Spotjes (Spots) {% endcomment %}
+                <div id="component-spotjes" class="vpc-component interior-element" data-component_id="component-spotjes" style="display: none">
+                  <div class="vpc-component-header">
+                    <div class="vpc-component-title">
+                      <span class="vpc-component-name">Spotjes</span>
+                      <span class="vpc-selected vpc-selected-option">geen spotjes</span>
+                    </div>
+                    <div class="vpc-component-arrow"></div>
+                  </div>
+                  <div class="vpc-options" style="display: none">
+                    <div class="vpc-group">
+                      {% comment %} Option 1: geen spotjes {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-1">
+                        <input id="option-spotjes-1" 
+                               type="checkbox" 
+                               name="Spotjes[]" 
+                               value="geen spotjes"
+                               data-component-id="component-spotjes" 
+                               data-class="interior-element"
+                               data-img=""
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png"
+                               data-price="0"
+                               data-oid="option-spotjes-1"
+                               data-index="20"
+                               checked data-default="1"
+                               required>
+                        <label id="cboption-spotjes-1" 
+                               for="option-spotjes-1" 
+                               data-oriontip="geen spotjes" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" alt="geen spotjes">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 2: spot 1 rij 1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-2">
+                        <input id="option-spotjes-2" 
+                               type="checkbox" 
+                               name="Spotjes[]" 
+                               value="spot 1 rij 1"
+                               data-component-id="component-spotjes" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-4origq.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png"
+                               data-price="132"
+                               data-oid="option-spotjes-2"
+                               data-index="20"
+                               required>
+                        <label id="cboption-spotjes-2" 
+                               for="option-spotjes-2" 
+                               data-oriontip="spot 1 rij 1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" alt="spot 1 rij 1">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 3: spot 3 rij 1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-3">
+                        <input id="option-spotjes-3" 
+                               type="checkbox" 
+                               name="Spotjes[]" 
+                               value="spot 3 rij 1"
+                               data-component-id="component-spotjes" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-13origq.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png"
+                               data-price="132"
+                               data-oid="option-spotjes-3"
+                               data-index="20"
+                               required>
+                        <label id="cboption-spotjes-3" 
+                               for="option-spotjes-3" 
+                               data-oriontip="spot 3 rij 1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" alt="spot 3 rij 1">
+                        </label>
+                      </div>
+                      
+                      {% comment %} Option 4: spot 5 rij 1 {% endcomment %}
+                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-4">
+                        <input id="option-spotjes-4" 
+                               type="checkbox" 
+                               name="Spotjes[]" 
+                               value="spot 5 rij 1"
+                               data-component-id="component-spotjes" 
+                               data-class="interior-element"
+                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-22origq.png"
+                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png"
+                               data-price="132"
+                               data-oid="option-spotjes-4"
+                               data-index="20"
+                               required>
+                        <label id="cboption-spotjes-4" 
+                               for="option-spotjes-4" 
+                               data-oriontip="spot 5 rij 1" 
+                               class="custom custom--icon">
+                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" alt="spot 5 rij 1">
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1718,7 +2484,7 @@
               </div>
 
               {% comment %} Interior Preview Images {% endcomment %}
-              <div class="s-configurator-container__interior-images" style="display: none">
+              <div class="s-configurator-container__interior-images">
                 {% comment %} Base interior image {% endcomment %}
                 <div class="c-image c-image--base interior-element" style="z-index: 0">
                   {% if section.settings.base_interior_image %}
@@ -1736,6 +2502,30 @@
                 {% comment %} Dynamic option images will be added here via JavaScript {% endcomment %}
               </div>
 
+            </div>
+            
+            {% comment %} Floating Price Banner {% endcomment %}
+            <div id="vpc-price-container" class="vpc-price-container">
+              <div class="vpc-price-left">
+                <span class="vpc-price-label">Totaal aanbouw (incl. btw)</span>
+                <span id="vpc-price" class="vpc-price-value">€39.950</span>
+              </div>
+              <div class="vpc-price-right">
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-request-quote" onclick="VPCConfigurator.goToStep(3)">
+                  Offerte aanvragen
+                </button>
+              </div>
+              <input type="hidden" id="vpc-total-price-result" value="€39.950" name="Total price" required>
+            </div>
+            
+            {% comment %} View Switcher - Exterior/Interior {% endcomment %}
+            <div class="vpc-preview__switcher">
+              <button type="button" class="vpc-preview__switcher-btn vpc-preview__switcher-btn--exterior active" data-view="exterior" onclick="VPCConfigurator.switchView('exterior')">
+                Buitenzijde
+              </button>
+              <button type="button" class="vpc-preview__switcher-btn vpc-preview__switcher-btn--interior" data-view="interior" onclick="VPCConfigurator.switchView('interior')">
+                Binnenzijde
+              </button>
             </div>
           </div>
         </div>
@@ -1756,131 +2546,131 @@
   "settings": [
     {
       "type": "header",
-      "content": "Algemene instellingen"
+      "content": "General Settings"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Titel",
+      "label": "Title",
       "default": "Ontwerp jouw aanbouw"
     },
     {
       "type": "richtext",
       "id": "description",
-      "label": "Beschrijving",
+      "label": "Description",
       "default": "<p>Configureer jouw perfecte uitbouw met onze online tool.</p>"
     },
     {
       "type": "header",
-      "content": "Afmetingen"
+      "content": "Dimensions"
     },
     {
       "type": "number",
       "id": "min_depth",
-      "label": "Minimale diepte (cm)",
+      "label": "Minimum Depth (cm)",
       "default": 150
     },
     {
       "type": "number",
       "id": "max_depth",
-      "label": "Maximale diepte (cm)",
+      "label": "Maximum Depth (cm)",
       "default": 400
     },
     {
       "type": "number",
       "id": "min_width",
-      "label": "Minimale breedte (cm)",
+      "label": "Minimum Width (cm)",
       "default": 200
     },
     {
       "type": "number",
       "id": "max_width",
-      "label": "Maximale breedte (cm)",
+      "label": "Maximum Width (cm)",
       "default": 1500
     },
     {
       "type": "number",
       "id": "default_depth",
-      "label": "Standaard diepte (cm)",
+      "label": "Default Depth (cm)",
       "default": 200
     },
     {
       "type": "number",
       "id": "default_width",
-      "label": "Standaard breedte (cm)",
+      "label": "Default Width (cm)",
       "default": 450
     },
     {
       "type": "header",
-      "content": "Preview afbeeldingen"
+      "content": "Preview Images"
     },
     {
       "type": "image_picker",
       "id": "base_exterior_image",
-      "label": "Basis afbeelding buitenzijde"
+      "label": "Base Exterior Image"
     },
     {
       "type": "image_picker",
       "id": "base_interior_image",
-      "label": "Basis afbeelding binnenzijde"
+      "label": "Base Interior Image"
     },
     {
       "type": "header",
-      "content": "Hulp popup"
+      "content": "Help Popup"
     },
     {
       "type": "checkbox",
       "id": "show_help_button",
-      "label": "Toon hulp knop",
+      "label": "Show Help Button",
       "default": true
     },
     {
       "type": "text",
       "id": "help_button_text",
-      "label": "Hulp knop tekst",
+      "label": "Help Button Text",
       "default": "Hulp bij de configurator?"
     },
     {
       "type": "text",
       "id": "help_popup_heading",
-      "label": "Popup titel",
+      "label": "Popup Title",
       "default": "Deze functie is helaas nog niet actief"
     },
     {
       "type": "richtext",
       "id": "help_popup_content",
-      "label": "Popup inhoud",
+      "label": "Popup Content",
       "default": "<p>Ons team werkt voortdurend aan het verbeteren van de configurator om nieuwe functies en betere ervaringen te bieden aan onze gebruikers.</p>"
     },
     {
       "type": "header",
-      "content": "Offerte formulier"
+      "content": "Quote Form"
     },
     {
       "type": "text",
       "id": "form_heading",
-      "label": "Formulier titel",
+      "label": "Form Title",
       "default": "Offerte aanvragen"
     },
     {
       "type": "richtext",
       "id": "form_description",
-      "label": "Formulier beschrijving",
+      "label": "Form Description",
       "default": "<p>Vul onderstaand formulier in en ontvang binnen 2 werkdagen een vrijblijvende offerte.</p>"
     },
     {
       "type": "url",
       "id": "privacy_page",
-      "label": "Privacybeleid pagina"
+      "label": "Privacy Policy Page"
     },
     {
       "type": "header",
-      "content": "Contact pagina"
+      "content": "Contact Page"
     },
     {
       "type": "url",
       "id": "contact_page",
-      "label": "Contact pagina link"
+      "label": "Contact Page Link"
     }
   ],
   "presets": [

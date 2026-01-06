@@ -11,6 +11,7 @@
   // ================================
   const CONFIG = {
     currency: "€",
+    basePrice: 39950,
     minDepth: 150,
     maxDepth: 400,
     minLength: 200,
@@ -1067,6 +1068,43 @@
       section.className = section.className.replace(/step-\d-visible/g, "");
       section.classList.add(`step-${stepNumber}-visible`);
     }
+
+    // Update floating banner buttons
+    updateFloatingBannerButtons();
+  }
+
+  function goToNextStep() {
+    if (state.currentStep < 3) {
+      goToStep(state.currentStep + 1);
+    }
+  }
+
+  function goToPreviousStep() {
+    if (state.currentStep > 1) {
+      goToStep(state.currentStep - 1);
+    }
+  }
+
+  function updateFloatingBannerButtons() {
+    const prevBtn = document.querySelector(".vpc-prev-step-btn");
+    const nextBtn = document.querySelector(".vpc-next-step-btn");
+
+    if (prevBtn) {
+      // Show back button on step 2 and 3
+      prevBtn.style.display = state.currentStep > 1 ? "inline-block" : "none";
+    }
+
+    if (nextBtn) {
+      // Update button text based on step
+      if (state.currentStep === 2) {
+        nextBtn.textContent = "Offerte aanvragen";
+      } else if (state.currentStep === 3) {
+        nextBtn.style.display = "none";
+      } else {
+        nextBtn.textContent = "Volgende stap";
+        nextBtn.style.display = "inline-block";
+      }
+    }
   }
 
   // ================================
@@ -1203,6 +1241,8 @@
   window.VPCConfigurator = {
     init,
     goToStep,
+    goToNextStep,
+    goToPreviousStep,
     getState: () => ({ ...state }),
     switchView,
     calculatePrices,

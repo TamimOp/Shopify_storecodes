@@ -3623,14 +3623,16 @@
 
             </div>
             
+            {% comment %} Help Button - Outside floating banner {% endcomment %}
+            <div class="vpc-price-help">
+              <button type="button" class="vpc-help-button">
+                <span class="vpc-help-icon">?</span>
+                <span class="vpc-help-text">Hulp bij de configurator?</span>
+              </button>
+            </div>
+            
             {% comment %} Floating Price Banner {% endcomment %}
             <div id="vpc-price-container" class="vpc-price-container">
-              <div class="vpc-price-help">
-                <button type="button" class="vpc-help-button">
-                  <span class="vpc-help-icon">?</span>
-                  <span class="vpc-help-text">Hulp bij de configurator?</span>
-                </button>
-              </div>
               <div class="vpc-price-center">
                 <span class="vpc-price-label">Totaal aanbouw (incl. btw)</span>
                 <span id="vpc-price" class="vpc-price-value">€39.950</span>
@@ -3638,8 +3640,11 @@
               <div class="vpc-price-link">
                 <a href="#" class="vpc-value-link">Waardevermeerdering weten? <span class="vpc-value-link-underline">Check</span></a>
               </div>
-              <div class="vpc-price-right">
-                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn" onclick="VPCConfigurator.goToStep(2)">
+              <div class="vpc-price-buttons">
+                <button type="button" class="vpc-prev-step-btn" onclick="VPCConfigurator.goToPreviousStep()" style="display: none;">
+                  Terug
+                </button>
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn" onclick="VPCConfigurator.goToNextStep()">
                   Volgende stap
                 </button>
               </div>

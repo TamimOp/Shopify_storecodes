@@ -241,7 +241,7 @@
   min-width: 434px;
   flex-shrink: 0;
   background: #fff;
-  padding: 35px;
+  padding: 125px 35px 35px 35px;
   border-radius: 0;
   box-shadow: none;
 }
@@ -479,26 +479,18 @@
 }
 
 .vpc-component-arrow {
-  width: 24px;
-  height: 24px;
+  width: 10px;
+  height: 10px;
   position: relative;
-}
-
-.vpc-component-arrow::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid #333;
-  border-bottom: 2px solid #333;
-  transform: translate(-50%, -70%) rotate(45deg);
+  background-image: url("https://deprefabriek.nl/wp-content/themes/prefabriek/resources/assets/images/arrow-down.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   transition: transform 0.3s ease;
 }
 
-.vpc-component.open .vpc-component-arrow::after {
-  transform: translate(-50%, -30%) rotate(-135deg);
+.vpc-component.open .vpc-component-arrow {
+  transform: rotate(180deg);
 }
 
 /* ================================
@@ -589,6 +581,11 @@
 .vpc-step-1,
 .vpc-step-2,
 .vpc-step-3 {
+  display: none;
+}
+
+/* Hide sidebar navigation - using floating banner instead */
+.vpc-sidebar .vpc-step-navigation {
   display: none;
 }
 
@@ -1029,12 +1026,19 @@ input[type="radio"]:checked + .radio-label {
 /* ================================
    Floating Price Banner
 ================================ */
+.vpc-price-help {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
 .vpc-price-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  padding: 12px 24px;
+  padding: 16px 24px;
   background: #fff;
   border-radius: 12px;
   position: absolute;
@@ -1043,10 +1047,6 @@ input[type="radio"]:checked + .radio-label {
   right: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 100;
-}
-
-.vpc-price-help {
-  flex-shrink: 0;
 }
 
 .vpc-help-button {
@@ -1114,13 +1114,32 @@ input[type="radio"]:checked + .radio-label {
   color: #333;
 }
 
-.vpc-price-right {
+.vpc-price-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
-.vpc-price-right .c-button,
+.vpc-prev-step-btn {
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  background: transparent;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.vpc-prev-step-btn:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
 .vpc-next-step-btn {
-  padding: 14px 32px;
+  padding: 14px 40px;
   font-size: 16px;
   font-weight: 600;
   background: #ff5000;

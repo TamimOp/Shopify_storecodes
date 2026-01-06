@@ -75,43 +75,37 @@
                   </div>
                 </div>
                 <div class="vpc-addon-options">
-                  <div class="vpc-group">
-                    <div id="vpc-form-builder-wrap">
-                      <input type="hidden" id="extension-size-hidden" value="9" name="extension-size" required>
-                      <form class="formbuilt" id="size-calculator-form" novalidate>
-                        <div>
-                          <label for="extension-depth">Diepte (cm)</label>
-                          <input type="number" 
-                                 name="extension-depth" 
-                                 id="extension-depth"
-                                 min="{{ section.settings.min_depth }}" 
-                                 max="{{ section.settings.max_depth }}" 
-                                 value="{{ section.settings.default_depth }}"
-                                 inputmode="numeric" 
-                                 pattern="[0-9]*" 
-                                 class="validate vpc-required-field" 
-                                 maxlength="4" 
-                                 required>
-                        </div>
-                        <div>
-                          <label for="extension-length">Breedte (cm)</label>
-                          <input type="number" 
-                                 name="extension-length" 
-                                 id="extension-length"
-                                 min="{{ section.settings.min_width }}" 
-                                 max="{{ section.settings.max_width }}" 
-                                 value="{{ section.settings.default_width }}"
-                                 inputmode="numeric" 
-                                 pattern="[0-9]*" 
-                                 class="validate vpc-required-field" 
-                                 maxlength="4" 
-                                 required>
-                        </div>
-                        <div class="extension-size">
-                          <span class="extension-size__result">9</span> m<sup>2</sup>
-                        </div>
-                      </form>
-                    </div>
+                  <input type="hidden" id="extension-size-hidden" value="9" name="extension-size" required>
+                  <div class="input-group">
+                    <input type="number" 
+                           name="extension-depth" 
+                           id="extension-depth"
+                           min="{{ section.settings.min_depth }}" 
+                           max="{{ section.settings.max_depth }}" 
+                           value="{{ section.settings.default_depth }}"
+                           inputmode="numeric" 
+                           pattern="[0-9]*" 
+                           class="validate vpc-required-field" 
+                           maxlength="4" 
+                           required>
+                    <label for="extension-depth">Diepte (cm)</label>
+                  </div>
+                  <div class="input-group">
+                    <input type="number" 
+                           name="extension-length" 
+                           id="extension-length"
+                           min="{{ section.settings.min_width }}" 
+                           max="{{ section.settings.max_width }}" 
+                           value="{{ section.settings.default_width }}"
+                           inputmode="numeric" 
+                           pattern="[0-9]*" 
+                           class="validate vpc-required-field" 
+                           maxlength="4" 
+                           required>
+                    <label for="extension-length">Breedte (cm)</label>
+                  </div>
+                  <div class="extension-size">
+                    <span class="extension-size__result">9</span> m<sup>2</sup>
                   </div>
                 </div>
                 <p class="vpc-error-message">

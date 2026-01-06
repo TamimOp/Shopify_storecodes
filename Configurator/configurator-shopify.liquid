@@ -3625,13 +3625,22 @@
             
             {% comment %} Floating Price Banner {% endcomment %}
             <div id="vpc-price-container" class="vpc-price-container">
-              <div class="vpc-price-left">
+              <div class="vpc-price-help">
+                <button type="button" class="vpc-help-button">
+                  <span class="vpc-help-icon">?</span>
+                  <span class="vpc-help-text">Hulp bij de configurator?</span>
+                </button>
+              </div>
+              <div class="vpc-price-center">
                 <span class="vpc-price-label">Totaal aanbouw (incl. btw)</span>
                 <span id="vpc-price" class="vpc-price-value">€39.950</span>
               </div>
+              <div class="vpc-price-link">
+                <a href="#" class="vpc-value-link">Waardevermeerdering weten? <span class="vpc-value-link-underline">Check</span></a>
+              </div>
               <div class="vpc-price-right">
-                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-request-quote" onclick="VPCConfigurator.goToStep(3)">
-                  Offerte aanvragen
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn" onclick="VPCConfigurator.goToStep(2)">
+                  Volgende stap
                 </button>
               </div>
               <input type="hidden" id="vpc-total-price-result" value="€39.950" name="Total price" required>

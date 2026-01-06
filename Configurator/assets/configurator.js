@@ -134,14 +134,18 @@
       elements.lengthInput.addEventListener("blur", validateSize);
     }
 
-    // Help popup
+    // Help popup - support both old button and new floating banner button
     const helpButton = document.querySelector(".vpc-save-popup__button");
+    const floatingHelpButton = document.querySelector(".vpc-help-button");
     const closeButton = document.querySelector(".vpc-save-popup__close-button");
     const overlay = document.querySelector(".vpc-save-popup__overlay");
     const startButton = document.querySelector(".vpc-save-popup__start-button");
 
     if (helpButton) {
       helpButton.addEventListener("click", () => toggleHelpPopup(true));
+    }
+    if (floatingHelpButton) {
+      floatingHelpButton.addEventListener("click", () => toggleHelpPopup(true));
     }
     if (closeButton) {
       closeButton.addEventListener("click", () => toggleHelpPopup(false));

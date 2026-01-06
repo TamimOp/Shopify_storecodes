@@ -265,8 +265,8 @@
 }
 
 .vpc-addon-header .vpc-component-name {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
   margin-bottom: 12px;
   display: block;
   color: #fff;
@@ -286,19 +286,23 @@
   display: block;
   margin-bottom: 4px;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   color: #fff;
+  opacity: 0.7;
 }
 
 .vpc-addon-options input[type="number"] {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #fff;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  background: #fff;
+  background-color: #fff;
+  border: none;
+  font-size: 24px !important;
+  color: #1a1c22;
+  text-align: left;
+  line-height: 32px !important;
+  margin-bottom: 4px !important;
+  font-weight: 500 !important;
+  height: 48px !important;
+  border-radius: 8px;
+  padding: 0 16px;
 }
 
 .vpc-addon-options input[type="number"]:focus {
@@ -318,6 +322,7 @@
   align-items: center;
   justify-content: center;
   min-width: 80px;
+  margin-left: 15px;
 }
 
 .extension-size__result {
@@ -333,12 +338,11 @@
 .vpc-addon-options .input-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   flex: 0 0 auto;
 }
 
 .vpc-addon-options .input-group input {
-  width: 70px;
   order: 1;
 }
 
@@ -1026,7 +1030,7 @@ input[type="radio"]:checked + .radio-label {
   position: absolute;
   bottom: 110px;
   left: 20px;
-  z-index: 100;
+  z-index: 110;
 }
 
 .vpc-price-container {
@@ -1087,14 +1091,15 @@ input[type="radio"]:checked + .radio-label {
 }
 
 .vpc-price-label {
-  font-size: 11px;
-  color: #666;
+  font-size: 12px;
+  color: #94949d;
   font-weight: 400;
+  line-height: 1.5em;
 }
 
 .vpc-price-value,
 #vpc-price {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: #000;
   line-height: 1.2;
@@ -1105,9 +1110,10 @@ input[type="radio"]:checked + .radio-label {
 }
 
 .vpc-value-link {
-  font-size: 14px;
-  color: #333;
+  font-size: 15px;
+  color: #18a779;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .vpc-value-link-underline {

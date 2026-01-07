@@ -790,6 +790,12 @@
     if (hiddenPriceEl) {
       hiddenPriceEl.value = formatPrice(state.totalPrice);
     }
+
+    // Update sidebar price display
+    const sidebarPriceEl = document.querySelector(".vpc-sidebar-price");
+    if (sidebarPriceEl) {
+      sidebarPriceEl.textContent = formatPrice(state.totalPrice);
+    }
   }
 
   function formatPrice(amount) {
@@ -875,6 +881,10 @@
       ".s-configurator-container__interior-images"
     );
 
+    // Get radio buttons
+    const exteriorRadio = document.getElementById("vpc-exterior-button");
+    const interiorRadio = document.getElementById("vpc-interior-button");
+
     if (view === "interior") {
       section?.classList.add("s-configurator-container--interior");
 
@@ -895,6 +905,10 @@
           el.style.display = "";
         }
       });
+
+      // Update radio button state
+      if (exteriorRadio) exteriorRadio.checked = false;
+      if (interiorRadio) interiorRadio.checked = true;
 
       // Update switcher labels
       document
@@ -932,6 +946,10 @@
         }
       });
 
+      // Update radio button state
+      if (exteriorRadio) exteriorRadio.checked = true;
+      if (interiorRadio) interiorRadio.checked = false;
+
       // Update switcher labels
       document
         .querySelector(".vpc-switcher__label--interior")
@@ -948,6 +966,9 @@
         .querySelector(".vpc-preview__switcher-btn--exterior")
         ?.classList.add("active");
     }
+
+    // Update floating banner buttons after view switch
+    updateFloatingBannerButtons();
   }
 
   // ================================
@@ -1071,27 +1092,111 @@
 
     // Update floating banner buttons
     updateFloatingBannerButtons();
+
+    // Populate summary tables when going to step 2
+    if (stepNumber === 2) {
+      populateSummaryTables();
+    }
+  }
+
+  function populateSummaryTables() {
+    const exteriorTable = document.querySelector(
+      ".vpc-table--exterior-summary tbody"
+    );
+    const interiorTable = document.querySelector(
+      ".vpc-table--interior-summary tbody"
+    );
+
+    if (!exteriorTable || !interiorTable) return;
+
+    // Clear existing rows
+    exteriorTable.innerHTML = "";
+    interiorTable.innerHTML = "";
+
+    // Get all selected options from components within #vpc-components
+    const componentsContainer = document.querySelector("#vpc-components");
+    if (!componentsContainer) return;
+
+    componentsContainer
+      .querySelectorAll(".vpc-component")
+      .forEach((component) => {
+        const componentName =
+          component.querySelector(".vpc-component-name")?.textContent?.trim() ||
+          "";
+        const selectedOptionEl = component.querySelector(
+          ".vpc-selected-option"
+        );
+        const selectedOption = selectedOptionEl?.textContent?.trim() || "";
+        const isExterior = component.classList.contains("exterior-element");
+        const isInterior = component.classList.contains("interior-element");
+
+        // Only skip components that have the 'hidden' class (conditionally hidden components)
+        // Don't check inline display style - exterior/interior toggle sets that for view switching
+        const isConditionallyHidden = component.classList.contains("hidden");
+
+        // Skip hidden components, size calculator, and empty selections
+        if (
+          isConditionallyHidden ||
+          component.classList.contains("vpc-size-calculator") ||
+          !componentName ||
+          !selectedOption
+        )
+          return;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <th class="vpc-table__heading">${componentName}</th>
+          <td class="vpc-table__value">${selectedOption}</td>
+        `;
+
+        if (isExterior) {
+          exteriorTable.appendChild(row);
+        } else if (isInterior) {
+          interiorTable.appendChild(row);
+        }
+      });
   }
 
   function goToNextStep() {
+    // If on step 1 and exterior view, switch to interior first
+    if (state.currentStep === 1 && state.currentView === "exterior") {
+      switchView("interior");
+      updateFloatingBannerButtons();
+      return;
+    }
+
     if (state.currentStep < 3) {
       goToStep(state.currentStep + 1);
     }
   }
 
   function goToPreviousStep() {
+    // If on step 1 and interior view, switch back to exterior
+    if (state.currentStep === 1 && state.currentView === "interior") {
+      switchView("exterior");
+      updateFloatingBannerButtons();
+      return;
+    }
+
     if (state.currentStep > 1) {
       goToStep(state.currentStep - 1);
     }
   }
 
   function updateFloatingBannerButtons() {
-    const prevBtn = document.querySelector(".vpc-prev-step-btn");
-    const nextBtn = document.querySelector(".vpc-next-step-btn");
+    // Update preview floating banner buttons
+    const prevBtn = document.querySelector(
+      ".vpc-price-container .vpc-prev-step-btn"
+    );
+    const nextBtn = document.querySelector(
+      ".vpc-price-container .vpc-next-step-btn"
+    );
 
     if (prevBtn) {
-      // Show back button on step 2 and 3
-      prevBtn.style.display = state.currentStep > 1 ? "inline-block" : "none";
+      // Show back button when on interior view or step 2+
+      const showBack =
+        state.currentView === "interior" || state.currentStep > 1;
+      prevBtn.style.display = showBack ? "inline-block" : "none";
     }
 
     if (nextBtn) {
@@ -1103,6 +1208,25 @@
       } else {
         nextBtn.textContent = "Volgende stap";
         nextBtn.style.display = "inline-block";
+      }
+    }
+
+    // Update sidebar floating banner buttons
+    const sidebarPrevBtn = document.querySelector(".vpc-sidebar-prev-btn");
+    const sidebarNextBtn = document.querySelector(".vpc-sidebar-next-btn");
+
+    if (sidebarPrevBtn) {
+      sidebarPrevBtn.style.display = "inline-block";
+    }
+
+    if (sidebarNextBtn) {
+      if (state.currentStep === 2) {
+        sidebarNextBtn.textContent = "Offerte aanvragen";
+      } else if (state.currentStep === 3) {
+        sidebarNextBtn.style.display = "none";
+      } else {
+        sidebarNextBtn.textContent = "Volgende stap";
+        sidebarNextBtn.style.display = "inline-block";
       }
     }
   }

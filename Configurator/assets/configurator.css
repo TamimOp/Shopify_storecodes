@@ -241,7 +241,7 @@
   min-width: 434px;
   flex-shrink: 0;
   background: #fff;
-  padding: 125px 35px 35px 35px;
+  padding: 125px 35px 20px 35px;
   border-radius: 0;
   box-shadow: none;
 }
@@ -595,39 +595,136 @@
   display: block;
 }
 
+/* Step 2/3 sidebar layout with fixed banner at bottom */
+.step-2-visible .vpc-sidebar,
+.step-3-visible .vpc-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-2-visible .vpc-sidebar__inner,
+.step-3-visible .vpc-sidebar__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Hide sidebar top (size calculator + switcher) in step 2/3 */
+.step-2-visible .vpc-sidebar__top,
+.step-3-visible .vpc-sidebar__top {
+  display: none;
+}
+
+.step-2-visible #vpc-step-2,
+.step-3-visible #vpc-step-3 {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+/* Hide preview floating banner in step 2 and 3 */
+.step-2-visible .vpc-price-container,
+.step-3-visible .vpc-price-container {
+  display: none;
+}
+
+/* Hide help button in step 2 and 3 */
+.step-2-visible .vpc-price-help,
+.step-3-visible .vpc-price-help {
+  display: none;
+}
+
+/* Show sidebar price container in step 2 and 3 - FIXED at bottom */
+.vpc-sidebar-price-container {
+  display: none;
+  padding: 20px 35px;
+  margin: 0 -35px -20px -35px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  border-top: 1px solid #e6e6e6;
+  flex-shrink: 0;
+}
+
+.step-2-visible .vpc-sidebar-price-container,
+.step-3-visible .vpc-sidebar-price-container {
+  display: flex;
+}
+
+.vpc-sidebar-price-container .vpc-price-buttons {
+  width: 100%;
+  margin-left: 0;
+  gap: 12px;
+}
+
+.vpc-sidebar-price-container .vpc-prev-step-btn {
+  border: 1px solid #ff5000;
+  color: #ff5000;
+  border-radius: 8px;
+  padding: 14px 24px;
+  background: #fff;
+}
+
+.vpc-sidebar-price-container .vpc-prev-step-btn:hover {
+  background: #fff5f0;
+  text-decoration: none;
+}
+
+.vpc-sidebar-price-container .vpc-next-step-btn {
+  flex: 1;
+}
+
+/* Show preview switcher at floating banner position in step 2 */
+.step-2-visible .vpc-preview__switcher {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
 /* ================================
    Step 2 - Summary
 ================================ */
 #vpc-step-2 {
-  padding: 20px;
+  padding: 0;
 }
 
 .vpc-step-2__heading {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #000;
 }
 
 .vpc-step-2__section {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  margin-bottom: 20px;
 }
 
 .vpc-step-2__section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 10px;
 }
 
 .vpc-step-2__section-heading {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 700;
   margin: 0;
+  color: #000;
 }
 
 .vpc-step-2__section-price {
   font-weight: 600;
-  color: var(--vpc-primary-color);
+  color: #000;
 }
 
 .vpc-table {
@@ -636,7 +733,7 @@
 }
 
 .vpc-table tr {
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: none;
 }
 
 .vpc-table tr:last-child {
@@ -645,18 +742,53 @@
 
 .vpc-table th,
 .vpc-table td {
-  padding: 10px 0;
+  padding: 4px 0;
   text-align: left;
+  font-size: 14px;
 }
 
 .vpc-table__heading {
-  font-weight: 500;
-  color: #666;
+  font-weight: 400;
+  color: #94949d;
 }
 
 .vpc-table__value {
   text-align: right;
   font-weight: 600;
+  color: #000;
+}
+
+/* Step 2 Form Styling */
+.vpc-step-2__form {
+  margin-top: 20px;
+}
+
+.vpc-step-2__form-group {
+  margin-bottom: 25px;
+}
+
+.vpc-step-2__form-group h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 5px 0;
+}
+
+.vpc-step-2__form-description {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.vpc-step-2__radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vpc-step-2__radio-options input[type="radio"] {
+  display: none;
 }
 
 /* Radio button labels in step 2 */
@@ -664,23 +796,65 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 8px;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 0;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
+.radio-label::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.radio-label__text {
+  flex: 1;
+  font-size: 15px;
+  color: #333;
+}
+
+input[type="radio"]:checked + .radio-label::before {
+  border-color: #ff5000;
+  background: #ff5000;
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
 input[type="radio"]:checked + .radio-label {
-  border-color: var(--vpc-primary-color);
-  background: rgba(222, 70, 0, 0.05);
+  background: transparent;
 }
 
 .radio-label__price {
-  font-weight: 600;
-  color: var(--vpc-primary-color);
+  font-weight: 500;
+  color: #333;
+  font-size: 15px;
+}
+
+.radio-label__price:empty {
+  display: none;
+}
+
+/* Postcode input styling */
+.vpc-step-2__form-group input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.vpc-step-2__form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #ff5000;
 }
 
 /* ================================
@@ -1133,16 +1307,17 @@ input[type="radio"]:checked + .radio-label {
   padding: 14px 24px;
   font-size: 16px;
   font-weight: 500;
-  background: transparent;
-  color: #333;
-  border: none;
+  background: #fff;
+  color: #ff5000;
+  border: 1px solid #ff5000;
+  border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .vpc-prev-step-btn:hover {
-  color: #000;
-  text-decoration: underline;
+  background: #fff5f0;
+  text-decoration: none;
 }
 
 .vpc-next-step-btn {
@@ -1167,31 +1342,39 @@ input[type="radio"]:checked + .radio-label {
 .vpc-preview__switcher {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
   margin-top: 16px;
 }
 
 .vpc-preview__switcher-btn {
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 500;
-  border: 2px solid #e0e0e0;
-  background: #ffffff;
-  color: #666666;
-  border-radius: 25px;
+  background-color: #f2f2f2;
+  border: 2px solid #f2f2f2;
+  color: #9b9ba4;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+  padding: 6px 30px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.vpc-preview__switcher-btn--exterior {
+  border-radius: 12px 0 0 12px;
+}
+
+.vpc-preview__switcher-btn--interior {
+  border-radius: 0 12px 12px 0;
 }
 
 .vpc-preview__switcher-btn:hover {
-  border-color: var(--vpc-primary-color);
-  color: var(--vpc-primary-color);
+  color: #ff5000;
 }
 
 .vpc-preview__switcher-btn.active {
-  border-color: var(--vpc-primary-color);
-  background-color: var(--vpc-primary-color);
-  color: #ffffff;
+  background-color: #fff;
+  border: 2px solid #ff5000;
+  color: #ff5000;
 }
 
 /* Interior images hidden by default */
@@ -1234,7 +1417,7 @@ input[type="radio"]:checked + .radio-label {
   }
 
   .vpc-preview__switcher-btn {
-    padding: 8px 16px;
-    font-size: 12px;
+    padding: 6px 20px;
+    font-size: 14px;
   }
 }

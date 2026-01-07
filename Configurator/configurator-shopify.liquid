@@ -3387,20 +3387,20 @@
               {% comment %} Dimensions Summary {% endcomment %}
               <div class="vpc-step-2__section vpc-step-2__section--dimensions">
                 <div class="vpc-step-2__section-header">
-                  <h3 class="vpc-step-2__section-heading">Afmetingen</h3>
+                  <h3 class="vpc-step-2__section-heading">Grootte van uw uitbouw</h3>
                 </div>
                 <table class="vpc-table">
                   <tr>
                     <th class="vpc-table__heading">Diepte</th>
-                    <td class="vpc-table__value vpc-table__extension-depth-value">200</td>
+                    <td class="vpc-table__value"><span class="vpc-table__extension-depth-value">200</span> cm</td>
                   </tr>
                   <tr>
                     <th class="vpc-table__heading">Breedte</th>
-                    <td class="vpc-table__value vpc-table__extension-length-value">450</td>
+                    <td class="vpc-table__value"><span class="vpc-table__extension-length-value">450</span> cm</td>
                   </tr>
                   <tr>
                     <th class="vpc-table__heading">Extra woonruimte</th>
-                    <td class="vpc-table__value vpc-table__extension-size-value">9</td>
+                    <td class="vpc-table__value"><span class="vpc-table__extension-size-value">9</span> m²</td>
                   </tr>
                 </table>
               </div>
@@ -3410,9 +3410,14 @@
                 <div class="vpc-step-2__section-header">
                   <h3 class="vpc-step-2__section-heading">Buitenzijde</h3>
                   <span class="vpc-step-2__section-price">
-                    vanaf <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--exterior">€0</span>
+                    <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--exterior">€0</span>
                   </span>
                 </div>
+                <table class="vpc-table vpc-table--exterior-summary">
+                  <tbody>
+                    {% comment %} These will be populated by JavaScript {% endcomment %}
+                  </tbody>
+                </table>
               </div>
 
               {% comment %} Interior Summary {% endcomment %}
@@ -3420,57 +3425,61 @@
                 <div class="vpc-step-2__section-header">
                   <h3 class="vpc-step-2__section-heading">Binnenzijde</h3>
                   <span class="vpc-step-2__section-price">
-                    vanaf <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--interior">€0</span>
+                    <span class="vpc-step-2__section-price-value vpc-step-2__section-price-value--interior">€0</span>
                   </span>
                 </div>
+                <table class="vpc-table vpc-table--interior-summary">
+                  <tbody>
+                    {% comment %} These will be populated by JavaScript {% endcomment %}
+                  </tbody>
+                </table>
               </div>
 
               {% comment %} Additional Options Form {% endcomment %}
               <form id="step-2-form" class="vpc-step-2__form">
                 {% comment %} Achterom (Rear Access) {% endcomment %}
                 <div class="vpc-step-2__form-group">
-                  <h4>Achterom beschikbaar?</h4>
-                  <p class="vpc-step-2__form-description">Is de achterzijde van uw woning bereikbaar met een kleine vrachtwagen?</p>
+                  <h4>Heeft u een achterom?</h4>
+                  <p class="vpc-step-2__form-description">Als u geen achterom heeft, moeten we een extra kraan inhuren om de heimachine en graafmachine op zijn plek te krijgen</p>
                   <div class="vpc-step-2__radio-options">
-                    <input type="radio" id="achterom-ja" name="achterom" value="ja" data-price="0">
-                    <label for="achterom-ja" class="radio-label">
-                      <span class="radio-label__text">Ja</span>
-                      <span class="radio-label__price">€0</span>
+                    <input type="radio" id="achterom-geen" name="achterom" value="geen" data-price="2250">
+                    <label for="achterom-geen" class="radio-label">
+                      <span class="radio-label__text">Geen achterom</span>
+                      <span class="radio-label__price">€2.250</span>
                     </label>
-                    <input type="radio" id="achterom-nee" name="achterom" value="nee" data-price="500">
-                    <label for="achterom-nee" class="radio-label">
-                      <span class="radio-label__text">Nee</span>
-                      <span class="radio-label__price">€500</span>
+                    <input type="radio" id="achterom-wel" name="achterom" value="wel" data-price="0" checked>
+                    <label for="achterom-wel" class="radio-label">
+                      <span class="radio-label__text">Wel een achterom</span>
+                      <span class="radio-label__price"></span>
                     </label>
                   </div>
                 </div>
 
-                {% comment %} Doorbraak (Breakthrough) {% endcomment %}
+                {% comment %} Achtergevel doorbreken (Wall Breakthrough) {% endcomment %}
                 <div class="vpc-step-2__form-group">
-                  <h4>Doorbraak?</h4>
-                  <p class="vpc-step-2__form-description">Wilt u een doorbraak naar de bestaande woning?</p>
+                  <h4>Achtergevel doorbreken?</h4>
                   <div class="vpc-step-2__radio-options">
-                    <input type="radio" id="doorbraak-ja" name="doorbraak" value="ja" data-price="1500">
-                    <label for="doorbraak-ja" class="radio-label">
-                      <span class="radio-label__text">Ja</span>
-                      <span class="radio-label__price">€1.500</span>
+                    <input type="radio" id="doorbraak-geen" name="doorbraak" value="geen" data-price="0" checked>
+                    <label for="doorbraak-geen" class="radio-label">
+                      <span class="radio-label__text">Geen doorbraak</span>
+                      <span class="radio-label__price"></span>
                     </label>
-                    <input type="radio" id="doorbraak-nee" name="doorbraak" value="nee" data-price="0">
-                    <label for="doorbraak-nee" class="radio-label">
-                      <span class="radio-label__text">Nee</span>
-                      <span class="radio-label__price">€0</span>
+                    <input type="radio" id="doorbraak-wel" name="doorbraak" value="wel" data-price="3500">
+                    <label for="doorbraak-wel" class="radio-label">
+                      <span class="radio-label__text">Wel een doorbraak</span>
+                      <span class="radio-label__price">€3.500</span>
                     </label>
                   </div>
                 </div>
 
                 {% comment %} Postcode {% endcomment %}
                 <div class="vpc-step-2__form-group">
-                  <h4>Uw postcode</h4>
-                  <p class="vpc-step-2__form-description">Voor het berekenen van de transportkosten</p>
+                  <h4>Wat is uw postcode?</h4>
+                  <p class="vpc-step-2__form-description">Kilometervergoeding transport</p>
                   <input type="text" 
                          name="postcode" 
                          id="postcode" 
-                         placeholder="1234 AB" 
+                         placeholder="1234AB" 
                          pattern="[1-9][0-9]{3}\s?[A-Za-z]{2}"
                          required>
                   <p class="zipcode-error">Voer een geldige Nederlandse postcode in</p>
@@ -3554,6 +3563,25 @@
               <div class="vpc-step-navigation">
                 <button type="button" class="c-button c-button--box c-button--outline vpc-prev-step" onclick="VPCConfigurator.goToStep(2)">
                   Vorige stap
+                </button>
+              </div>
+            </div>
+
+            {% comment %} Sidebar Floating Price Banner (for step 2/3) {% endcomment %}
+            <div id="vpc-sidebar-price-container" class="vpc-sidebar-price-container">
+              <div class="vpc-price-center">
+                <span class="vpc-price-label">Totaal aanbouw (incl. btw)</span>
+                <span class="vpc-sidebar-price vpc-price-value">€39.950</span>
+              </div>
+              <div class="vpc-price-link">
+                <a href="#" class="vpc-value-link">Waardevermeerdering weten? <span class="vpc-value-link-underline">Check</span></a>
+              </div>
+              <div class="vpc-price-buttons">
+                <button type="button" class="vpc-prev-step-btn vpc-sidebar-prev-btn" onclick="VPCConfigurator.goToPreviousStep()">
+                  Terug
+                </button>
+                <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn vpc-sidebar-next-btn" onclick="VPCConfigurator.goToNextStep()">
+                  Volgende stap
                 </button>
               </div>
             </div>

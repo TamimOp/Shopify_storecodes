@@ -27,23 +27,39 @@
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <section class="s-content">
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-lg-11">
-                <header class="c-header s-content-columns__header">
-                  <h2 class="c-heading c-heading--h3 c-header__heading s-content-columns__header-heading">
-                    {{ section.settings.help_popup_heading }}
-                  </h2>
-                </header>
-                {{ section.settings.help_popup_content }}
-                <button class="c-button c-button--box c-button--box-colorone c-button--box-min-width vpc-save-popup__start-button">
-                  Doorgaan met ontwerpen
-                </button>
+        <div class="vpc-help-popup__content">
+          <h2 class="vpc-help-popup__title">In 3 stappen je aanbouw ontwerpen</h2>
+          
+          <div class="vpc-help-popup__steps">
+            <div class="vpc-help-popup__step">
+              <div class="vpc-help-popup__step-icon">
+                <img src="https://cdn.shopify.com/s/files/1/0970/8562/0607/files/maatwerk.svg?v=1767429028" alt="Determine dimensions" width="60" height="60">
               </div>
+              <h3 class="vpc-help-popup__step-title">Bepaal de afmetingen</h3>
+              <p class="vpc-help-popup__step-description">Kleiner of groter, voer de gewenste afmetingen in voor jouw aanbouw. Let wel op dat je dit in centimeters doet.</p>
+            </div>
+
+            <div class="vpc-help-popup__step">
+              <div class="vpc-help-popup__step-icon">
+                <img src="https://cdn.shopify.com/s/files/1/0970/8562/0607/files/configurator.svg?v=1767429015" alt="Choose options" width="60" height="60">
+              </div>
+              <h3 class="vpc-help-popup__step-title">Kies je opties</h3>
+              <p class="vpc-help-popup__step-description">Voor zowel de binnen- als de buitenzijde. Van gevel tot kozijn, van wanden tot lichtwerk. Stap voor stap geef je jouw voorkeuren op.</p>
+            </div>
+
+            <div class="vpc-help-popup__step">
+              <div class="vpc-help-popup__step-icon">
+                <img src="https://cdn.shopify.com/s/files/1/0970/8562/0607/files/Ontvang-de-offerte.svg?v=1767779429" alt="Receive quote" width="60" height="60">
+              </div>
+              <h3 class="vpc-help-popup__step-title">Ontvang je offerte</h3>
+              <p class="vpc-help-popup__step-description">Alles ingevuld? Al je wensen opgegeven? Dan ontvang je jouw offerte. Indien gewenst maken we een afspraak en nemen we alles samen door.</p>
             </div>
           </div>
-        </section>
+
+          <button class="vpc-help-popup__start-button vpc-save-popup__start-button">
+            Start met ontwerpen
+          </button>
+        </div>
       </div>
     </div>
     {% endif %}

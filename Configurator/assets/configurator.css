@@ -931,33 +931,54 @@ input[type="radio"]:checked + .radio-label {
 }
 
 /* Showroom checkbox styling */
-.vpc-showroom-group {
+.vpc-showroom-section {
   margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid #eee;
+}
+
+.vpc-showroom-section h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.vpc-showroom-section p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.vpc-showroom-group {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 .vpc-showroom-checkbox {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin-top: 12px;
+  cursor: pointer;
 }
 
 .vpc-showroom-checkbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  margin-top: 2px;
+  min-width: 18px;
+  margin-top: 3px;
   flex-shrink: 0;
-  accent-color: #ff5000;
+  accent-color: var(--vpc-primary-color);
+  cursor: pointer;
 }
 
-.vpc-showroom-checkbox label {
-  display: inline !important;
+.vpc-showroom-checkbox span {
   font-size: 14px;
   color: #333;
   font-weight: 400;
-  cursor: pointer;
+  line-height: 1.5;
 }
 
 #rqa_form input[type="submit"] {

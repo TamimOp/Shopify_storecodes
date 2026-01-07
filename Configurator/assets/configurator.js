@@ -62,15 +62,56 @@
   let elements = {};
 
   // ================================
+  // Image Preload Cache
+  // ================================
+  const imageCache = new Map();
+
+  // ================================
   // Initialization
   // ================================
   function init() {
     cacheElements();
+    preloadAllImages();
     bindEvents();
     initializeSizeCalculator();
     initializeDefaultSelections();
     updatePreview();
     console.log("Configurator initialized");
+  }
+
+  // ================================
+  // Image Preloading
+  // ================================
+  function preloadAllImages() {
+    // Collect all unique image URLs from options
+    const imageUrls = new Set();
+    document
+      .querySelectorAll(CONFIG.selectors.optionInputs)
+      .forEach((input) => {
+        const imgUrl = input.dataset.img;
+        if (imgUrl && imgUrl.trim()) {
+          imageUrls.add(imgUrl);
+        }
+      });
+
+    // Preload each image
+    imageUrls.forEach((url) => {
+      if (!imageCache.has(url)) {
+        const img = new Image();
+        img.src = url;
+        imageCache.set(url, img);
+      }
+    });
+  }
+
+  function getCachedImage(url) {
+    if (imageCache.has(url)) {
+      return imageCache.get(url).cloneNode();
+    }
+    const img = new Image();
+    img.src = url;
+    imageCache.set(url, img);
+    return img.cloneNode();
   }
 
   function cacheElements() {
@@ -345,6 +386,9 @@
         el.remove();
       });
 
+    // Use documentFragment for batched DOM updates
+    const fragment = document.createDocumentFragment();
+
     // Add images for all checked options (except "geen" options)
     const checkedInputs = component.querySelectorAll(
       `input[name="${inputName}"]:checked`
@@ -366,16 +410,20 @@
         imgContainer.dataset.component = componentId;
         imgContainer.style.zIndex = parseInt(index) + 10 || 10;
 
-        const img = document.createElement("img");
-        img.src = imgUrl;
+        // Use cached image for instant rendering
+        const img = getCachedImage(imgUrl);
         img.alt = optionId;
-        img.loading = "lazy";
         img.className = `c-image__img ${optionId}`;
 
         imgContainer.appendChild(img);
-        container.appendChild(imgContainer);
+        fragment.appendChild(imgContainer);
       }
     });
+
+    // Batch DOM update
+    if (fragment.childNodes.length > 0) {
+      container.appendChild(fragment);
+    }
   }
 
   // Keep old functions for backwards compatibility (can be removed later)
@@ -838,21 +886,22 @@
     // If imgUrl is empty, just remove the overlay (no new image needed)
     if (!imgUrl || !imgUrl.trim()) return;
 
-    // Create new image container with proper z-index
-    const imgContainer = document.createElement("div");
-    imgContainer.className = `c-image ${optionClass} ${optionId}`;
-    imgContainer.dataset.component = componentId;
-    imgContainer.style.zIndex = parseInt(zIndex) + 10 || 10;
+    // Use requestAnimationFrame for smooth rendering
+    requestAnimationFrame(() => {
+      // Create new image container with proper z-index
+      const imgContainer = document.createElement("div");
+      imgContainer.className = `c-image ${optionClass} ${optionId}`;
+      imgContainer.dataset.component = componentId;
+      imgContainer.style.zIndex = parseInt(zIndex) + 10 || 10;
 
-    // Create img element
-    const img = document.createElement("img");
-    img.src = imgUrl;
-    img.alt = optionId;
-    img.loading = "lazy";
-    img.className = `c-image__img ${optionId}`;
+      // Use cached image for instant rendering
+      const img = getCachedImage(imgUrl);
+      img.alt = optionId;
+      img.className = `c-image__img ${optionId}`;
 
-    imgContainer.appendChild(img);
-    container.appendChild(imgContainer);
+      imgContainer.appendChild(img);
+      container.appendChild(imgContainer);
+    });
   }
 
   function updatePreview() {

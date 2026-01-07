@@ -1165,6 +1165,22 @@
       return;
     }
 
+    // Validate postcode before going to step 3
+    if (state.currentStep === 2) {
+      const postcodeInput = document.getElementById("postcode");
+      const postcodeError = document.querySelector(".zipcode-error");
+
+      if (postcodeInput) {
+        const postcode = postcodeInput.value.trim();
+        if (!postcode || !validatePostcode(postcode)) {
+          postcodeInput.focus();
+          if (postcodeError) postcodeError.classList.add("visible");
+          return;
+        }
+        if (postcodeError) postcodeError.classList.remove("visible");
+      }
+    }
+
     if (state.currentStep < 3) {
       goToStep(state.currentStep + 1);
     }
@@ -1201,9 +1217,7 @@
 
     if (nextBtn) {
       // Update button text based on step
-      if (state.currentStep === 2) {
-        nextBtn.textContent = "Offerte aanvragen";
-      } else if (state.currentStep === 3) {
+      if (state.currentStep === 3) {
         nextBtn.style.display = "none";
       } else {
         nextBtn.textContent = "Volgende stap";
@@ -1214,20 +1228,26 @@
     // Update sidebar floating banner buttons
     const sidebarPrevBtn = document.querySelector(".vpc-sidebar-prev-btn");
     const sidebarNextBtn = document.querySelector(".vpc-sidebar-next-btn");
+    const sidebarSubmitBtn = document.querySelector(".vpc-sidebar-submit-btn");
 
     if (sidebarPrevBtn) {
       sidebarPrevBtn.style.display = "inline-block";
     }
 
     if (sidebarNextBtn) {
-      if (state.currentStep === 2) {
-        sidebarNextBtn.textContent = "Offerte aanvragen";
-      } else if (state.currentStep === 3) {
+      // Hide next button in step 3, show in step 2
+      if (state.currentStep === 3) {
         sidebarNextBtn.style.display = "none";
       } else {
         sidebarNextBtn.textContent = "Volgende stap";
         sidebarNextBtn.style.display = "inline-block";
       }
+    }
+
+    if (sidebarSubmitBtn) {
+      // Show submit button only in step 3
+      sidebarSubmitBtn.style.display =
+        state.currentStep === 3 ? "inline-block" : "none";
     }
   }
 
@@ -1256,8 +1276,9 @@
     const postcodeRegex = /^[1-9][0-9]{3}\s?[A-Za-z]{2}$/;
     const errorEl = document.querySelector(".zipcode-error");
     const calculatorEl = document.querySelector(".zipcode-calculator");
+    const isValid = postcodeRegex.test(postcode.trim());
 
-    if (postcodeRegex.test(postcode)) {
+    if (isValid) {
       if (errorEl) errorEl.classList.remove("visible");
       if (calculatorEl) calculatorEl.style.display = "block";
 
@@ -1268,6 +1289,8 @@
       if (errorEl) errorEl.classList.add("visible");
       if (calculatorEl) calculatorEl.style.display = "none";
     }
+
+    return isValid;
   }
 
   function calculateDistance(postcode) {
@@ -1295,38 +1318,162 @@
   // Quote Form Submission
   // ================================
   function handleQuoteSubmit(e) {
-    e.preventDefault();
+    // Populate hidden fields before submission
+    populateFormHiddenFields();
 
-    // Show loader
+    // Allow the form to submit naturally to Shopify contact form
+    // Don't prevent default - let Shopify handle the submission
     showLoader();
+  }
 
-    // Collect all form data
-    const formData = new FormData(elements.quoteForm);
+  function populateFormHiddenFields() {
+    // Dimensions
+    const dimensionsField = document.getElementById("form_dimensions");
+    if (dimensionsField) {
+      dimensionsField.value = `Breedte: ${state.dimensions.length}cm, Diepte: ${
+        state.dimensions.depth
+      }cm, Oppervlakte: ${(
+        (state.dimensions.length * state.dimensions.depth) /
+        10000
+      ).toFixed(2)}m²`;
+    }
 
-    // Add configuration data
-    formData.append("configuration", JSON.stringify(state.selectedOptions));
-    formData.append("dimensions", JSON.stringify(state.dimensions));
-    formData.append("totalPrice", state.totalPrice);
-    formData.append("exteriorPrice", state.exteriorPrice);
-    formData.append("interiorPrice", state.interiorPrice);
+    // Total price
+    const totalPriceField = document.getElementById("form_total_price");
+    if (totalPriceField) {
+      totalPriceField.value = formatPrice(state.totalPrice);
+    }
 
-    // Submit to Shopify or custom endpoint
-    // This is a placeholder - implement actual submission logic
-    fetch("/cart/add.js", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        hideLoader();
-        // Handle success - redirect or show confirmation
-        console.log("Quote submitted:", data);
-      })
-      .catch((error) => {
-        hideLoader();
-        console.error("Submission error:", error);
-        alert("Er is een fout opgetreden. Probeer het opnieuw.");
-      });
+    // Exterior selections
+    const exteriorSelectionsField = document.getElementById(
+      "form_exterior_selections"
+    );
+    if (exteriorSelectionsField) {
+      const exteriorItems = [];
+      document
+        .querySelectorAll(".vpc-component.exterior-element")
+        .forEach((component) => {
+          if (component.classList.contains("hidden")) return;
+          const nameEl = component.querySelector(".vpc-component-name");
+          const selectedEl = component.querySelector(".vpc-selected-option");
+          if (nameEl && selectedEl) {
+            const name = nameEl.textContent.trim();
+            const value = selectedEl.textContent.trim();
+            if (value) {
+              // Get price from selected option
+              const selectedInput = component.querySelector("input:checked");
+              const price = selectedInput
+                ? parseFloat(selectedInput.dataset.price) || 0
+                : 0;
+              exteriorItems.push(
+                `${name}: ${value}${
+                  price > 0 ? ` (+${formatPrice(price)})` : ""
+                }`
+              );
+            }
+          }
+        });
+      exteriorSelectionsField.value = exteriorItems.join(" | ");
+    }
+
+    // Interior selections
+    const interiorSelectionsField = document.getElementById(
+      "form_interior_selections"
+    );
+    if (interiorSelectionsField) {
+      const interiorItems = [];
+      document
+        .querySelectorAll(".vpc-component.interior-element")
+        .forEach((component) => {
+          if (component.classList.contains("hidden")) return;
+          const nameEl = component.querySelector(".vpc-component-name");
+          const selectedEl = component.querySelector(".vpc-selected-option");
+          if (nameEl && selectedEl) {
+            const name = nameEl.textContent.trim();
+            const value = selectedEl.textContent.trim();
+            if (value) {
+              // Get price from selected option
+              const selectedInput = component.querySelector("input:checked");
+              const price = selectedInput
+                ? parseFloat(selectedInput.dataset.price) || 0
+                : 0;
+              interiorItems.push(
+                `${name}: ${value}${
+                  price > 0 ? ` (+${formatPrice(price)})` : ""
+                }`
+              );
+            }
+          }
+        });
+      interiorSelectionsField.value = interiorItems.join(" | ");
+    }
+
+    // Additional options from step 2 form
+    const additionalOptionsField = document.getElementById(
+      "form_additional_options"
+    );
+    if (additionalOptionsField) {
+      const additionalItems = [];
+
+      // Achterom option
+      const achteromInput = document.querySelector(
+        'input[name="achterom"]:checked'
+      );
+      if (achteromInput) {
+        const label =
+          achteromInput.nextElementSibling?.querySelector(".radio-label__text")
+            ?.textContent || achteromInput.value;
+        additionalItems.push(`Achterom: ${label}`);
+      }
+
+      // Doorbraak option
+      const doorbraakInput = document.querySelector(
+        'input[name="doorbraak"]:checked'
+      );
+      if (doorbraakInput) {
+        const label =
+          doorbraakInput.nextElementSibling?.querySelector(".radio-label__text")
+            ?.textContent || doorbraakInput.value;
+        additionalItems.push(`Doorbraak: ${label}`);
+      }
+
+      // Postcode
+      const postcodeInput = document.querySelector('input[name="postcode"]');
+      if (postcodeInput && postcodeInput.value) {
+        additionalItems.push(`Postcode: ${postcodeInput.value}`);
+      }
+
+      additionalOptionsField.value = additionalItems.join(" | ");
+    }
+
+    // Full configuration JSON for backend processing
+    const fullConfigField = document.getElementById("form_full_configuration");
+    if (fullConfigField) {
+      const fullConfig = {
+        dimensions: state.dimensions,
+        totalPrice: state.totalPrice,
+        exteriorPrice: state.exteriorPrice,
+        interiorPrice: state.interiorPrice,
+        selectedOptions: state.selectedOptions,
+        timestamp: new Date().toISOString(),
+      };
+      fullConfigField.value = JSON.stringify(fullConfig);
+    }
+
+    // Populate UTM parameters from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclidField = document.getElementById("gclid");
+    const utmSourceField = document.getElementById("utm_source");
+    const utmMediumField = document.getElementById("utm_medium");
+    const utmCampaignField = document.getElementById("utm_campaign");
+
+    if (gclidField) gclidField.value = urlParams.get("gclid") || "";
+    if (utmSourceField)
+      utmSourceField.value = urlParams.get("utm_source") || "";
+    if (utmMediumField)
+      utmMediumField.value = urlParams.get("utm_medium") || "";
+    if (utmCampaignField)
+      utmCampaignField.value = urlParams.get("utm_campaign") || "";
   }
 
   // ================================

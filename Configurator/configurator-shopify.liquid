@@ -3504,58 +3504,61 @@
 
             {% comment %} Step 3 - Quote Form {% endcomment %}
             <div id="vpc-step-3" class="vpc-step-3 vpc-sidebar__step-3">
-              <h2>{{ section.settings.form_heading }}</h2>
-              {{ section.settings.form_description }}
+              <h2>Offerte aanvragen</h2>
+              <p>Volledige ontwerp per mail ontvangen? Laat hieronder je gegevens achter. Zijn er na ontvangst bepaalde wensen niet opgenomen? Laat het ons weten, dan plannen we een bezichtiging in.</p>
 
               <ul class="list--checkmarks">
-                <li class="list__item">Gratis en vrijblijvend</li>
-                <li class="list__item">Binnen 2 werkdagen reactie</li>
-                <li class="list__item">Persoonlijk advies op maat</li>
+                <li class="list__item">Ontvang je 3D-ontwerp per mail</li>
+                <li class="list__item">Zie alle opties op een rijtje</li>
+                <li class="list__item">Pas op locatie je wensen aan</li>
               </ul>
 
               <form id="rqa_form" method="POST" action="/contact#contact_form">
-                {% comment %} Hidden fields for tracking {% endcomment %}
-                <input type="hidden" name="form_type" value="configurator_quote">
-                <input type="hidden" name="configuration_data" id="configuration_data" value="">
-                <input type="hidden" name="gclid" id="gclid" value="">
-                <input type="hidden" name="utm_source" id="utm_source" value="">
-                <input type="hidden" name="utm_medium" id="utm_medium" value="">
-                <input type="hidden" name="utm_campaign" id="utm_campaign" value="">
+                {% comment %} Hidden fields for Shopify contact form {% endcomment %}
+                <input type="hidden" name="form_type" value="contact">
+                <input type="hidden" name="utf8" value="✓">
+                <input type="hidden" name="contact[subject]" value="Configurator Offerte Aanvraag">
+                
+                {% comment %} Configuration summary - populated by JavaScript {% endcomment %}
+                <input type="hidden" name="contact[dimensions]" id="form_dimensions" value="">
+                <input type="hidden" name="contact[total_price]" id="form_total_price" value="">
+                <input type="hidden" name="contact[exterior_selections]" id="form_exterior_selections" value="">
+                <input type="hidden" name="contact[interior_selections]" id="form_interior_selections" value="">
+                <input type="hidden" name="contact[additional_options]" id="form_additional_options" value="">
+                <input type="hidden" name="contact[full_configuration]" id="form_full_configuration" value="">
+                
+                {% comment %} UTM tracking {% endcomment %}
+                <input type="hidden" name="contact[gclid]" id="gclid" value="">
+                <input type="hidden" name="contact[utm_source]" id="utm_source" value="">
+                <input type="hidden" name="contact[utm_medium]" id="utm_medium" value="">
+                <input type="hidden" name="contact[utm_campaign]" id="utm_campaign" value="">
 
                 <div class="form-group">
-                  <label for="rqa_name">Naam *</label>
-                  <input type="text" id="rqa_name" name="contact[name]" required>
+                  <input type="text" id="rqa_name" name="contact[name]" placeholder="Naam *" required>
                 </div>
 
                 <div class="form-group">
-                  <label for="rqa_email">E-mailadres *</label>
-                  <input type="email" id="rqa_email" name="contact[email]" required>
+                  <input type="text" id="rqa_address" name="contact[address]" placeholder="Straat + Huisnummer *" required>
                 </div>
 
                 <div class="form-group">
-                  <label for="rqa_phone">Telefoonnummer</label>
-                  <input type="text" id="rqa_phone" name="contact[phone]">
+                  <input type="text" id="rqa_city" name="contact[city]" placeholder="Woonplaats *" required>
                 </div>
 
                 <div class="form-group">
-                  <label for="rqa_address">Adres</label>
-                  <input type="text" id="rqa_address" name="contact[address]">
+                  <input type="text" id="rqa_phone" name="contact[phone]" placeholder="Telefoon *" required>
                 </div>
 
                 <div class="form-group">
-                  <label for="rqa_city">Woonplaats</label>
-                  <input type="text" id="rqa_city" name="contact[city]">
+                  <input type="email" id="rqa_email" name="contact[email]" placeholder="Email *" required>
                 </div>
 
                 <div class="form-group">
-                  <label for="rqa_message">Opmerkingen</label>
-                  <textarea id="rqa_message" name="contact[body]" rows="4"></textarea>
+                  <textarea id="rqa_message" name="contact[body]" rows="4" placeholder="Vragen en/of opmerkingen"></textarea>
                 </div>
-
-                <input type="submit" value="Offerte aanvragen" class="c-button c-button--box c-button--box-colorone">
 
                 <p class="disclaimer-link">
-                  Door dit formulier te versturen gaat u akkoord met onze <a href="{{ section.settings.privacy_page | default: '/pages/privacybeleid' }}">privacyverklaring</a>.
+                  Door verder te gaan gaat u akkoord met ons <a href="{{ section.settings.privacy_page | default: '/pages/privacybeleid' }}" target="_blank">privacy beleid</a>
                 </p>
               </form>
 
@@ -3582,6 +3585,9 @@
                 </button>
                 <button type="button" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn vpc-sidebar-next-btn" onclick="VPCConfigurator.goToNextStep()">
                   Volgende stap
+                </button>
+                <button type="submit" form="rqa_form" class="c-button c-button--box c-button--box-colorone vpc-next-step-btn vpc-sidebar-submit-btn" style="display: none;">
+                  Offerte aanvragen
                 </button>
               </div>
             </div>

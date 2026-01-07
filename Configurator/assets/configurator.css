@@ -894,10 +894,12 @@ input[type="radio"]:checked + .radio-label {
   font-weight: bold;
 }
 
+#rqa_form .form-group {
+  margin-bottom: 15px;
+}
+
 #rqa_form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
+  display: none;
 }
 
 #rqa_form input[type="text"],
@@ -905,12 +907,16 @@ input[type="radio"]:checked + .radio-label {
 #rqa_form input[type="number"],
 #rqa_form textarea {
   width: 100%;
-  padding: 12px;
+  padding: 12px 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
-  margin-bottom: 15px;
+  font-size: 15px;
   transition: border-color 0.3s ease;
+}
+
+#rqa_form input::placeholder,
+#rqa_form textarea::placeholder {
+  color: #666;
 }
 
 #rqa_form input:focus,
@@ -920,25 +926,42 @@ input[type="radio"]:checked + .radio-label {
 }
 
 #rqa_form textarea {
-  min-height: 100px;
+  min-height: 80px;
   resize: vertical;
 }
 
-#rqa_form input[type="submit"] {
-  width: 100%;
-  background: var(--vpc-primary-color);
-  color: white;
-  border: none;
-  padding: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+/* Showroom checkbox styling */
+.vpc-showroom-group {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 }
 
-#rqa_form input[type="submit"]:hover {
-  background: #c43d00;
+.vpc-showroom-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.vpc-showroom-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #ff5000;
+}
+
+.vpc-showroom-checkbox label {
+  display: inline !important;
+  font-size: 14px;
+  color: #333;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+#rqa_form input[type="submit"] {
+  display: none; /* Hidden - using sidebar button instead */
 }
 
 .disclaimer-link {

@@ -1120,20 +1120,218 @@ input[type="radio"]:checked + .radio-label {
 ================================ */
 .zipcode-calculator,
 .zipcode-calculatorAA {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 4px;
-  margin-top: 10px;
+  background: transparent;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.zipcode-calculator__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.zipcode-calculator__row:last-of-type {
+  border-bottom: none;
+}
+
+.zipcode-calculator__label {
+  color: #999;
+  font-size: 14px;
+}
+
+.zipcode-calculator__value {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
 }
 
 .zipcode-error {
   color: #dc3545;
   font-size: 14px;
   display: none;
+  margin-top: 5px;
 }
 
 .zipcode-error.visible {
   display: block;
+}
+
+/* ================================
+   Value Appreciation Popup
+================================ */
+.vpc-value-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.vpc-value-popup.active {
+  display: flex;
+}
+
+.vpc-value-popup__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.vpc-value-popup__inner {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px 40px;
+  max-width: 770px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.vpc-value-popup__close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.vpc-value-popup__close-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: #666;
+}
+
+.vpc-value-popup__title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 25px 0;
+  padding-right: 30px;
+}
+
+.vpc-value-popup__form-container {
+  background: #ff6b35;
+  border-radius: 12px;
+  padding: 20px 25px;
+}
+
+.vpc-value-popup__form-inputs {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.vpc-value-popup__input {
+  width: 110px;
+  height: 48px !important;
+  padding: 0 15px;
+  border: none !important;
+  border-radius: 6px;
+  font-size: 18px;
+  background: #fff !important;
+  flex: none;
+  color: #333 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.vpc-value-popup__input:hover,
+.vpc-value-popup__input:focus,
+.vpc-value-popup__input:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: #fff !important;
+  color: #333 !important;
+}
+
+.vpc-value-popup__input::placeholder {
+  color: #999 !important;
+  opacity: 1;
+}
+
+.vpc-value-popup__input:hover::placeholder,
+.vpc-value-popup__input:focus::placeholder {
+  color: #999 !important;
+  opacity: 1;
+}
+
+.vpc-value-popup__result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.vpc-value-popup__result-label {
+  color: #fff;
+  font-size: 18px;
+}
+
+.vpc-value-popup__result-value {
+  color: #fff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.vpc-value-popup__result-value sup {
+  font-size: 16px;
+  background: #fff;
+  color: #ff6b35;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  vertical-align: super;
+}
+
+.vpc-value-popup__address {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin: 5px 0 0 0;
+}
+
+/* Value Check Button Styling */
+.vpc-value-text {
+  color: #ff6b35;
+  font-size: 14px;
+}
+
+.vpc-value-check-btn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 5px;
 }
 
 /* ================================

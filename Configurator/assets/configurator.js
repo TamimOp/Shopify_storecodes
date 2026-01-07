@@ -158,6 +158,14 @@
       startButton.addEventListener("click", () => toggleHelpPopup(false));
     }
 
+    // Value popup overlay click to close
+    const valuePopupOverlay = document.querySelector(
+      ".vpc-value-popup__overlay"
+    );
+    if (valuePopupOverlay) {
+      valuePopupOverlay.addEventListener("click", closeValuePopup);
+    }
+
     // Quote form submission
     if (elements.quoteForm) {
       elements.quoteForm.addEventListener("submit", handleQuoteSubmit);
@@ -1299,18 +1307,57 @@
     const distanceCount = document.querySelector(".distance-count");
     const distancePrice = document.querySelector(".distance-price");
 
-    // Simulated distance for demo
-    const estimatedKm = 50;
+    // Simulated distance calculation based on postcode
+    // For demo, we use a simple formula - in production use actual geocoding API
+    const postcodeNum = parseInt(postcode.substring(0, 4));
+
+    // Amsterdam area postcodes start with 10xx, calculate relative distance
+    // Reference point: 1046 = 1.5 km
+    let estimatedKm = 1.5; // Default for demo
+    if (postcodeNum >= 1000 && postcodeNum <= 1099) {
+      estimatedKm = Math.abs(postcodeNum - 1046) * 0.1 + 1;
+    } else {
+      // For other areas, simulate larger distances
+      estimatedKm = Math.abs(postcodeNum - 1046) * 0.05;
+    }
+
+    // Round to 1 decimal
+    estimatedKm = Math.round(estimatedKm * 10) / 10;
+
     const pricePerKm = 45;
+    const transportCost = estimatedKm * pricePerKm;
 
-    if (distanceCount) distanceCount.textContent = estimatedKm;
+    if (distanceCount)
+      distanceCount.textContent = estimatedKm.toString().replace(".", ",");
     if (distancePrice)
-      distancePrice.textContent = formatPrice(estimatedKm * pricePerKm);
+      distancePrice.textContent = `€ ${transportCost
+        .toFixed(2)
+        .replace(".", ",")}`;
 
-    // Update hidden result field
+    // Update hidden result field (transport + kraanvergunning = total additional cost)
     const resultField = document.querySelector(".zipcode-result");
     if (resultField) {
-      resultField.value = estimatedKm * pricePerKm;
+      resultField.value = transportCost + 2000; // Add kraanvergunning cost
+    }
+
+    // Recalculate total prices to include transport costs
+    calculatePrices();
+  }
+
+  // ================================
+  // Value Appreciation Popup
+  // ================================
+  function openValuePopup() {
+    const popup = document.getElementById("vpc-value-popup");
+    if (popup) {
+      popup.classList.add("active");
+    }
+  }
+
+  function closeValuePopup() {
+    const popup = document.getElementById("vpc-value-popup");
+    if (popup) {
+      popup.classList.remove("active");
     }
   }
 
@@ -1517,6 +1564,8 @@
     getState: () => ({ ...state }),
     switchView,
     calculatePrices,
+    openValuePopup,
+    closeValuePopup,
   };
 
   // ================================

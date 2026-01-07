@@ -48,6 +48,32 @@
     </div>
     {% endif %}
 
+    {% comment %} Value Appreciation Popup {% endcomment %}
+    <div id="vpc-value-popup" class="vpc-value-popup">
+      <div class="vpc-value-popup__overlay"></div>
+      <div class="vpc-value-popup__inner">
+        <button class="vpc-value-popup__close-button" onclick="VPCConfigurator.closeValuePopup()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <h3 class="vpc-value-popup__title">Vul je gegevens in en zie direct je geschatte waardevermeerdering!</h3>
+        <div class="vpc-value-popup__form-container">
+          <div class="vpc-value-popup__form-inputs">
+            <input type="text" id="value-postcode" placeholder="Postc." class="vpc-value-popup__input">
+            <input type="text" id="value-housenumber" placeholder="Huisnr." class="vpc-value-popup__input">
+            <input type="text" id="value-addition" placeholder="Toev." class="vpc-value-popup__input">
+            <div class="vpc-value-popup__result">
+              <span class="vpc-value-popup__result-label">Meerwaarde:</span>
+              <span class="vpc-value-popup__result-value">€0<sup>?</sup></span>
+            </div>
+          </div>
+          <p class="vpc-value-popup__address">Straatnaam, Plaats</p>
+        </div>
+      </div>
+    </div>
+
     {% comment %} Main Configurator Container {% endcomment %}
     <div id="vpc-container" class="o-wrap VPC_Modern_Skin modern-sticky" data-curr="€">
       <div id="vpc-modern-skin--prefabriek">
@@ -3484,8 +3510,14 @@
                          required>
                   <p class="zipcode-error">Voer een geldige Nederlandse postcode in</p>
                   <div class="zipcode-calculator" style="display: none">
-                    <p>Afstand: <span class="distance-count">0</span> km</p>
-                    <p>Transportkosten: <span class="distance-price">€0</span></p>
+                    <div class="zipcode-calculator__row">
+                      <span class="zipcode-calculator__label">€45 x <span class="distance-count">0</span> KM</span>
+                      <span class="zipcode-calculator__value distance-price">€ 0</span>
+                    </div>
+                    <div class="zipcode-calculator__row">
+                      <span class="zipcode-calculator__label">Kraanvergunning & verkeersmaatregelen</span>
+                      <span class="zipcode-calculator__value">€ 2000,00</span>
+                    </div>
                     <input type="hidden" name="transport_price" class="zipcode-result" value="0">
                   </div>
                 </div>
@@ -3577,7 +3609,8 @@
                 <span class="vpc-sidebar-price vpc-price-value">€39.950</span>
               </div>
               <div class="vpc-price-link">
-                <a href="#" class="vpc-value-link">Waardevermeerdering weten? <span class="vpc-value-link-underline">Check</span></a>
+                <span class="vpc-value-text">Waardevermeerdering weten?</span>
+                <button type="button" class="vpc-value-check-btn" onclick="VPCConfigurator.openValuePopup()">Check</button>
               </div>
               <div class="vpc-price-buttons">
                 <button type="button" class="vpc-prev-step-btn vpc-sidebar-prev-btn" onclick="VPCConfigurator.goToPreviousStep()">
@@ -3672,7 +3705,8 @@
                 <span id="vpc-price" class="vpc-price-value">€39.950</span>
               </div>
               <div class="vpc-price-link">
-                <a href="#" class="vpc-value-link">Waardevermeerdering weten? <span class="vpc-value-link-underline">Check</span></a>
+                <span class="vpc-value-text">Waardevermeerdering weten?</span>
+                <button type="button" class="vpc-value-check-btn" onclick="VPCConfigurator.openValuePopup()">Check</button>
               </div>
               <div class="vpc-price-buttons">
                 <button type="button" class="vpc-prev-step-btn" onclick="VPCConfigurator.goToPreviousStep()" style="display: none;">

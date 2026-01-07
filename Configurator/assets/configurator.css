@@ -958,20 +958,23 @@ input[type="radio"]:checked + .radio-label {
 }
 
 .vpc-showroom-checkbox {
-  display: flex;
+  display: flex !important;
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
 }
 
 .vpc-showroom-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  display: block !important;
+  width: 18px !important;
+  height: 18px !important;
   min-width: 18px;
   margin-top: 3px;
   flex-shrink: 0;
   accent-color: var(--vpc-primary-color);
   cursor: pointer;
+  -webkit-appearance: checkbox !important;
+  appearance: checkbox !important;
 }
 
 .vpc-showroom-checkbox span {

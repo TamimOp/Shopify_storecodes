@@ -76,6 +76,7 @@
     initializeSizeCalculator();
     initializeDefaultSelections();
     updatePreview();
+    updateFloatingBannerButtons(); // Hide Terug button initially
     console.log("Configurator initialized");
   }
 
@@ -1288,7 +1289,10 @@
     const sidebarSubmitBtn = document.querySelector(".vpc-sidebar-submit-btn");
 
     if (sidebarPrevBtn) {
-      sidebarPrevBtn.style.display = "inline-block";
+      // Show back button when on interior view or step 2+
+      const showSidebarBack =
+        state.currentView === "interior" || state.currentStep > 1;
+      sidebarPrevBtn.style.display = showSidebarBack ? "inline-block" : "none";
     }
 
     if (sidebarNextBtn) {

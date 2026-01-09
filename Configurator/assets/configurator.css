@@ -371,6 +371,7 @@
   height: 48px !important;
   border-radius: 8px;
   padding: 0 16px;
+  max-width: 100px;
 }
 
 .vpc-addon-options input[type="number"]:focus {
@@ -390,7 +391,8 @@
   align-items: center;
   justify-content: center;
   min-width: 80px;
-  margin-left: 15px;
+  margin-left: 5px;
+  width: 37%;
 }
 
 .extension-size__result {
@@ -1505,6 +1507,15 @@ input[type="radio"]:checked + .radio-label {
 /* ================================
    Responsive Styles
 ================================ */
+@media (min-width: 1880px) {
+  .vpc-sidebar {
+    width: 530px;
+    max-width: 530px;
+  }
+  .s-configurator-container__preview-images .c-image img {
+    transform: scale(1.6);
+  }
+}
 @media (max-width: 1280px) {
   #vpc-configurator-selector-popup button.c-button,
   #vpc-configurator-selector-popup a.c-button {
@@ -1512,7 +1523,7 @@ input[type="radio"]:checked + .radio-label {
   }
 
   .vpc-sidebar {
-    width: 350px;
+    width: 420px;
     min-width: 350px;
   }
 }

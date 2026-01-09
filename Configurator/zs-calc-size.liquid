@@ -1,0 +1,517 @@
+{% comment %}
+  Size Calculator & Value Appreciation Section
+  Standalone section combining postcode lookup and size calculator
+  
+  Usage: Include this section in your theme
+{% endcomment %}
+
+<style>
+  /* ================================
+     Size Calculator Card
+  ================================ */
+  .zs-calc-size {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: #f5f5f5;
+  }
+
+  .zs-calc-size__card {
+    background: linear-gradient(135deg, #ff7536 0%, #ff5000 100%);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3);
+  }
+
+  /* ================================
+     Postcode Section
+  ================================ */
+  .zs-calc-size__section {
+    margin-bottom: 25px;
+  }
+
+  .zs-calc-size__section:last-child {
+    margin-bottom: 0;
+  }
+
+  .zs-calc-size__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 15px 0;
+  }
+
+  .zs-calc-size__inputs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .zs-calc-size__input {
+    width: 110px;
+    height: 48px !important;
+    padding: 0 15px;
+    border: none !important;
+    border-radius: 8px;
+    font-size: 18px;
+    background: #fff !important;
+    color: #333 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .zs-calc-size__input:hover,
+  .zs-calc-size__input:focus,
+  .zs-calc-size__input:active {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  .zs-calc-size__input::placeholder {
+    color: #999 !important;
+    opacity: 1;
+  }
+
+  .zs-calc-size__address {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    margin: 10px 0 0 0;
+    font-style: italic;
+  }
+
+  /* ================================
+     Size Calculator Section
+  ================================ */
+  .zs-calc-size__size-inputs {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .zs-calc-size__input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .zs-calc-size__input-group input {
+    order: 1;
+  }
+
+  .zs-calc-size__input-group label {
+    order: 2;
+    margin-top: 6px;
+  }
+
+  .zs-calc-size__input--number {
+    width: 100px;
+    height: 48px !important;
+    padding: 0 16px;
+    border: none !important;
+    border-radius: 8px;
+    font-size: 24px !important;
+    font-weight: 500 !important;
+    background: #fff !important;
+    color: #1a1c22 !important;
+    text-align: left;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .zs-calc-size__input--number::-webkit-inner-spin-button,
+  .zs-calc-size__input--number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .zs-calc-size__input--number {
+    -moz-appearance: textfield;
+  }
+
+  .zs-calc-size__label {
+    display: block;
+    font-weight: 400;
+    font-size: 14px;
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  .zs-calc-size__result {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+  }
+
+  .zs-calc-size__result sup {
+    font-size: 14px;
+    vertical-align: super;
+  }
+
+  /* ================================
+     Value Appreciation Section
+  ================================ */
+  .zs-calc-size__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 25px 0;
+  }
+
+  .zs-calc-size__value {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .zs-calc-size__value-label {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .zs-calc-size__value-amount {
+    color: #fff;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .zs-calc-size__value-amount sup {
+    font-size: 16px;
+    background: #fff;
+    color: #ff6b35;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    vertical-align: super;
+    font-weight: 600;
+  }
+
+  /* ================================
+     Responsive Styles
+  ================================ */
+  @media (max-width: 576px) {
+    .zs-calc-size__card {
+      padding: 20px;
+    }
+
+    .zs-calc-size__inputs {
+      flex-wrap: wrap;
+    }
+
+    .zs-calc-size__input {
+      width: calc(33.33% - 7px);
+      min-width: 80px;
+    }
+
+    .zs-calc-size__size-inputs {
+      flex-wrap: wrap;
+    }
+
+    .zs-calc-size__input--number {
+      width: 80px;
+    }
+
+    .zs-calc-size__result {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
+    .zs-calc-size__value {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .zs-calc-size__value-amount {
+      font-size: 42px;
+    }
+  }
+</style>
+
+<section class="zs-calc-size" id="zs-calc-size">
+  <div class="zs-calc-size__card">
+    
+    {% comment %} Postcode Section {% endcomment %}
+    <div class="zs-calc-size__section">
+      <h3 class="zs-calc-size__title">{{ section.settings.postcode_title | default: 'Postcode en huisnummer' }}</h3>
+      <div class="zs-calc-size__inputs">
+        <input 
+          type="text" 
+          id="zs-postcode" 
+          name="postcode"
+          placeholder="{{ section.settings.postcode_placeholder | default: 'Postc.' }}" 
+          class="zs-calc-size__input"
+          maxlength="7"
+        >
+        <input 
+          type="text" 
+          id="zs-housenumber" 
+          name="housenumber"
+          placeholder="{{ section.settings.housenumber_placeholder | default: 'Huisnr.' }}" 
+          class="zs-calc-size__input"
+        >
+        <input 
+          type="text" 
+          id="zs-addition" 
+          name="addition"
+          placeholder="{{ section.settings.addition_placeholder | default: 'Toev.' }}" 
+          class="zs-calc-size__input"
+        >
+      </div>
+      <p class="zs-calc-size__address" id="zs-address">Straatnaam, Plaats</p>
+    </div>
+
+    {% comment %} Size Calculator Section {% endcomment %}
+    <div class="zs-calc-size__section">
+      <h3 class="zs-calc-size__title">{{ section.settings.size_title | default: 'Grootte van je aanbouw' }}</h3>
+      <div class="zs-calc-size__size-inputs">
+        <div class="zs-calc-size__input-group">
+          <input 
+            type="number" 
+            id="zs-depth" 
+            name="depth"
+            value="{{ section.settings.default_depth | default: 400 }}"
+            min="{{ section.settings.min_depth | default: 150 }}"
+            max="{{ section.settings.max_depth | default: 400 }}"
+            class="zs-calc-size__input--number"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          >
+          <label for="zs-depth" class="zs-calc-size__label">{{ section.settings.depth_label | default: 'Diepte (cm)' }}</label>
+        </div>
+        <div class="zs-calc-size__input-group">
+          <input 
+            type="number" 
+            id="zs-length" 
+            name="length"
+            value="{{ section.settings.default_length | default: 600 }}"
+            min="{{ section.settings.min_length | default: 200 }}"
+            max="{{ section.settings.max_length | default: 1500 }}"
+            class="zs-calc-size__input--number"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          >
+          <label for="zs-length" class="zs-calc-size__label">{{ section.settings.length_label | default: 'Lengte (cm)' }}</label>
+        </div>
+        <div class="zs-calc-size__result">
+          <span id="zs-size-result">24</span>m<sup>2</sup>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Value Appreciation Section {% endcomment %}
+    <div class="zs-calc-size__divider"></div>
+    <div class="zs-calc-size__value">
+      <span class="zs-calc-size__value-label">{{ section.settings.value_label | default: 'Meerwaarde:' }}</span>
+      <span class="zs-calc-size__value-amount" id="zs-value-result">€0<sup>?</sup></span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function() {
+    'use strict';
+
+    // Size Calculator
+    const depthInput = document.getElementById('zs-depth');
+    const lengthInput = document.getElementById('zs-length');
+    const sizeResult = document.getElementById('zs-size-result');
+
+    function calculateSize() {
+      const depth = parseFloat(depthInput?.value) || 0;
+      const length = parseFloat(lengthInput?.value) || 0;
+      const sizeM2 = (depth * length) / 10000; // Convert cm² to m²
+      if (sizeResult) {
+        sizeResult.textContent = Math.round(sizeM2);
+      }
+    }
+
+    if (depthInput) {
+      depthInput.addEventListener('input', calculateSize);
+    }
+    if (lengthInput) {
+      lengthInput.addEventListener('input', calculateSize);
+    }
+
+    // Initialize calculation
+    calculateSize();
+
+    // Postcode lookup (placeholder - integrate with your API)
+    const postcodeInput = document.getElementById('zs-postcode');
+    const housenumberInput = document.getElementById('zs-housenumber');
+    const addressDisplay = document.getElementById('zs-address');
+
+    function lookupAddress() {
+      const postcode = postcodeInput?.value?.replace(/\s/g, '') || '';
+      const housenumber = housenumberInput?.value || '';
+
+      // Placeholder: Replace with actual API call
+      if (postcode.length >= 6 && housenumber.length >= 1) {
+        // Example: Call your postcode API here
+        // fetch(`/api/postcode?code=${postcode}&number=${housenumber}`)
+        //   .then(res => res.json())
+        //   .then(data => {
+        //     addressDisplay.textContent = `${data.street}, ${data.city}`;
+        //   });
+        console.log('Postcode lookup:', postcode, housenumber);
+      }
+    }
+
+    if (postcodeInput) {
+      postcodeInput.addEventListener('change', lookupAddress);
+    }
+    if (housenumberInput) {
+      housenumberInput.addEventListener('change', lookupAddress);
+    }
+
+    // Expose to global scope if needed
+    window.ZSCalcSize = {
+      calculateSize,
+      lookupAddress,
+      getValues: function() {
+        return {
+          postcode: postcodeInput?.value || '',
+          housenumber: housenumberInput?.value || '',
+          addition: document.getElementById('zs-addition')?.value || '',
+          depth: parseFloat(depthInput?.value) || 0,
+          length: parseFloat(lengthInput?.value) || 0,
+          sizeM2: parseFloat(sizeResult?.textContent) || 0
+        };
+      }
+    };
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Size Calculator",
+  "tag": "section",
+  "class": "section-zs-calc-size",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Postcode Section"
+    },
+    {
+      "type": "text",
+      "id": "postcode_title",
+      "label": "Postcode Section Title",
+      "default": "Postcode en huisnummer"
+    },
+    {
+      "type": "text",
+      "id": "postcode_placeholder",
+      "label": "Postcode Placeholder",
+      "default": "Postc."
+    },
+    {
+      "type": "text",
+      "id": "housenumber_placeholder",
+      "label": "House Number Placeholder",
+      "default": "Huisnr."
+    },
+    {
+      "type": "text",
+      "id": "addition_placeholder",
+      "label": "Addition Placeholder",
+      "default": "Toev."
+    },
+    {
+      "type": "header",
+      "content": "Size Calculator Section"
+    },
+    {
+      "type": "text",
+      "id": "size_title",
+      "label": "Size Section Title",
+      "default": "Grootte van je aanbouw"
+    },
+    {
+      "type": "text",
+      "id": "depth_label",
+      "label": "Depth Label",
+      "default": "Diepte (cm)"
+    },
+    {
+      "type": "text",
+      "id": "length_label",
+      "label": "Length Label",
+      "default": "Lengte (cm)"
+    },
+    {
+      "type": "number",
+      "id": "min_depth",
+      "label": "Minimum Depth (cm)",
+      "default": 150
+    },
+    {
+      "type": "number",
+      "id": "max_depth",
+      "label": "Maximum Depth (cm)",
+      "default": 400
+    },
+    {
+      "type": "number",
+      "id": "default_depth",
+      "label": "Default Depth (cm)",
+      "default": 400
+    },
+    {
+      "type": "number",
+      "id": "min_length",
+      "label": "Minimum Length (cm)",
+      "default": 200
+    },
+    {
+      "type": "number",
+      "id": "max_length",
+      "label": "Maximum Length (cm)",
+      "default": 1500
+    },
+    {
+      "type": "number",
+      "id": "default_length",
+      "label": "Default Length (cm)",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Value Section"
+    },
+    {
+      "type": "text",
+      "id": "value_label",
+      "label": "Value Label",
+      "default": "Meerwaarde:"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size Calculator",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

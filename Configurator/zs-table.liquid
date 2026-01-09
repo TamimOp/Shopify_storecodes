@@ -1,0 +1,350 @@
+{% comment %}
+  Cost Recovery Table Section
+  Shows pricing table with value appreciation
+{% endcomment %}
+
+<style>
+  /* ================================
+     Container
+  ================================ */
+  .zs-cost-table {
+    padding: 60px 20px;
+    background: #fff;
+  }
+
+  .zs-cost-table__container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ================================
+     Heading
+  ================================ */
+  .zs-cost-table__heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1c22;
+    text-align: left;
+    margin: 0 0 40px 0;
+  }
+
+  /* ================================
+     Table Card
+  ================================ */
+  .zs-cost-table__card {
+    background: #f4f4f7;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    overflow: visible;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .zs-cost-table__table-wrap {
+    padding: 60px 64px 36px;
+    position: relative;
+  }
+
+  /* ================================
+     Arrow - Absolute Position
+  ================================ */
+  .zs-cost-table__arrow {
+    position: absolute;
+    top: -17px;
+    right: 234px;
+    width: 50px;
+    height: 63px;
+  }
+
+  /* ================================
+     Table Styles
+  ================================ */
+  .zs-cost-table__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .zs-cost-table__table thead th {
+    padding: 0 0 20px 0;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1c22;
+    vertical-align: top;
+  }
+
+  .zs-cost-table__table thead th:first-child {
+    width: 20%;
+  }
+
+  .zs-cost-table__table thead th:nth-child(2) {
+    width: 20%;
+  }
+
+  .zs-cost-table__table thead th:nth-child(3) {
+    width: 25%;
+  }
+
+  .zs-cost-table__table thead th:last-child {
+    width: 35%;
+  }
+
+  .zs-cost-table__header-main {
+    font-weight: 600;
+    color: #1a1c22;
+    display: block;
+  }
+
+  .zs-cost-table__header-subtitle {
+    font-size: 12px;
+    font-weight: 400;
+    color: #888;
+    display: block;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .zs-cost-table__table tbody td {
+    padding: 16px 0;
+    font-size: 16px;
+    color: #1a1c22;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .zs-cost-table__table tbody tr:first-child td {
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .zs-cost-table__table tbody td:nth-child(4) {
+    color: #ff6b35;
+    font-weight: 600;
+  }
+
+  /* ================================
+     CTA Banner
+  ================================ */
+  .zs-cost-table__cta {
+    background: linear-gradient(90deg, #ff7536, #ff5000);
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .zs-cost-table__cta-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .zs-cost-table__cta-icon {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .zs-cost-table__cta-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .zs-cost-table__cta-text em {
+    font-style: italic;
+  }
+
+  .zs-cost-table__cta-button {
+    background: #1a1c22;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .zs-cost-table__cta-button:hover {
+    background: #333;
+  }
+
+  /* ================================
+     Disclaimers
+  ================================ */
+  .zs-cost-table__disclaimers {
+    margin-top: 25px;
+  }
+
+  .zs-cost-table__disclaimer {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+    margin: 0 0 15px 0;
+  }
+
+  .zs-cost-table__disclaimer:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ================================
+     Responsive Styles
+  ================================ */
+  @media (max-width: 768px) {
+    .zs-cost-table {
+      padding: 40px 15px;
+    }
+
+    .zs-cost-table__heading {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+
+    .zs-cost-table__table-wrap {
+      padding: 40px 20px 24px;
+    }
+
+    .zs-cost-table__arrow {
+      right: 60px;
+      top: 10px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .zs-cost-table__table thead th,
+    .zs-cost-table__table tbody td {
+      padding: 12px 8px 12px 0;
+      font-size: 14px;
+    }
+
+    .zs-cost-table__header-subtitle {
+      font-size: 10px;
+    }
+
+    .zs-cost-table__cta {
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .zs-cost-table__cta-content {
+      flex-direction: column;
+    }
+
+    .zs-cost-table__cta-text {
+      font-size: 18px;
+    }
+
+    .zs-cost-table__cta-button {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .zs-cost-table__table-wrap {
+      padding: 30px 15px 20px;
+    }
+
+    .zs-cost-table__arrow {
+      right: 30px;
+      top: 5px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .zs-cost-table__table thead th,
+    .zs-cost-table__table tbody td {
+      padding: 10px 4px 10px 0;
+      font-size: 12px;
+    }
+  }
+</style>
+
+<section class="zs-cost-table" id="zs-cost-table">
+  <div class="zs-cost-table__container">
+    
+    <h2 class="zs-cost-table__heading">Je kunt de kosten voor je aanbouw terugverdienen!</h2>
+
+    <div class="zs-cost-table__card">
+      <div class="zs-cost-table__table-wrap">
+        <img 
+          src="https://cdn.shopify.com/s/files/1/0970/8562/0607/files/arrow-down.svg?v=1767949695" 
+          alt="Arrow" 
+          class="zs-cost-table__arrow"
+        >
+        <table class="zs-cost-table__table">
+          <thead>
+            <tr>
+              <th>Diepte</th>
+              <th>Breedte</th>
+              <th>Kosten *</th>
+              <th>
+                <span class="zs-cost-table__header-main">Gemiddelde meerwaarde</span>
+                <span class="zs-cost-table__header-subtitle">(Gebaseerd op gem. m2 prijs in Nederland)<br>**</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>4.0m</td>
+              <td>6.0m</td>
+              <td>€ 59.641</td>
+              <td>€ 72.000</td>
+            </tr>
+            <tr>
+              <td>3.5m</td>
+              <td>6.0m</td>
+              <td>€ 55.666</td>
+              <td>€ 63.000</td>
+            </tr>
+            <tr>
+              <td>3.0m</td>
+              <td>6.0m</td>
+              <td>€ 51.091</td>
+              <td>€ 54.000</td>
+            </tr>
+            <tr>
+              <td>2.5m</td>
+              <td>6.0m</td>
+              <td>€ 47.116</td>
+              <td>€ 45.000</td>
+            </tr>
+            <tr>
+              <td>2.0m</td>
+              <td>6.0m</td>
+              <td>€ 44.341</td>
+              <td>€ 36.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="zs-cost-table__cta">
+        <div class="zs-cost-table__cta-content">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0970/8562/0607/files/AdobeStock-543086568-2-Copy-3-1.webp?v=1767949139" 
+            alt="Piggy bank" 
+            class="zs-cost-table__cta-icon"
+          >
+          <p class="zs-cost-table__cta-text">Benieuwd hoeveel <em>jouw</em> huis in waarde kan stijgen?</p>
+        </div>
+        <a href="#" class="zs-cost-table__cta-button" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Bereken het nu</a>
+      </div>
+    </div>
+
+    <div class="zs-cost-table__disclaimers">
+      <p class="zs-cost-table__disclaimer">* Richtprijs voor een complete standaardaanbouw. De uiteindelijke prijs is afhankelijk van de keuzes die je maakt voor afwerking, extra's en andere factoren. Houd er rekening mee dat de prijzen kunnen fluctueren en dat het niet mogelijk is om naar deze tabel te verwijzen voor exacte prijsinformatie.</p>
+      <p class="zs-cost-table__disclaimer">** Onze meerwaarde is een schatting, géén taxatie. Deze schatting is gebaseerd op de gemiddelde m2 prijs in Nederland. Aan de schatting van de meerwaarde op basis van de gemiddelde m2 prijs in jouw postcode gebied kunnen geen rechten worden ontleend.</p>
+    </div>
+
+  </div>
+</section>

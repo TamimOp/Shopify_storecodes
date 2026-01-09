@@ -1,14 +1,4 @@
-{% comment %}
-  Size Calculator & Value Appreciation Section
-  Standalone section combining postcode lookup and size calculator
-  
-  Usage: Include this section in your theme
-{% endcomment %}
-
 <style>
-  /* ================================
-     Size Calculator Card
-  ================================ */
   .zs-calc-size {
     display: flex;
     justify-content: center;
@@ -28,7 +18,7 @@
 
   /* ================================
      Postcode Section
-  ================================ */
+================================ */
   .zs-calc-size__section {
     margin-bottom: 25px;
   }
@@ -90,11 +80,11 @@
 
   /* ================================
      Size Calculator Section
-  ================================ */
+================================ */
   .zs-calc-size__size-inputs {
     display: flex;
     gap: 10px;
-    align-items: flex-end;
+    align-items: flex-start;
   }
 
   .zs-calc-size__input-group {
@@ -164,7 +154,7 @@
 
   /* ================================
      Value Appreciation Section
-  ================================ */
+================================ */
   .zs-calc-size__divider {
     height: 1px;
     background: rgba(255, 255, 255, 0.3);
@@ -207,7 +197,7 @@
 
   /* ================================
      Responsive Styles
-  ================================ */
+================================ */
   @media (max-width: 576px) {
     .zs-calc-size__card {
       padding: 20px;
@@ -403,115 +393,3 @@
     };
   })();
 </script>
-
-{% schema %}
-{
-  "name": "Size Calculator",
-  "tag": "section",
-  "class": "section-zs-calc-size",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Postcode Section"
-    },
-    {
-      "type": "text",
-      "id": "postcode_title",
-      "label": "Postcode Section Title",
-      "default": "Postcode en huisnummer"
-    },
-    {
-      "type": "text",
-      "id": "postcode_placeholder",
-      "label": "Postcode Placeholder",
-      "default": "Postc."
-    },
-    {
-      "type": "text",
-      "id": "housenumber_placeholder",
-      "label": "House Number Placeholder",
-      "default": "Huisnr."
-    },
-    {
-      "type": "text",
-      "id": "addition_placeholder",
-      "label": "Addition Placeholder",
-      "default": "Toev."
-    },
-    {
-      "type": "header",
-      "content": "Size Calculator Section"
-    },
-    {
-      "type": "text",
-      "id": "size_title",
-      "label": "Size Section Title",
-      "default": "Grootte van je aanbouw"
-    },
-    {
-      "type": "text",
-      "id": "depth_label",
-      "label": "Depth Label",
-      "default": "Diepte (cm)"
-    },
-    {
-      "type": "text",
-      "id": "length_label",
-      "label": "Length Label",
-      "default": "Lengte (cm)"
-    },
-    {
-      "type": "number",
-      "id": "min_depth",
-      "label": "Minimum Depth (cm)",
-      "default": 150
-    },
-    {
-      "type": "number",
-      "id": "max_depth",
-      "label": "Maximum Depth (cm)",
-      "default": 400
-    },
-    {
-      "type": "number",
-      "id": "default_depth",
-      "label": "Default Depth (cm)",
-      "default": 400
-    },
-    {
-      "type": "number",
-      "id": "min_length",
-      "label": "Minimum Length (cm)",
-      "default": 200
-    },
-    {
-      "type": "number",
-      "id": "max_length",
-      "label": "Maximum Length (cm)",
-      "default": 1500
-    },
-    {
-      "type": "number",
-      "id": "default_length",
-      "label": "Default Length (cm)",
-      "default": 600
-    },
-    {
-      "type": "header",
-      "content": "Value Section"
-    },
-    {
-      "type": "text",
-      "id": "value_label",
-      "label": "Value Label",
-      "default": "Meerwaarde:"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Size Calculator",
-      "category": "Custom"
-    }
-  ]
-}
-{% endschema %}

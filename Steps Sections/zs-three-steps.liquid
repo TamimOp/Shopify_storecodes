@@ -744,8 +744,7 @@
         {{ section.settings.heading_before }}
         {%- if section.settings.heading_highlight != blank -%}
           <span class="zs-gradient-text">{{ section.settings.heading_highlight }}</span>
-        {%- endif -%}
-        {{ section.settings.heading_after }}
+        {%- endif %} {{ section.settings.heading_after }}
       </h2>
 
       {%- if section.settings.subheading != blank -%}

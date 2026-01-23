@@ -1,0 +1,1563 @@
+{% comment %}
+  ============================================
+  ZS Icon Text Section - Creative Edition
+  ============================================
+  Unique, interactive features section with:
+  - Smooth Carousel/Slider
+  - Spotlight/Tab Mode
+  - Accordion Style
+  - Magazine Feature Layout
+  - Horizontal Scroll Cards
+{% endcomment %}
+
+{%- style -%}
+  /* CSS Variables */
+  .zs-features-{{ section.id }} {
+    --zs-primary: {{ section.settings.primary_color }};
+    --zs-secondary: {{ section.settings.secondary_color }};
+    --zs-accent: {{ section.settings.accent_color }};
+    --zs-text-dark: {{ section.settings.text_dark }};
+    --zs-text-light: {{ section.settings.text_light }};
+    --zs-bg: {{ section.settings.section_bg }};
+    --zs-card-bg: {{ section.settings.card_bg }};
+    --zs-link-color: {{ section.settings.link_color }};
+  }
+
+  /* Section Container */
+  .zs-features-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: var(--zs-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Gradient Background Sweep */
+  .zs-features-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      105deg,
+      transparent 0%,
+      transparent 40%,
+      {{ section.settings.primary_color | color_modify: 'alpha', 0.03 }} 45%,
+      {{ section.settings.secondary_color | color_modify: 'alpha', 0.05 }} 55%,
+      transparent 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-container {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .zs-features-{{ section.id }} .zs-container--full {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* Header Section */
+  .zs-features-{{ section.id }} .zs-header {
+    text-align: {{ section.settings.header_alignment }};
+    margin-bottom: {{ section.settings.header_margin }}px;
+    padding: 0 20px;
+    max-width: {{ section.settings.container_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .zs-features-{{ section.id }} .zs-eyebrow {
+    display: inline-block;
+    font-size: {{ section.settings.eyebrow_size }}px;
+    font-weight: 700;
+    color: var(--zs-primary);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .zs-features-{{ section.id }} .zs-eyebrow::after {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    margin: 8px auto 0;
+    border-radius: 3px;
+  }
+
+  .zs-features-{{ section.id }} .zs-main-heading {
+    font-size: clamp(32px, 5vw, {{ section.settings.heading_size }}px);
+    font-weight: {{ section.settings.heading_weight }};
+    line-height: 1.15;
+    color: var(--zs-text-dark);
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-main-heading .zs-highlight {
+    color: var(--zs-primary);
+  }
+
+  /* ============================================
+     LAYOUT: CAROUSEL/SLIDER
+  ============================================ */
+  {% if section.settings.layout_style == 'slider' %}
+  .zs-features-{{ section.id }} .zs-slider-wrapper {
+    position: relative;
+    padding: 0 60px;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider {
+    display: flex;
+    gap: {{ section.settings.card_gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 30px 0 40px;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide {
+    flex: 0 0 {{ section.settings.slide_width }}px;
+    scroll-snap-align: center;
+    background: var(--zs-card-bg);
+    border-radius: 24px;
+    padding: 32px 28px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .zs-features-{{ section.id }} .zs-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    border-radius: 24px 24px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 60px -15px {{ section.settings.primary_color | color_modify: 'alpha', 0.2 }};
+  }
+
+  .zs-features-{{ section.id }} .zs-slide:hover::before {
+    opacity: 1;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-number {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 64px;
+    font-weight: 900;
+    color: {{ section.settings.primary_color | color_modify: 'alpha', 0.06 }};
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-icon {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 20px;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--zs-text-dark);
+    margin: 0 0 14px 0;
+    line-height: 1.3;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-desc {
+    font-size: 15px;
+    color: var(--zs-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-desc a {
+    color: var(--zs-link-color);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-slide-desc a:hover {
+    border-bottom-color: var(--zs-link-color);
+  }
+
+  /* Slider Navigation */
+  .zs-features-{{ section.id }} .zs-slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--zs-card-bg);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-nav:hover {
+    background: var(--zs-primary);
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-nav--prev {
+    left: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-nav--next {
+    right: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-nav svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+  }
+
+  /* Slider Progress Dots */
+  .zs-features-{{ section.id }} .zs-slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.2 }};
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-slider-dot.active,
+  .zs-features-{{ section.id }} .zs-slider-dot:hover {
+    background: var(--zs-primary);
+    transform: scale(1.3);
+  }
+  {% endif %}
+
+  /* ============================================
+     LAYOUT: SPOTLIGHT/TABS
+  ============================================ */
+  {% if section.settings.layout_style == 'spotlight' %}
+  .zs-features-{{ section.id }} .zs-spotlight-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 50px;
+    align-items: start;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: var(--zs-card-bg);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab:hover {
+    border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.3 }};
+    transform: translateX(8px);
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab.active {
+    border-color: var(--zs-primary);
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.05 }};
+    box-shadow: 0 10px 30px {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--zs-text-dark);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab-arrow {
+    margin-left: auto;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-tab.active .zs-spotlight-tab-arrow,
+  .zs-features-{{ section.id }} .zs-spotlight-tab:hover .zs-spotlight-tab-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-content {
+    position: relative;
+    min-height: 400px;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--zs-card-bg);
+    border-radius: 24px;
+    padding: 48px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.98);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-number {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 120px;
+    font-weight: 900;
+    color: {{ section.settings.primary_color | color_modify: 'alpha', 0.05 }};
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 24px;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--zs-text-dark);
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-desc {
+    font-size: 17px;
+    color: var(--zs-text-light);
+    line-height: 1.8;
+    margin: 0;
+    max-width: 500px;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-desc a {
+    color: var(--zs-link-color);
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .zs-features-{{ section.id }} .zs-spotlight-panel-desc a::after {
+    content: ' →';
+  }
+  {% endif %}
+
+  /* ============================================
+     LAYOUT: ACCORDION
+  ============================================ */
+  {% if section.settings.layout_style == 'accordion' %}
+  .zs-features-{{ section.id }} .zs-accordion-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item {
+    background: var(--zs-card-bg);
+    border-radius: 20px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active {
+    box-shadow: 0 15px 40px {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-header:hover {
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.03 }};
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active .zs-accordion-header {
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.05 }};
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-number {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-title {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--zs-text-dark);
+    margin: 0;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active .zs-accordion-title {
+    color: var(--zs-primary);
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.1 }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active .zs-accordion-toggle {
+    background: var(--zs-primary);
+    transform: rotate(180deg);
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--zs-primary);
+    stroke-width: 2.5;
+    fill: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active .zs-accordion-toggle svg {
+    stroke: #fff;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-item.active .zs-accordion-body {
+    max-height: 500px;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-content {
+    padding: 0 30px 30px 94px;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-desc {
+    font-size: 16px;
+    color: var(--zs-text-light);
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-desc a {
+    color: var(--zs-link-color);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid var(--zs-link-color);
+    transition: all 0.3s ease;
+  }
+
+  .zs-features-{{ section.id }} .zs-accordion-desc a:hover {
+    background: {{ section.settings.link_color | color_modify: 'alpha', 0.1 }};
+  }
+  {% endif %}
+
+  /* ============================================
+     LAYOUT: MAGAZINE/FEATURE
+  ============================================ */
+  {% if section.settings.layout_style == 'magazine' %}
+  .zs-features-{{ section.id }} .zs-magazine-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 24px;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature {
+    grid-row: span 2;
+    background: linear-gradient(145deg, var(--zs-primary), var(--zs-secondary));
+    border-radius: 32px;
+    padding: 48px 40px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 500px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-icon {
+    width: 90px;
+    height: 90px;
+    filter: brightness(0) invert(1);
+    margin-bottom: 30px;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-desc {
+    font-size: 17px;
+    line-height: 1.8;
+    opacity: 0.9;
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-feature-desc a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-grid {
+    display: contents;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card {
+    background: var(--zs-card-bg);
+    border-radius: 24px;
+    padding: 32px;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 18px;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--zs-text-dark);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card-desc {
+    font-size: 15px;
+    color: var(--zs-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-card-desc a {
+    color: var(--zs-link-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Magazine Bottom Row */
+  .zs-features-{{ section.id }} .zs-magazine-bottom {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .zs-features-{{ section.id }} .zs-magazine-bottom .zs-magazine-card {
+    padding: 28px;
+  }
+  {% endif %}
+
+  /* ============================================
+     LAYOUT: HORIZONTAL SCROLL CARDS
+  ============================================ */
+  {% if section.settings.layout_style == 'scroll' %}
+  .zs-features-{{ section.id }} .zs-scroll-wrapper {
+    position: relative;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-track {
+    display: flex;
+    gap: 24px;
+    padding: 20px 40px 40px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+    background: var(--zs-card-bg);
+    border-radius: 28px;
+    padding: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card:hover {
+    transform: translateY(-10px) rotate(-1deg);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-header {
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-number {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 14px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-icon {
+    width: 60px;
+    height: 60px;
+    filter: brightness(0) invert(1);
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-body {
+    padding: 28px;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--zs-text-dark);
+    margin: 0 0 14px 0;
+    line-height: 1.3;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-desc {
+    font-size: 15px;
+    color: var(--zs-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-card-desc a {
+    color: var(--zs-link-color);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Scroll Indicator */
+  .zs-features-{{ section.id }} .zs-scroll-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    color: var(--zs-text-light);
+    font-size: 14px;
+  }
+
+  .zs-features-{{ section.id }} .zs-scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+    animation: scrollHint 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollHint {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(8px); }
+  }
+  {% endif %}
+
+  /* ============================================
+     RESPONSIVE STYLES
+  ============================================ */
+  @media screen and (max-width: 990px) {
+    {% if section.settings.layout_style == 'spotlight' %}
+    .zs-features-{{ section.id }} .zs-spotlight-wrapper {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .zs-features-{{ section.id }} .zs-spotlight-content {
+      min-height: auto;
+    }
+    .zs-features-{{ section.id }} .zs-spotlight-panel {
+      position: relative;
+      display: none;
+    }
+    .zs-features-{{ section.id }} .zs-spotlight-panel.active {
+      display: block;
+    }
+    {% endif %}
+
+    {% if section.settings.layout_style == 'magazine' %}
+    .zs-features-{{ section.id }} .zs-magazine-wrapper {
+      grid-template-columns: 1fr;
+    }
+    .zs-features-{{ section.id }} .zs-magazine-feature {
+      grid-row: auto;
+      min-height: 350px;
+    }
+    .zs-features-{{ section.id }} .zs-magazine-bottom {
+      grid-column: auto;
+      grid-template-columns: 1fr;
+    }
+    {% endif %}
+
+    {% if section.settings.layout_style == 'slider' %}
+    .zs-features-{{ section.id }} .zs-slider-wrapper {
+      padding: 0 20px;
+    }
+    .zs-features-{{ section.id }} .zs-slider-nav {
+      display: none;
+    }
+    {% endif %}
+  }
+
+  @media screen and (max-width: 749px) {
+    .zs-features-{{ section.id }} {
+      padding: {{ section.settings.padding_top | times: 0.5 }}px 0 {{ section.settings.padding_bottom | times: 0.5 }}px;
+    }
+    .zs-features-{{ section.id }} .zs-main-heading {
+      font-size: 28px;
+    }
+    .zs-features-{{ section.id }} .zs-slide {
+      flex: 0 0 280px;
+      padding: 24px 20px;
+    }
+    {% if section.settings.layout_style == 'accordion' %}
+    .zs-features-{{ section.id }} .zs-accordion-header {
+      padding: 18px 20px;
+      gap: 14px;
+    }
+    .zs-features-{{ section.id }} .zs-accordion-content {
+      padding: 0 20px 24px 20px;
+    }
+    .zs-features-{{ section.id }} .zs-accordion-number {
+      width: 36px;
+      height: 36px;
+      font-size: 15px;
+    }
+    .zs-features-{{ section.id }} .zs-accordion-icon {
+      width: 40px;
+      height: 40px;
+    }
+    .zs-features-{{ section.id }} .zs-accordion-title {
+      font-size: 17px;
+    }
+    {% endif %}
+  }
+{%- endstyle -%}
+
+<section class="zs-features-{{ section.id }}" id="zs-features-{{ section.id }}">
+  <div class="zs-container">
+    <!-- Header -->
+    <div class="zs-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="zs-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+
+      <h2 class="zs-main-heading">
+        {{ section.settings.heading_before }}
+        {%- if section.settings.heading_highlight != blank -%}
+          <span class="zs-highlight">{{ section.settings.heading_highlight }}</span>
+        {%- endif -%}
+        {{ section.settings.heading_after }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="zs-container{% if section.settings.layout_style == 'slider' or section.settings.layout_style == 'scroll' %} zs-container--full{% endif %}">
+    
+    {% comment %} LAYOUT: SLIDER {% endcomment %}
+    {% if section.settings.layout_style == 'slider' %}
+    <div class="zs-slider-wrapper">
+      <button class="zs-slider-nav zs-slider-nav--prev" onclick="ZSSlider_{{ section.id | replace: '-', '_' }}.prev()">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      
+      <div class="zs-slider" id="zs-slider-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="zs-slide" {{ block.shopify_attributes }}>
+            <span class="zs-slide-number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div class="zs-slide-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 150 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3 class="zs-slide-title">{{ block.settings.title }}</h3>
+            <div class="zs-slide-desc">
+              {{ block.settings.description }}
+              {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      
+      <button class="zs-slider-nav zs-slider-nav--next" onclick="ZSSlider_{{ section.id | replace: '-', '_' }}.next()">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      
+      <div class="zs-slider-dots">
+        {%- for block in section.blocks -%}
+          <button class="zs-slider-dot{% if forloop.first %} active{% endif %}" onclick="ZSSlider_{{ section.id | replace: '-', '_' }}.goTo({{ forloop.index0 }})"></button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <script>
+      const ZSSlider_{{ section.id | replace: '-', '_' }} = {
+        slider: null,
+        dots: null,
+        currentIndex: 0,
+        totalSlides: {{ section.blocks.size }},
+        
+        init: function() {
+          this.slider = document.getElementById('zs-slider-{{ section.id }}');
+          this.dots = document.querySelectorAll('.zs-features-{{ section.id }} .zs-slider-dot');
+          
+          this.slider.addEventListener('scroll', () => {
+            const slideWidth = this.slider.querySelector('.zs-slide').offsetWidth + {{ section.settings.card_gap }};
+            const newIndex = Math.round(this.slider.scrollLeft / slideWidth);
+            if (newIndex !== this.currentIndex) {
+              this.currentIndex = newIndex;
+              this.updateDots();
+            }
+          });
+        },
+        
+        next: function() {
+          this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+          this.scrollToIndex();
+        },
+        
+        prev: function() {
+          this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+          this.scrollToIndex();
+        },
+        
+        goTo: function(index) {
+          this.currentIndex = index;
+          this.scrollToIndex();
+        },
+        
+        scrollToIndex: function() {
+          const slide = this.slider.querySelectorAll('.zs-slide')[this.currentIndex];
+          if (slide) {
+            slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }
+          this.updateDots();
+        },
+        
+        updateDots: function() {
+          this.dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === this.currentIndex);
+          });
+        }
+      };
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        ZSSlider_{{ section.id | replace: '-', '_' }}.init();
+      });
+    </script>
+    {% endif %}
+
+    {% comment %} LAYOUT: SPOTLIGHT/TABS {% endcomment %}
+    {% if section.settings.layout_style == 'spotlight' %}
+    <div class="zs-spotlight-wrapper">
+      <div class="zs-spotlight-tabs">
+        {%- for block in section.blocks -%}
+          <button class="zs-spotlight-tab{% if forloop.first %} active{% endif %}" onclick="ZSSpotlight_{{ section.id | replace: '-', '_' }}.show({{ forloop.index0 }})" {{ block.shopify_attributes }}>
+            <div class="zs-spotlight-tab-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 100 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h4 class="zs-spotlight-tab-title">{{ block.settings.title }}</h4>
+            <svg class="zs-spotlight-tab-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        {%- endfor -%}
+      </div>
+      
+      <div class="zs-spotlight-content">
+        {%- for block in section.blocks -%}
+          <div class="zs-spotlight-panel{% if forloop.first %} active{% endif %}" data-panel="{{ forloop.index0 }}">
+            <span class="zs-spotlight-panel-number">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div class="zs-spotlight-panel-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 160 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3 class="zs-spotlight-panel-title">{{ block.settings.title }}</h3>
+            <div class="zs-spotlight-panel-desc">
+              {{ block.settings.description }}
+              {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <script>
+      const ZSSpotlight_{{ section.id | replace: '-', '_' }} = {
+        show: function(index) {
+          const section = document.querySelector('.zs-features-{{ section.id }}');
+          section.querySelectorAll('.zs-spotlight-tab').forEach((tab, i) => {
+            tab.classList.toggle('active', i === index);
+          });
+          section.querySelectorAll('.zs-spotlight-panel').forEach((panel, i) => {
+            panel.classList.toggle('active', i === index);
+          });
+        }
+      };
+    </script>
+    {% endif %}
+
+    {% comment %} LAYOUT: ACCORDION {% endcomment %}
+    {% if section.settings.layout_style == 'accordion' %}
+    <div class="zs-accordion-wrapper">
+      {%- for block in section.blocks -%}
+        <div class="zs-accordion-item{% if forloop.first %} active{% endif %}" {{ block.shopify_attributes }}>
+          <button class="zs-accordion-header" onclick="ZSAccordion_{{ section.id | replace: '-', '_' }}.toggle(this)">
+            <span class="zs-accordion-number">{{ forloop.index }}</span>
+            <div class="zs-accordion-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 110 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3 class="zs-accordion-title">{{ block.settings.title }}</h3>
+            <span class="zs-accordion-toggle">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="zs-accordion-body">
+            <div class="zs-accordion-content">
+              <div class="zs-accordion-desc">
+                {{ block.settings.description }}
+                {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                  <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <script>
+      const ZSAccordion_{{ section.id | replace: '-', '_' }} = {
+        toggle: function(header) {
+          const item = header.parentElement;
+          const isActive = item.classList.contains('active');
+          
+          {% if section.settings.accordion_single %}
+          document.querySelectorAll('.zs-features-{{ section.id }} .zs-accordion-item').forEach(i => {
+            i.classList.remove('active');
+          });
+          {% endif %}
+          
+          item.classList.toggle('active', !isActive);
+        }
+      };
+    </script>
+    {% endif %}
+
+    {% comment %} LAYOUT: MAGAZINE {% endcomment %}
+    {% if section.settings.layout_style == 'magazine' %}
+    <div class="zs-magazine-wrapper">
+      {%- for block in section.blocks -%}
+        {%- if forloop.first -%}
+          <div class="zs-magazine-feature" {{ block.shopify_attributes }}>
+            <div class="zs-magazine-feature-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 180 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="zs-magazine-feature-content">
+              <h3 class="zs-magazine-feature-title">{{ block.settings.title }}</h3>
+              <div class="zs-magazine-feature-desc">
+                {{ block.settings.description }}
+                {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                  <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+          <div class="zs-magazine-grid">
+        {%- elsif forloop.index <= 3 -%}
+          <div class="zs-magazine-card" {{ block.shopify_attributes }}>
+            <div class="zs-magazine-card-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 120 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3 class="zs-magazine-card-title">{{ block.settings.title }}</h3>
+            <div class="zs-magazine-card-desc">
+              {{ block.settings.description }}
+              {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+          {%- if forloop.index == 3 -%}
+          </div>
+          <div class="zs-magazine-bottom">
+          {%- endif -%}
+        {%- else -%}
+          <div class="zs-magazine-card" {{ block.shopify_attributes }}>
+            <div class="zs-magazine-card-icon">
+              {%- if block.settings.icon_image != blank -%}
+                <img src="{{ block.settings.icon_image | image_url: width: 120 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3 class="zs-magazine-card-title">{{ block.settings.title }}</h3>
+            <div class="zs-magazine-card-desc">
+              {{ block.settings.description }}
+              {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      </div>
+    </div>
+    {% endif %}
+
+    {% comment %} LAYOUT: HORIZONTAL SCROLL {% endcomment %}
+    {% if section.settings.layout_style == 'scroll' %}
+    <div class="zs-scroll-wrapper">
+      <div class="zs-scroll-track">
+        {%- for block in section.blocks -%}
+          <div class="zs-scroll-card" {{ block.shopify_attributes }}>
+            <div class="zs-scroll-card-header">
+              <span class="zs-scroll-card-number">{{ forloop.index }}</span>
+              <div class="zs-scroll-card-icon">
+                {%- if block.settings.icon_image != blank -%}
+                  <img src="{{ block.settings.icon_image | image_url: width: 130 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="zs-scroll-card-body">
+              <h3 class="zs-scroll-card-title">{{ block.settings.title }}</h3>
+              <div class="zs-scroll-card-desc">
+                {{ block.settings.description }}
+                {%- if block.settings.inline_link_text != blank and block.settings.inline_link_url != blank -%}
+                  <a href="{{ block.settings.inline_link_url }}">{{ block.settings.inline_link_text }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      
+      <div class="zs-scroll-indicator">
+        <span>Scroll voor meer</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ZS Icon Text Creative",
+  "tag": "section",
+  "class": "zs-icon-text-creative",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#FF6B00"
+    },
+    {
+      "type": "color",
+      "id": "secondary_color",
+      "label": "Secondary Color",
+      "default": "#FF8C42"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#FFB347"
+    },
+    {
+      "type": "color",
+      "id": "text_dark",
+      "label": "Dark Text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_light",
+      "label": "Light Text",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#FF6B00"
+    },
+    {
+      "type": "header",
+      "content": "📐 Section Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1200
+    },
+    {
+      "type": "header",
+      "content": "🎯 Layout Style"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        { "value": "slider", "label": "🎠 Carousel/Slider" },
+        { "value": "spotlight", "label": "🔦 Spotlight Tabs" },
+        { "value": "accordion", "label": "🪗 Accordion" },
+        { "value": "magazine", "label": "📰 Magazine Feature" },
+        { "value": "scroll", "label": "📜 Horizontal Scroll Cards" }
+      ],
+      "default": "slider"
+    },
+    {
+      "type": "header",
+      "content": "✨ Header Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Nog niet overtuigd?"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading (Before Highlight)",
+      "default": "Wat de Prefabriek"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Highlighted Text",
+      "default": "uniek"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading (After Highlight)",
+      "default": "maakt"
+    },
+    {
+      "type": "header",
+      "content": "📝 Header Typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 36,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "header_margin",
+      "min": 30,
+      "max": 80,
+      "step": 10,
+      "unit": "px",
+      "label": "Header Margin Bottom",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "🎠 Slider Settings"
+    },
+    {
+      "type": "range",
+      "id": "slide_width",
+      "min": 280,
+      "max": 420,
+      "step": 20,
+      "unit": "px",
+      "label": "Slide Width",
+      "default": 340,
+      "info": "Only for Slider layout"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 16,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Card Gap",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "🪗 Accordion Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "accordion_single",
+      "label": "Single Open Mode",
+      "default": true,
+      "info": "Only one item can be open at a time"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Describe this feature and its benefits.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Inline Link"
+        },
+        {
+          "type": "text",
+          "id": "inline_link_text",
+          "label": "Link Text"
+        },
+        {
+          "type": "url",
+          "id": "inline_link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS Icon Text Creative",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "De hoogste kwaliteit",
+            "description": "<p>We produceren alles zelf, houden de regie in eigen hand en zijn niet afhankelijk van het weer zoals bij traditionele bouwoplossingen. Al onze klanten krijgen een hoog afwerkingsniveau en standaard 10 jaar garantie.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Binnen 5 dagen geplaatst!",
+            "description": "<p>Omdat we alles kant-en-klaar in onze fabriek bouwen, duurt het plaatsen van de aanbouw slechts 5 dagen! Dat is sneller dan een traditionele aannemer.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Maatwerk",
+            "description": "<p>Hoewel we werken met een doordacht prefab productieproces, leveren we altijd maatwerk. Zo is elke aanbouw uniek en volledig afgestemd op jouw wensen.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Waardevermeerderend",
+            "description": "<p>Een win-win situatie: Met een aanbouw geniet je nu van meer ruimte en comfort, en investeer je in de toekomstige waarde van je huis.</p>",
+            "inline_link_text": "Bereken de meerwaarde hier!",
+            "inline_link_url": "#"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Duurzaam",
+            "description": "<p>Ons prefab productieproces is een duurzamere oplossing en mogelijk met een isolatiewaarde +++. Vergeleken met traditionele bouwmethodes, bespaar je in totaal 26% aan CO2 uitstoot.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "100% transparant, geen verrassingen",
+            "description": "<p>Met je zelf samengestelde uitbouw weet je van tevoren precies waar je aan toe bent, geen ongewenste verrassingen achteraf!</p>",
+            "inline_link_text": "Bereken direct de kosten",
+            "inline_link_url": "#"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

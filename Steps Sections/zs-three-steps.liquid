@@ -1,0 +1,1467 @@
+{% comment %}
+  ============================================
+  ZS Three Steps Section - Premium Edition
+  ============================================
+  A stunning, modern steps section with glassmorphism,
+  creative animations, and unique visual elements.
+{% endcomment %}
+
+{%- style -%}
+  /* CSS Variables for easy theming */
+  .zs-steps-{{ section.id }} {
+    --zs-primary: {{ section.settings.primary_color }};
+    --zs-secondary: {{ section.settings.secondary_color }};
+    --zs-accent: {{ section.settings.accent_color }};
+    --zs-text-dark: {{ section.settings.text_dark }};
+    --zs-text-light: {{ section.settings.text_light }};
+    --zs-bg: {{ section.settings.section_bg_color }};
+    --zs-card-bg: {{ section.settings.card_bg_color }};
+  }
+
+  /* Section Container */
+  .zs-steps-{{ section.id }} {
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    background: var(--zs-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative Background Elements */
+  {% if section.settings.show_decorative_elements %}
+  .zs-steps-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, {{ section.settings.primary_color | color_modify: 'alpha', 0.08 }} 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .zs-steps-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, {{ section.settings.secondary_color | color_modify: 'alpha', 0.06 }} 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  {% endif %}
+
+  .zs-steps-{{ section.id }} .zs-container {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header Section */
+  .zs-steps-{{ section.id }} .zs-header {
+    text-align: {{ section.settings.heading_alignment }};
+    margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+    position: relative;
+  }
+
+  /* Eyebrow/Label */
+  .zs-steps-{{ section.id }} .zs-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: {{ section.settings.eyebrow_size }}px;
+    font-weight: 600;
+    color: var(--zs-primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+
+  .zs-steps-{{ section.id }} .zs-eyebrow::before,
+  .zs-steps-{{ section.id }} .zs-eyebrow::after {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    border-radius: 2px;
+  }
+
+  /* Main Heading with Gradient */
+  .zs-steps-{{ section.id }} .zs-main-heading {
+    font-size: clamp(32px, 5vw, {{ section.settings.heading_size }}px);
+    font-weight: {{ section.settings.heading_weight }};
+    line-height: 1.15;
+    color: var(--zs-text-dark);
+    margin: 0 auto 20px;
+    max-width: 900px;
+  }
+
+  .zs-steps-{{ section.id }} .zs-main-heading .zs-gradient-text {
+    background: linear-gradient(135deg, var(--zs-primary) 0%, var(--zs-secondary) 50%, var(--zs-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+
+  {% if section.settings.heading_style == 'underline' %}
+  .zs-steps-{{ section.id }} .zs-main-heading .zs-gradient-text::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(135deg, {{ section.settings.primary_color | color_modify: 'alpha', 0.3 }}, {{ section.settings.secondary_color | color_modify: 'alpha', 0.3 }});
+    z-index: -1;
+    border-radius: 4px;
+  }
+  {% endif %}
+
+  /* Subheading */
+  .zs-steps-{{ section.id }} .zs-subheading {
+    font-size: {{ section.settings.subheading_size }}px;
+    color: {{ section.settings.subheading_color }};
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Steps Layout */
+  .zs-steps-{{ section.id }} .zs-steps-wrapper {
+    position: relative;
+    padding-top: 40px;
+  }
+
+  /* Timeline/Connection Line */
+  {% if section.settings.layout_style == 'timeline' %}
+  .zs-steps-{{ section.id }} .zs-timeline-line {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      var(--zs-primary) 0%, 
+      var(--zs-secondary) 50%, 
+      var(--zs-accent) 100%
+    );
+    border-radius: 4px;
+    opacity: 0.3;
+  }
+  .zs-steps-{{ section.id }} .zs-timeline-line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: var(--progress, 0%);
+    height: 100%;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    border-radius: 4px;
+    transform: translateY(-50%);
+    transition: width 0.5s ease;
+  }
+  {% endif %}
+
+  /* Steps Grid - Creative Staggered Layout */
+  .zs-steps-{{ section.id }} .zs-steps-grid {
+    display: grid;
+    gap: {{ section.settings.grid_gap }}px;
+    position: relative;
+    {% if section.settings.layout_style == 'staggered' %}
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(auto, 1fr);
+    {% elsif section.settings.layout_style == 'zigzag' %}
+      grid-template-columns: 1fr;
+      max-width: 1000px;
+      margin: 0 auto;
+    {% elsif section.settings.layout_style == 'creative' %}
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto auto;
+    {% else %}
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+    {% endif %}
+  }
+
+  /* Staggered Layout Positioning */
+  {% if section.settings.layout_style == 'staggered' %}
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(1) {
+    grid-column: 1 / 5;
+    transform: translateY(0);
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(2) {
+    grid-column: 5 / 9;
+    transform: translateY(60px);
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(3) {
+    grid-column: 9 / 13;
+    transform: translateY(120px);
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(4) {
+    grid-column: 3 / 7;
+    transform: translateY(40px);
+  }
+  {% endif %}
+
+  /* Zigzag Layout */
+  {% if section.settings.layout_style == 'zigzag' %}
+  .zs-steps-{{ section.id }} .zs-step-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 30px;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(even) {
+    direction: rtl;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(even) > * {
+    direction: ltr;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card .zs-step-image-container {
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: hidden;
+  }
+  {% endif %}
+
+  /* Creative Asymmetric Layout */
+  {% if section.settings.layout_style == 'creative' %}
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(3) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(1) .zs-step-image-container {
+    aspect-ratio: 3/4;
+  }
+  {% endif %}
+
+  /* Connection Lines Between Steps */
+  {% if section.settings.show_connectors %}
+  .zs-steps-{{ section.id }} .zs-step-card::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+    z-index: 5;
+    opacity: 0.5;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:last-child::before {
+    display: none;
+  }
+  {% endif %}
+
+  /* Individual Step Card */
+  .zs-steps-{{ section.id }} .zs-step-card {
+    position: relative;
+    {% if section.settings.card_style == 'glass' %}
+      background: {{ section.settings.card_bg_color | color_modify: 'alpha', 0.7 }};
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid {{ section.settings.card_bg_color | color_modify: 'alpha', 0.3 }};
+    {% elsif section.settings.card_style == 'gradient' %}
+      background: linear-gradient(145deg, var(--zs-card-bg) 0%, {{ section.settings.card_bg_color | color_darken: 5 }} 100%);
+    {% elsif section.settings.card_style == 'outlined' %}
+      background: transparent;
+      border: 2px solid {{ section.settings.primary_color | color_modify: 'alpha', 0.2 }};
+    {% else %}
+      background: var(--zs-card-bg);
+    {% endif %}
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: visible;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    {% if section.settings.card_shadow %}
+      box-shadow: 0 10px 40px -10px {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};
+    {% endif %}
+  }
+
+  .zs-steps-{{ section.id }} .zs-step-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    {% if section.settings.card_style == 'outlined' %}
+      border-color: var(--zs-primary);
+      background: {{ section.settings.primary_color | color_modify: 'alpha', 0.05 }};
+    {% endif %}
+    box-shadow: 
+      0 20px 60px -15px {{ section.settings.primary_color | color_modify: 'alpha', 0.25 }},
+      0 0 0 1px {{ section.settings.primary_color | color_modify: 'alpha', 0.1 }};
+  }
+
+  /* Step Number Badge - Creative Styles */
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: {{ section.settings.badge_font_weight }};
+    transition: all 0.4s ease;
+  }
+
+  {% if section.settings.badge_style == 'floating' %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ section.settings.badge_size }}px;
+    height: {{ section.settings.badge_size }}px;
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    border-radius: 50%;
+    font-size: {{ section.settings.badge_font_size }}px;
+    box-shadow: 
+      0 8px 25px {{ section.settings.primary_color | color_modify: 'alpha', 0.4 }},
+      inset 0 -2px 10px {{ section.settings.secondary_color | color_modify: 'alpha', 0.3 }};
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:hover .zs-step-badge {
+    transform: translateX(-50%) scale(1.15) rotate(10deg);
+    box-shadow: 0 12px 35px {{ section.settings.primary_color | color_modify: 'alpha', 0.5 }};
+  }
+  {% elsif section.settings.badge_style == 'corner' %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--zs-primary) 50%, transparent 50%);
+    color: #fff;
+    font-size: {{ section.settings.badge_font_size }}px;
+    padding: 8px 0 0 12px;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  {% elsif section.settings.badge_style == 'ribbon' %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: 20px;
+    left: -35px;
+    width: 120px;
+    height: 30px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    font-size: {{ section.settings.badge_font_size | minus: 2 }}px;
+    transform: rotate(-45deg);
+    box-shadow: 0 4px 15px {{ section.settings.primary_color | color_modify: 'alpha', 0.3 }};
+  }
+  {% elsif section.settings.badge_style == 'hexagon' %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ section.settings.badge_size }}px;
+    height: {{ section.settings.badge_size | times: 0.866 }}px;
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    font-size: {{ section.settings.badge_font_size }}px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:hover .zs-step-badge {
+    transform: translateX(-50%) rotate(30deg);
+  }
+  {% elsif section.settings.badge_style == 'minimal' %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: 20px;
+    left: 20px;
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--zs-primary);
+    font-size: {{ section.settings.badge_font_size | plus: 8 }}px;
+    font-weight: 800;
+    border: 3px solid var(--zs-primary);
+    border-radius: 8px;
+  }
+  {% else %}
+  .zs-steps-{{ section.id }} .zs-step-badge {
+    top: -15px;
+    left: 20px;
+    width: {{ section.settings.badge_size }}px;
+    height: {{ section.settings.badge_size }}px;
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    border-radius: 50%;
+    font-size: {{ section.settings.badge_font_size }}px;
+    box-shadow: 0 6px 20px {{ section.settings.primary_color | color_modify: 'alpha', 0.35 }};
+  }
+  {% endif %}
+
+  /* Image Container */
+  .zs-steps-{{ section.id }} .zs-step-image-container {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    border-radius: {{ section.settings.card_border_radius }}px {{ section.settings.card_border_radius }}px 0 0;
+  }
+
+  .zs-steps-{{ section.id }} .zs-step-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .zs-steps-{{ section.id }} .zs-step-card:hover .zs-step-image {
+    transform: scale(1.1);
+  }
+
+  /* Image Overlay Gradient */
+  .zs-steps-{{ section.id }} .zs-step-image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 40%,
+      {{ section.settings.card_bg_color | color_modify: 'alpha', 0.1 }} 70%,
+      {{ section.settings.card_bg_color | color_modify: 'alpha', 0.4 }} 100%
+    );
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .zs-steps-{{ section.id }} .zs-step-card:hover .zs-step-image-container::after {
+    opacity: 0.5;
+  }
+
+  /* Content Area */
+  .zs-steps-{{ section.id }} .zs-step-content {
+    padding: {{ section.settings.content_padding }}px;
+    text-align: {{ section.settings.content_alignment }};
+    position: relative;
+  }
+
+  /* Step Title */
+  .zs-steps-{{ section.id }} .zs-step-title {
+    font-size: {{ section.settings.step_title_size }}px;
+    font-weight: {{ section.settings.step_title_weight }};
+    color: var(--zs-text-dark);
+    margin: 0 0 {{ section.settings.step_title_margin }}px 0;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+  }
+
+  .zs-steps-{{ section.id }} .zs-step-card:hover .zs-step-title {
+    color: var(--zs-primary);
+  }
+
+  /* Step Description */
+  .zs-steps-{{ section.id }} .zs-step-description {
+    font-size: {{ section.settings.step_desc_size }}px;
+    font-weight: {{ section.settings.step_desc_weight }};
+    color: var(--zs-text-light);
+    margin: 0 0 {{ section.settings.step_desc_margin }}px 0;
+    line-height: 1.7;
+  }
+
+  /* CTA Button - Always Visible */
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-size: {{ section.settings.link_size }}px;
+    font-weight: {{ section.settings.link_weight }};
+    text-decoration: none;
+    border-radius: {{ section.settings.button_border_radius }}px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  /* Button Shine Effect */
+  .zs-steps-{{ section.id }} .zs-step-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover::before {
+    left: 100%;
+  }
+
+  {% if section.settings.link_style == 'filled' %}
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    box-shadow: 0 6px 20px {{ section.settings.primary_color | color_modify: 'alpha', 0.35 }};
+    border: none;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 30px {{ section.settings.primary_color | color_modify: 'alpha', 0.45 }};
+  }
+  {% elsif section.settings.link_style == 'outlined' %}
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    background: transparent;
+    color: var(--zs-primary);
+    border: 2px solid var(--zs-primary);
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover {
+    background: var(--zs-primary);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px {{ section.settings.primary_color | color_modify: 'alpha', 0.3 }};
+  }
+  {% elsif section.settings.link_style == 'ghost' %}
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.1 }};
+    color: var(--zs-primary);
+    border: none;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover {
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.2 }};
+    transform: translateY(-2px);
+  }
+  {% elsif section.settings.link_style == 'gradient-border' %}
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    background: var(--zs-card-bg);
+    color: var(--zs-primary);
+    border: 2px solid transparent;
+    background-image: linear-gradient(var(--zs-card-bg), var(--zs-card-bg)), linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover {
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    color: #fff;
+    transform: translateY(-3px);
+  }
+  {% else %}
+  .zs-steps-{{ section.id }} .zs-step-cta {
+    background: transparent;
+    color: var(--zs-primary);
+    padding: 10px 0;
+    border-radius: 0;
+    border: none;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta .cta-underline {
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--zs-primary), var(--zs-secondary));
+    transition: width 0.3s ease;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover .cta-underline {
+    width: 100%;
+  }
+  {% endif %}
+
+  .zs-steps-{{ section.id }} .zs-step-cta svg {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+  .zs-steps-{{ section.id }} .zs-step-cta:hover svg {
+    transform: translateX(5px);
+  }
+
+  /* Step Number Inside Button Option */
+  .zs-steps-{{ section.id }} .zs-step-cta .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* Progress Dots */
+  {% if section.settings.show_progress_dots %}
+  .zs-steps-{{ section.id }} .zs-progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 50px;
+  }
+  .zs-steps-{{ section.id }} .zs-progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: {{ section.settings.primary_color | color_modify: 'alpha', 0.2 }};
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .zs-steps-{{ section.id }} .zs-progress-dot.active,
+  .zs-steps-{{ section.id }} .zs-progress-dot:hover {
+    background: linear-gradient(135deg, var(--zs-primary), var(--zs-secondary));
+    transform: scale(1.2);
+    box-shadow: 0 0 15px {{ section.settings.primary_color | color_modify: 'alpha', 0.5 }};
+  }
+  {% endif %}
+
+  /* Floating Elements Animation */
+  {% if section.settings.enable_floating_elements %}
+  .zs-steps-{{ section.id }} .zs-floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+  }
+  .zs-steps-{{ section.id }} .zs-floating-shape:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }}, transparent);
+    top: 20%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+  .zs-steps-{{ section.id }} .zs-floating-shape:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, {{ section.settings.secondary_color | color_modify: 'alpha', 0.12 }}, transparent);
+    top: 60%;
+    right: 8%;
+    animation-delay: 2s;
+  }
+  .zs-steps-{{ section.id }} .zs-floating-shape:nth-child(3) {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, {{ section.settings.accent_color | color_modify: 'alpha', 0.1 }}, transparent);
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 4s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+  {% endif %}
+
+  /* Scroll Animation */
+  {% if section.settings.enable_scroll_animation %}
+  .zs-steps-{{ section.id }} .zs-step-card {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  .zs-steps-{{ section.id }} .zs-step-card.is-visible {
+    animation: slideUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(2).is-visible { animation-delay: 0.15s; }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(3).is-visible { animation-delay: 0.3s; }
+  .zs-steps-{{ section.id }} .zs-step-card:nth-child(4).is-visible { animation-delay: 0.45s; }
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  {% endif %}
+
+  /* Tablet Responsive */
+  @media screen and (max-width: 990px) {
+    .zs-steps-{{ section.id }} .zs-steps-grid {
+      grid-template-columns: repeat({{ section.settings.columns_tablet }}, 1fr) !important;
+    }
+    .zs-steps-{{ section.id }} .zs-step-card {
+      transform: none !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
+    .zs-steps-{{ section.id }} .zs-step-card .zs-step-image-container {
+      aspect-ratio: {{ section.settings.image_aspect_ratio }} !important;
+    }
+    .zs-steps-{{ section.id }} .zs-timeline-line {
+      display: none;
+    }
+    .zs-steps-{{ section.id }} .zs-step-card::before {
+      display: none !important;
+    }
+    {% if section.settings.layout_style == 'zigzag' %}
+    .zs-steps-{{ section.id }} .zs-step-card {
+      grid-template-columns: 1fr !important;
+      direction: ltr !important;
+    }
+    {% endif %}
+  }
+
+  /* Mobile Responsive */
+  @media screen and (max-width: 749px) {
+    .zs-steps-{{ section.id }} {
+      padding: {{ section.settings.padding_top | times: 0.5 }}px 15px {{ section.settings.padding_bottom | times: 0.5 }}px;
+    }
+    .zs-steps-{{ section.id }} .zs-steps-grid {
+      grid-template-columns: 1fr !important;
+      gap: {{ section.settings.grid_gap | times: 0.8 }}px;
+    }
+    .zs-steps-{{ section.id }} .zs-main-heading {
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+    .zs-steps-{{ section.id }} .zs-step-content {
+      padding: {{ section.settings.content_padding | times: 0.8 }}px;
+    }
+    .zs-steps-{{ section.id }} .zs-floating-shape {
+      display: none;
+    }
+    .zs-steps-{{ section.id }} .zs-step-cta {
+      width: 100%;
+      justify-content: center;
+    }
+    .zs-steps-{{ section.id }} .zs-eyebrow::before,
+    .zs-steps-{{ section.id }} .zs-eyebrow::after {
+      width: 20px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="zs-steps-{{ section.id }}" id="zs-steps-{{ section.id }}">
+  {% if section.settings.enable_floating_elements %}
+    <div class="zs-floating-shape"></div>
+    <div class="zs-floating-shape"></div>
+    <div class="zs-floating-shape"></div>
+  {% endif %}
+
+  <div class="zs-container">
+    <!-- Header -->
+    <div class="zs-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="zs-eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+
+      <h2 class="zs-main-heading">
+        {{ section.settings.heading_before }}
+        {%- if section.settings.heading_highlight != blank -%}
+          <span class="zs-gradient-text">{{ section.settings.heading_highlight }}</span>
+        {%- endif -%}
+        {{ section.settings.heading_after }}
+      </h2>
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="zs-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Steps -->
+    <div class="zs-steps-wrapper">
+      {% if section.settings.layout_style == 'timeline' %}
+        <div class="zs-timeline-line"></div>
+      {% endif %}
+
+      <div class="zs-steps-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            <div class="zs-step-card" {{ block.shopify_attributes }}>
+              {%- if section.settings.show_badge -%}
+                <div class="zs-step-badge">
+                  {%- if block.settings.custom_badge != blank -%}
+                    {{ block.settings.custom_badge }}
+                  {%- else -%}
+                    {{ forloop.index }}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <div class="zs-step-image-container">
+                {%- if block.settings.image != blank -%}
+                  <img
+                    class="zs-step-image"
+                    src="{{ block.settings.image | image_url: width: 800 }}"
+                    alt="{{ block.settings.image.alt | default: block.settings.title }}"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'zs-step-image' }}
+                {%- endif -%}
+              </div>
+
+              <div class="zs-step-content">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="zs-step-title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+
+                {%- if block.settings.description != blank -%}
+                  <p class="zs-step-description">{{ block.settings.description }}</p>
+                {%- endif -%}
+
+                {%- comment -%} Button is always shown with fallback text {%- endcomment -%}
+                <a href="{{ block.settings.link_url | default: '#' }}" class="zs-step-cta">
+                  {% if section.settings.show_step_in_button %}
+                    <span class="step-num">{{ forloop.index }}</span>
+                  {% endif %}
+                  {{ block.settings.link_text | default: 'Learn More' }}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                  {% if section.settings.link_style == 'text' %}
+                    <span class="cta-underline"></span>
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {% if section.settings.show_progress_dots %}
+      <div class="zs-progress-dots">
+        {%- for block in section.blocks -%}
+          <div class="zs-progress-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}"></div>
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{%- if section.settings.enable_scroll_animation -%}
+<script>
+  (function() {
+    const section = document.querySelector('.zs-steps-{{ section.id }}');
+    const cards = section.querySelectorAll('.zs-step-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+
+    cards.forEach(card => observer.observe(card));
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ZS Steps Premium",
+  "tag": "section",
+  "class": "zs-steps-premium",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Color Theme"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "secondary_color",
+      "label": "Secondary Color",
+      "default": "#F7931E"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#FFB347"
+    },
+    {
+      "type": "color",
+      "id": "text_dark",
+      "label": "Dark Text Color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "text_light",
+      "label": "Light Text Color",
+      "default": "#6b7280"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "📐 Section Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1300
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decorative_elements",
+      "label": "Show Decorative Background Blurs",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "✨ Header Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "How It Works"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading (Before Highlight)",
+      "default": "In"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Highlighted Text (Gradient)",
+      "default": "drie stappen"
+    },
+    {
+      "type": "text",
+      "id": "heading_after",
+      "label": "Heading (After Highlight)",
+      "default": "naar een grotere woning"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Ontdek hoe eenvoudig het is om uw droomuitbreiding te realiseren"
+    },
+    {
+      "type": "header",
+      "content": "📝 Heading Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 32,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" },
+        { "value": "900", "label": "Black" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Highlight Style",
+      "options": [
+        { "value": "gradient", "label": "Gradient Text" },
+        { "value": "underline", "label": "Gradient + Underline" }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Header Margin Bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "🏷️ Eyebrow & Subheading"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow Font Size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#6b7280"
+    },
+    {
+      "type": "header",
+      "content": "🔢 Grid Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        { "value": "grid", "label": "Standard Grid" },
+        { "value": "staggered", "label": "Staggered Diagonal" },
+        { "value": "zigzag", "label": "Zigzag Alternating" },
+        { "value": "creative", "label": "Creative Asymmetric" },
+        { "value": "timeline", "label": "Timeline with Progress Line" }
+      ],
+      "default": "staggered"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_connectors",
+      "label": "Show Connection Lines",
+      "default": false,
+      "info": "Shows lines connecting the steps (works best with grid layout)"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns (Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Columns (Tablet)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "🎴 Card Design"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card Style",
+      "options": [
+        { "value": "solid", "label": "Solid Background" },
+        { "value": "glass", "label": "Glassmorphism" },
+        { "value": "gradient", "label": "Subtle Gradient" },
+        { "value": "outlined", "label": "Outlined/Minimal" }
+      ],
+      "default": "glass"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Card Border Radius",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow",
+      "label": "Enable Card Shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🔵 Step Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Step Badge",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "badge_style",
+      "label": "Badge Style",
+      "options": [
+        { "value": "classic", "label": "Classic Circle" },
+        { "value": "floating", "label": "Floating Center" },
+        { "value": "corner", "label": "Corner Triangle" },
+        { "value": "ribbon", "label": "Diagonal Ribbon" },
+        { "value": "hexagon", "label": "Hexagon" },
+        { "value": "minimal", "label": "Minimal Outlined" }
+      ],
+      "default": "floating"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "min": 36,
+      "max": 70,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge Size",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge Font Size",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "badge_font_weight",
+      "label": "Badge Font Weight",
+      "options": [
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "header",
+      "content": "🖼️ Image Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "4/3", "label": "Landscape (4:3)" },
+        { "value": "16/10", "label": "Wide (16:10)" },
+        { "value": "3/4", "label": "Portrait (3:4)" }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "header",
+      "content": "📄 Content Area"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 16,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Content Padding",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "📌 Title & Description"
+    },
+    {
+      "type": "range",
+      "id": "step_title_size",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "step_title_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "step_title_margin",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Margin Bottom",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "step_desc_size",
+      "min": 13,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "step_desc_weight",
+      "label": "Description Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "step_desc_margin",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Description Margin Bottom",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "🔗 CTA Link/Button"
+    },
+    {
+      "type": "select",
+      "id": "link_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "filled", "label": "Filled Gradient" },
+        { "value": "outlined", "label": "Outlined" },
+        { "value": "gradient-border", "label": "Gradient Border" },
+        { "value": "ghost", "label": "Ghost/Soft" },
+        { "value": "text", "label": "Text with Underline" }
+      ],
+      "default": "filled"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_in_button",
+      "label": "Show Step Number in Button",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "min": 13,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Link Font Size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "link_weight",
+      "label": "Link Font Weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "✨ Animations & Effects"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_scroll_animation",
+      "label": "Enable Scroll Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_elements",
+      "label": "Enable Floating Decorative Shapes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_dots",
+      "label": "Show Progress Dots",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image"
+        },
+        {
+          "type": "text",
+          "id": "custom_badge",
+          "label": "Custom Badge Text",
+          "info": "Leave empty to auto-number"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Ontwerp zelf je aanbouw of bezoek onze showroom."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Maak jouw ontwerp"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS Steps Premium",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Ontwerp zelf je aanbouw of bezoek onze showroom.",
+            "link_text": "Maak jouw ontwerp"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Al jouw wensen bekend? Dan komen we langs en meten alles in.",
+            "link_text": "Bekijk werkwijze"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Tijd voor het plaatsen. Binnen 5 dagen staat je aanbouw.",
+            "link_text": "Bekijk projecten"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

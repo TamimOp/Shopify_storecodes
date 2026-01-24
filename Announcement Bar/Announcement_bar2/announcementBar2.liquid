@@ -1,0 +1,619 @@
+{{ 'component-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="zs-announcement-bar" style="background-color: {{ section.settings.background_color }};">
+  <div class="container container-{{ section.settings.container }} zs-announcement-container">
+    <div class="zs-announcement-left">
+      <div class="zs-announcement-left-mark">
+      {%- for content in (1..10) -%}
+        <div class="zs-marquee-track"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+          {% for block in section.blocks %}
+            {% if block.type == 'feature' %}
+              <div class="zs-feature-item"{% if forloop.parent.index == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                {% if block.settings.icon_svg != blank %}
+                  <div class="zs-feature-icon">
+                    {{ block.settings.icon_svg }}
+                  </div>
+                {% endif %}
+                <span class="zs-feature-text" style="color: {{ section.settings.text_color }}; font-size: {{ section.settings.text_size }}px; font-weight: {{ section.settings.text_weight }};">
+                  {{ block.settings.text }}
+                </span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {%- endfor -%}
+      </div>
+    </div>
+    
+    <div class="zs-announcement-right">
+      {% if section.settings.show_reviews %}
+        <div class="zs-reviews-wrapper">
+          <span class="zs-reviews-text" style="color: {{ section.settings.reviews_text_color }}; font-size: {{ section.settings.reviews_text_size }}px; font-weight: {{ section.settings.reviews_text_weight }};">
+            {{ section.settings.reviews_text }}
+          </span>
+          {% if section.settings.show_stars %}
+            <div class="zs-stars">
+              {{ section.settings.stars_svg }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+.zs-announcement-bar {
+  width: 100%;
+  padding: {{ section.settings.padding_top }}px 15px {{ section.settings.padding_bottom }}px 15px;
+  overflow: hidden;
+}
+
+{%- if section.settings.container == 'full' -%}
+  .zs-announcement-bar .container-full {
+    padding-left: {{ section.settings.padding_full_width | append: 'px' }};
+    padding-right: {{ section.settings.padding_full_width | append: 'px' }};
+  }
+{%- endif -%}
+
+.zs-announcement-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: {{ section.settings.gap_between_sections }}px;
+}
+
+.zs-announcement-left {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  grid: auto/auto-flow max-content;
+  justify-content: start;
+}
+
+.zs-announcement-left::before,
+.zs-announcement-left::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.zs-announcement-left::before {
+  left: 0;
+  background: linear-gradient(to right, {{ section.settings.background_color }}, transparent);
+}
+
+.zs-announcement-left::after {
+  right: 0;
+  background: linear-gradient(to left, {{ section.settings.background_color }}, transparent);
+}
+
+.zs-marquee-track {
+  display: flex;
+  align-items: center;
+
+}
+.zs-announcement-left-mark{
+  display: flex;
+  align-items: center;
+  animation: translateLeft 300s linear infinite;
+}
+.zs-announcement-left-mark:hover {
+  animation-play-state: paused;
+}
+
+@keyframes translateLeft {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(-100%);
+  }
+}
+
+.zs-feature-item {
+  display: flex;
+  align-items: center;
+  gap: {{ section.settings.icon_text_gap }}px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-left: calc({{ section.settings.gap_between_items }}px / 2);
+  padding-right: calc({{ section.settings.gap_between_items }}px / 2);
+}
+
+.zs-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: {{ section.settings.icon_size }}px;
+  height: {{ section.settings.icon_size }}px;
+  flex-shrink: 0;
+}
+
+.zs-feature-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.zs-feature-text {
+  white-space: nowrap;
+}
+
+.zs-announcement-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.zs-reviews-wrapper {
+  display: flex;
+  align-items: center;
+  gap: {{ section.settings.reviews_gap }}px;
+  white-space: nowrap;
+}
+
+.zs-reviews-text {
+  white-space: nowrap;
+}
+
+.zs-stars {
+  display: flex;
+  align-items: center;
+  height: {{ section.settings.stars_height }}px;
+  flex-shrink: 0;
+}
+
+.zs-stars svg {
+  height: 100%;
+  width: auto;
+}
+
+@media (max-width: {{ section.settings.mobile_breakpoint }}px) {
+  .zs-announcement-bar {
+    padding: {{ section.settings.mobile_padding_top }}px 15px {{ section.settings.mobile_padding_bottom }}px 15px;
+  }
+  
+  .zs-announcement-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .zs-announcement-left {
+    justify-content: center;
+  }
+  
+  .zs-feature-text {
+    font-size: {{ section.settings.mobile_text_size }}px !important;
+  }
+  
+  .zs-reviews-text {
+    font-size: {{ section.settings.mobile_reviews_text_size }}px !important;
+  }
+  
+  .zs-feature-icon {
+    width: {{ section.settings.mobile_icon_size }}px;
+    height: {{ section.settings.mobile_icon_size }}px;
+  }
+  
+  .zs-stars {
+    height: {{ section.settings.mobile_stars_height }}px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "ZS Announcement Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container Width",
+      "default": "1770",
+      "options": [
+        {
+          "value": "1170",
+          "label": "1170px"
+        },
+        {
+          "value": "1370",
+          "label": "1370px"
+        },
+        {
+          "value": "1470",
+          "label": "1470px"
+        },
+        {
+          "value": "1570",
+          "label": "1570px"
+        },
+        {
+          "value": "1770",
+          "label": "1770px"
+        },
+        {
+          "value": "full",
+          "label": "Full Width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_full_width",
+      "label": "Padding for Full Width",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20,
+      "info": "Only applies when Full Width is selected"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap_between_sections",
+      "label": "Gap Between Left & Right Sections",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap_between_items",
+      "label": "Gap Between Feature Items",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap",
+      "label": "Gap Between Icon & Text",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Feature Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Feature Text Settings"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Icon Settings"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Reviews Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Reviews",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews Text",
+      "default": "Gebaseerd op 633 reviews"
+    },
+    {
+      "type": "color",
+      "id": "reviews_text_color",
+      "label": "Reviews Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "reviews_text_size",
+      "label": "Reviews Text Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "reviews_text_weight",
+      "label": "Reviews Text Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "reviews_gap",
+      "label": "Gap Between Text & Stars",
+      "min": 5,
+      "max": 30,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Star Rating Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show Star Rating",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "stars_svg",
+      "label": "Stars SVG",
+      "default": "<svg width=\"107\" height=\"20\" viewBox=\"0 0 107 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M0 0H20.0625V19.9893H0V0ZM21.7344 0H41.7969V19.9893H21.7344V0ZM43.4688 0H63.5312V19.9893H43.4688V0ZM65.2031 0H85.2656V19.9893H65.2031V0ZM86.9375 0H107V19.9893H86.9375V0Z\" fill=\"#00B67A\"/><path d=\"M10.0313 13.472L13.0824 12.7016L14.3572 16.6161L10.0313 13.472ZM17.0531 8.41218H11.6823L10.0313 3.3732L8.3803 8.41218H3.0094L7.35627 11.5355L5.7053 16.5745L10.0522 13.4512L12.7272 11.5355L17.0531 8.41218ZM31.7656 13.472L34.8168 12.7016L36.0916 16.6161L31.7656 13.472ZM38.7875 8.41218H33.4166L31.7656 3.3732L30.1147 8.41218H24.7438L29.0906 11.5355L27.4397 16.5745L31.7865 13.4512L34.4615 11.5355L38.7875 8.41218ZM53.5 13.472L56.5512 12.7016L57.826 16.6161L53.5 13.472ZM60.5219 8.41218H55.151L53.5 3.3732L51.849 8.41218H46.4781L50.825 11.5355L49.174 16.5745L53.5209 13.4512L56.1959 11.5355L60.5219 8.41218ZM75.2344 13.472L78.2856 12.7016L79.5604 16.6161L75.2344 13.472ZM82.2563 8.41218H76.8854L75.2344 3.3732L73.5834 8.41218H68.2125L72.5594 11.5355L70.9084 16.5745L75.2553 13.4512L77.9303 11.5355L82.2563 8.41218ZM96.9688 13.472L100.02 12.7016L101.295 16.6161L96.9688 13.472ZM103.991 8.41218H98.6197L96.9688 3.3732L95.3178 8.41218H89.9469L94.2938 11.5355L92.6428 16.5745L96.9897 13.4512L99.6647 11.5355L103.991 8.41218Z\" fill=\"white\"/></svg>",
+      "info": "Paste your 5-star SVG code here"
+    },
+    {
+      "type": "range",
+      "id": "stars_height",
+      "label": "Stars Height",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_breakpoint",
+      "label": "Mobile Breakpoint",
+      "min": 480,
+      "max": 1024,
+      "step": 16,
+      "default": 768,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile Padding Top",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile Padding Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "label": "Mobile Text Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_reviews_text_size",
+      "label": "Mobile Reviews Text Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_icon_size",
+      "label": "Mobile Icon Size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_stars_height",
+      "label": "Mobile Stars Height",
+      "min": 12,
+      "max": 30,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Item",
+      "settings": [
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "default": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2'><path d='M20 6L9 17l-5-5'/></svg>",
+          "info": "Paste your SVG code here. You can control icon thickness using stroke-width attribute in the SVG."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Gratis bezorging"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS Announcement Bar",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2.5'><rect x='1' y='3' width='15' height='13'/><path d='M16 8h4l3 3v5h-7V8z'/><circle cx='5.5' cy='18.5' r='2.5'/><circle cx='18.5' cy='18.5' r='2.5'/></svg>",
+            "text": "Gratis bezorging"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2.5'><rect x='1' y='4' width='22' height='16' rx='2' ry='2'/><line x1='1' y1='10' x2='23' y2='10'/></svg>",
+            "text": "Gratis achteraf betalen"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2.5'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>",
+            "text": "Altijd 5 jaar garantie"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2.5'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>",
+            "text": "Binnen 30 dagen retourneren"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#ffb800' stroke-width='2.5'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>",
+            "text": "Laagste prijs garantie"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,490 @@
+{% comment %}
+  ZS Marquee Section - "As Seen In" Logo Marquee
+  Features:
+  - Fixed "AS SEEN IN" text on left
+  - Infinite scrolling logo marquee (Pure CSS)
+  - Customizable background color, text color, speed, direction
+{% endcomment %}
+
+<section 
+  class="zs-marquee-section zs-marquee-section-{{ section.id }}" 
+  style="
+    --zs-marquee-bg: {{ section.settings.background_color }};
+    --zs-marquee-text-color: {{ section.settings.text_color }};
+    --zs-marquee-logo-filter: {{ section.settings.logo_style }};
+    --zs-marquee-height: {{ section.settings.section_height }}px;
+    --zs-marquee-gap: {{ section.settings.logo_gap }}px;
+    --zs-marquee-logo-height: {{ section.settings.logo_height }}px;
+    --zs-marquee-speed: {{ section.settings.marquee_speed }}s;
+  "
+>
+  <div class="zs-marquee-container">
+    {%- if section.settings.fixed_text != blank -%}
+      <div class="zs-marquee-fixed-text">
+        <span>{{ section.settings.fixed_text }}</span>
+      </div>
+    {%- endif -%}
+
+    <div class="zs-marquee-wrapper">
+      <div class="zs-marquee-scroll {% if section.settings.marquee_direction == 'right' %}zs-marquee-reverse{% endif %}">
+        {%- for i in (1..10) -%}
+          <div class="zs-marquee-track"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+            {%- for block in section.blocks -%}
+              <div class="zs-marquee-item"{% if forloop.parent.index == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                {%- if block.settings.logo_image != blank -%}
+                  {%- if block.settings.logo_link != blank -%}
+                    <a href="{{ block.settings.logo_link }}" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.logo_alt | default: 'Logo' }}">
+                      <img 
+                        src="{{ block.settings.logo_image | image_url: width: 300 }}"
+                        alt="{{ block.settings.logo_alt | default: 'Featured logo' }}"
+                        width="auto"
+                        height="{{ section.settings.logo_height }}"
+                        loading="lazy"
+                      >
+                    </a>
+                  {%- else -%}
+                    <img 
+                      src="{{ block.settings.logo_image | image_url: width: 300 }}"
+                      alt="{{ block.settings.logo_alt | default: 'Featured logo' }}"
+                      width="auto"
+                      height="{{ section.settings.logo_height }}"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                {%- elsif block.settings.logo_svg != blank -%}
+                  {{ block.settings.logo_svg }}
+                {%- else -%}
+                  <div class="zs-marquee-placeholder">
+                    {{ 'image' | placeholder_svg_tag: 'zs-placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ZS Marquee Section Styles */
+  .zs-marquee-section {
+    background-color: var(--zs-marquee-bg, #000000);
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .zs-marquee-container {
+    display: flex;
+    align-items: center;
+    height: var(--zs-marquee-height, 60px);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Fixed Text Styles */
+  .zs-marquee-fixed-text {
+    flex-shrink: 0;
+    padding: 0 30px 0 40px;
+    background-color: var(--zs-marquee-bg, #000000);
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .zs-marquee-fixed-text::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: 0;
+    height: 100%;
+    width: 30px;
+    background: linear-gradient(to right, var(--zs-marquee-bg, #000000), transparent);
+    z-index: 5;
+  }
+
+  .zs-marquee-fixed-text span {
+    color: var(--zs-marquee-text-color, #666666);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Marquee Wrapper */
+  .zs-marquee-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    grid: auto / auto-flow max-content;
+    justify-content: start;
+  }
+
+  /* Marquee Scroll Container */
+  .zs-marquee-scroll {
+    display: flex;
+    align-items: center;
+    animation: zs-marquee-left var(--zs-marquee-speed, 30s) linear infinite;
+  }
+
+  .zs-marquee-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .zs-marquee-scroll.zs-marquee-reverse {
+    animation-name: zs-marquee-right;
+  }
+
+  /* Marquee Track */
+  .zs-marquee-track {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Marquee Item */
+  .zs-marquee-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 calc(var(--zs-marquee-gap, 60px) / 2);
+  }
+
+  .zs-marquee-item img {
+    height: var(--zs-marquee-logo-height, 20px);
+    width: auto;
+    object-fit: contain;
+    filter: var(--zs-marquee-logo-filter, grayscale(100%) brightness(0.6));
+    transition: filter 0.3s ease, opacity 0.3s ease;
+    opacity: 0.7;
+  }
+
+  .zs-marquee-item:hover img {
+    filter: grayscale(0%) brightness(1);
+    opacity: 1;
+  }
+
+  .zs-marquee-item a {
+    display: flex;
+    align-items: center;
+  }
+
+  .zs-marquee-item svg {
+    height: var(--zs-marquee-logo-height, 20px);
+    width: auto;
+    fill: var(--zs-marquee-text-color, #666666);
+    transition: fill 0.3s ease;
+  }
+
+  .zs-marquee-item:hover svg {
+    fill: #ffffff;
+  }
+
+  /* Placeholder */
+  .zs-marquee-placeholder {
+    width: 100px;
+    height: var(--zs-marquee-logo-height, 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zs-marquee-placeholder .zs-placeholder-svg {
+    height: 100%;
+    width: auto;
+    fill: var(--zs-marquee-text-color, #666666);
+  }
+
+  /* Keyframes */
+  @keyframes zs-marquee-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes zs-marquee-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .zs-marquee-container {
+      height: calc(var(--zs-marquee-height, 60px) * 0.85);
+    }
+
+    .zs-marquee-fixed-text {
+      padding: 0 20px 0 20px;
+    }
+
+    .zs-marquee-fixed-text span {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    .zs-marquee-item img {
+      height: calc(var(--zs-marquee-logo-height, 20px) * 0.8);
+    }
+
+    .zs-marquee-item {
+      padding: 0 calc(var(--zs-marquee-gap, 60px) * 0.35);
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .zs-marquee-fixed-text {
+      padding: 0 15px;
+    }
+
+    .zs-marquee-fixed-text span {
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    .zs-marquee-item img {
+      height: calc(var(--zs-marquee-logo-height, 20px) * 0.65);
+    }
+
+    .zs-marquee-item {
+      padding: 0 calc(var(--zs-marquee-gap, 60px) * 0.25);
+    }
+  }
+
+  /* Reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .zs-marquee-scroll {
+      animation: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ZS Marquee - As Seen In",
+  "tag": "section",
+  "class": "zs-marquee-section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "fixed_text",
+      "label": "Fixed Text",
+      "default": "AS SEEN IN",
+      "info": "Text displayed on the left side (stays fixed)"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section Height",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "select",
+      "id": "logo_style",
+      "label": "Logo Style",
+      "options": [
+        {
+          "value": "grayscale(100%) brightness(0.6)",
+          "label": "Grayscale (Dark)"
+        },
+        {
+          "value": "grayscale(100%) brightness(1)",
+          "label": "Grayscale (Light)"
+        },
+        {
+          "value": "grayscale(100%) brightness(0.4)",
+          "label": "Grayscale (Darker)"
+        },
+        {
+          "value": "grayscale(0%)",
+          "label": "Original Colors"
+        },
+        {
+          "value": "brightness(0) invert(1) opacity(0.6)",
+          "label": "White Logos"
+        },
+        {
+          "value": "brightness(0) invert(0) opacity(0.6)",
+          "label": "Black Logos"
+        }
+      ],
+      "default": "grayscale(100%) brightness(0.6)"
+    },
+    {
+      "type": "header",
+      "content": "Logo Settings"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Height",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_gap",
+      "label": "Gap Between Logos",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Animation Settings"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Scroll Speed",
+      "min": 10,
+      "max": 300,
+      "step": 10,
+      "default": 60,
+      "unit": "s",
+      "info": "Lower = faster scrolling"
+    },
+    {
+      "type": "select",
+      "id": "marquee_direction",
+      "label": "Scroll Direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo Image"
+        },
+        {
+          "type": "html",
+          "id": "logo_svg",
+          "label": "Logo SVG Code",
+          "info": "Paste SVG code here as an alternative to image"
+        },
+        {
+          "type": "text",
+          "id": "logo_alt",
+          "label": "Logo Alt Text",
+          "info": "Describe the logo for accessibility"
+        },
+        {
+          "type": "url",
+          "id": "logo_link",
+          "label": "Logo Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ZS Marquee - As Seen In",
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "The Oprah Magazine"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Cosmopolitan"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "ELLE"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Goop"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Forbes"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "People"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Vogue"
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "logo_alt": "Women's Health"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

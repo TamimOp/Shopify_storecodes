@@ -1,0 +1,637 @@
+{% comment %}
+  Industry Applications Section
+  - Left sidebar with filterable tabs
+  - Right side with cards grid
+  - Each tab filters cards by category
+  - Full schema control for all content
+{% endcomment %}
+
+{{ 'industry-applications.css' | asset_url | stylesheet_tag }}
+
+<section class="industry-applications" id="industry-applications-{{ section.id }}">
+  <div class="industry-applications__container">
+    <!-- Left Sidebar with Tabs -->
+    <div class="industry-applications__sidebar">
+      <h3 class="industry-applications__sidebar-title" style="color: {{ section.settings.sidebar_title_color }};">
+        {{ section.settings.sidebar_title }}
+      </h3>
+      
+      <ul class="industry-applications__tabs">
+        <!-- All Applications Tab -->
+        <li class="industry-applications__tab active" data-category="all">
+          <button type="button" 
+                  class="industry-applications__tab-btn active"
+                  data-category="all"
+                  style="--active-color: {{ section.settings.tab_active_color }}; --inactive-color: {{ section.settings.tab_inactive_color }};">
+            {{ section.settings.all_tab_label }}
+          </button>
+        </li>
+        
+        <!-- Dynamic Category Tabs -->
+        {% for block in section.blocks %}
+          {% if block.type == 'category' %}
+            <li class="industry-applications__tab" data-category="{{ block.settings.category_id }}">
+              <button type="button" 
+                      class="industry-applications__tab-btn"
+                      data-category="{{ block.settings.category_id }}"
+                      data-heading="{{ block.settings.category_heading }}"
+                      style="--active-color: {{ section.settings.tab_active_color }}; --inactive-color: {{ section.settings.tab_inactive_color }};">
+                {{ block.settings.category_name }}
+              </button>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    
+    <!-- Right Content Area -->
+    <div class="industry-applications__content">
+      <!-- Dynamic Heading -->
+      <h2 class="industry-applications__heading" 
+          id="industry-heading-{{ section.id }}"
+          style="color: {{ section.settings.heading_color }};">
+        {{ section.settings.all_applications_heading }}
+      </h2>
+      
+      <!-- Cards Grid -->
+      <div class="industry-applications__grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'card' %}
+            <a href="{{ block.settings.card_link }}" 
+               class="industry-applications__card" 
+               data-category="{{ block.settings.card_category }}"
+               {{ block.shopify_attributes }}>
+              <div class="industry-applications__card-image">
+                {% if block.settings.card_image != blank %}
+                  <img src="{{ block.settings.card_image | image_url: width: 600 }}" 
+                       alt="{{ block.settings.card_title }}"
+                       loading="lazy"
+                       width="600"
+                       height="300">
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+              <div class="industry-applications__card-content">
+                <h4 class="industry-applications__card-title" style="color: {{ section.settings.card_title_color }};">
+                  {{ block.settings.card_title }}
+                </h4>
+                <p class="industry-applications__card-description" style="color: {{ section.settings.card_description_color }};">
+                  {{ block.settings.card_description }}
+                </p>
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('industry-applications-{{ section.id }}');
+    const tabs = section.querySelectorAll('.industry-applications__tab-btn');
+    const cards = section.querySelectorAll('.industry-applications__card');
+    const heading = section.querySelector('.industry-applications__heading');
+    
+    // Store category headings
+    const categoryHeadings = {
+      'all': '{{ section.settings.all_applications_heading | escape }}',
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
+          '{{ block.settings.category_id }}': '{{ block.settings.category_heading | escape }}',
+        {% endif %}
+      {% endfor %}
+    };
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        
+        // Update active tab
+        tabs.forEach(t => t.classList.remove('active'));
+        section.querySelectorAll('.industry-applications__tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        this.closest('.industry-applications__tab').classList.add('active');
+        
+        // Update heading
+        if (categoryHeadings[category]) {
+          heading.textContent = categoryHeadings[category];
+        }
+        
+        // Filter cards
+        cards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (category === 'all' || cardCategory === category) {
+            card.style.display = 'flex';
+            card.classList.add('visible');
+            card.classList.remove('hidden');
+          } else {
+            card.style.display = 'none';
+            card.classList.remove('visible');
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Industry Applications",
+  "tag": "section",
+  "class": "industry-applications-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sidebar Settings"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_title",
+      "label": "Sidebar Title",
+      "default": "Industries"
+    },
+    {
+      "type": "color",
+      "id": "sidebar_title_color",
+      "label": "Sidebar Title Color",
+      "default": "#00a0dc"
+    },
+    {
+      "type": "text",
+      "id": "all_tab_label",
+      "label": "All Applications Tab Label",
+      "default": "All Applications"
+    },
+    {
+      "type": "text",
+      "id": "all_applications_heading",
+      "label": "All Applications Heading",
+      "default": "All Wireless Monitoring Applications"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Tab Active Color",
+      "default": "#00a0dc"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_color",
+      "label": "Tab Inactive Color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Main Heading Color",
+      "default": "#00a0dc"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card_description_color",
+      "label": "Card Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "sidebar_width",
+      "label": "Sidebar Width (%)",
+      "min": 15,
+      "max": 35,
+      "step": 1,
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "cards_per_row",
+      "label": "Cards Per Row (Desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap Between Cards (px)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Padding Top (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Section Padding Bottom (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_id",
+          "label": "Category ID",
+          "info": "Unique ID for this category (e.g., agriculture, construction). Use lowercase, no spaces.",
+          "default": "category"
+        },
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Category Tab Name",
+          "info": "Display name shown in the sidebar",
+          "default": "Category Name"
+        },
+        {
+          "type": "text",
+          "id": "category_heading",
+          "label": "Category Heading",
+          "info": "Heading shown when this category is selected",
+          "default": "Category Wireless Monitoring Applications"
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Application Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title",
+          "default": "Application Title"
+        },
+        {
+          "type": "textarea",
+          "id": "card_description",
+          "label": "Card Description",
+          "default": "Description of this application and its benefits."
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Card Link",
+          "info": "URL to redirect when card is clicked"
+        },
+        {
+          "type": "text",
+          "id": "card_category",
+          "label": "Card Category ID",
+          "info": "Must match one of the Category IDs you created (e.g., agriculture)",
+          "default": "category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Industry Applications",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "agriculture",
+            "category_name": "Agriculture",
+            "category_heading": "Agriculture Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "construction",
+            "category_name": "Construction",
+            "category_heading": "Construction Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "distribution",
+            "category_name": "Distribution",
+            "category_heading": "Distribution Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "education",
+            "category_name": "Education",
+            "category_heading": "Education Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "food",
+            "category_name": "Food",
+            "category_heading": "Food Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "manufacturing",
+            "category_name": "Manufacturing",
+            "category_heading": "Manufacturing Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "medical",
+            "category_name": "Medical",
+            "category_heading": "Medical Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "retail",
+            "category_name": "Retail",
+            "category_heading": "Retail Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_id": "technology",
+            "category_name": "Technology",
+            "category_heading": "Technology Wireless Monitoring Applications"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Dairy Farms",
+            "card_description": "Keep regular records of the temperature of milk and be instantly alerted of any fluctuations of temperature.",
+            "card_category": "agriculture"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Vineyards",
+            "card_description": "Monitor the climate of your vineyards by tracking the temperature and humidity, whenever the measurements change, receive instant alerts.",
+            "card_category": "agriculture"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Fertilizer Development",
+            "card_description": "Keeping fertilizer at the correct temperature and humidity.",
+            "card_category": "agriculture"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Farms",
+            "card_description": "Monitor greenhouse humidity and temperature levels. Receive alerts of any fluctuations that could jeopardize a harvest.",
+            "card_category": "agriculture"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  #industry-applications-{{ section.id }} {
+    background-color: {{ section.settings.section_background_color }};
+    padding-top: {{ section.settings.section_padding_top }}px;
+    padding-bottom: {{ section.settings.section_padding_bottom }}px;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__container {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 40px;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__sidebar {
+    flex: 0 0 {{ section.settings.sidebar_width }}%;
+    max-width: {{ section.settings.sidebar_width }}%;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__sidebar-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__tab {
+    margin-bottom: 5px;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: var(--inactive-color);
+    transition: color 0.3s ease;
+    font-family: inherit;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__tab-btn:hover,
+  #industry-applications-{{ section.id }} .industry-applications__tab-btn.active {
+    color: var(--active-color);
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__content {
+    flex: 1;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__heading {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.cards_per_row }}, 1fr);
+    gap: {{ section.settings.card_gap }}px;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card {
+    background-color: {{ section.settings.card_background_color }};
+    border-radius: 0;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card:hover .industry-applications__card-image img {
+    transform: scale(1.05);
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-image .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    text-align: center;
+  }
+  
+  #industry-applications-{{ section.id }} .industry-applications__card-description {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 991px) {
+    #industry-applications-{{ section.id }} .industry-applications__container {
+      flex-direction: column;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__sidebar {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-bottom: 30px;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__tab {
+      margin-bottom: 0;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__tab-btn {
+      padding: 8px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__tab-btn.active {
+      border-color: var(--active-color);
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__heading {
+      font-size: 26px;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    #industry-applications-{{ section.id }} .industry-applications__grid {
+      grid-template-columns: 1fr;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__heading {
+      font-size: 22px;
+    }
+    
+    #industry-applications-{{ section.id }} .industry-applications__tabs {
+      justify-content: center;
+    }
+  }
+</style>

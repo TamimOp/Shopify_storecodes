@@ -11,7 +11,9 @@
   // ================================
   const CONFIG = {
     currency: "€",
-    basePrice: 39950,
+    pricePerM2_1: 4438.89, // up to 9m²
+    pricePerM2_2: 3995.0, // above 9m² (example, adjust if needed)
+    areaThreshold: 9.0,
     minDepth: 150,
     maxDepth: 400,
     minLength: 200,
@@ -126,7 +128,7 @@
       lengthInput: document.querySelector(CONFIG.selectors.lengthInput),
       sizeResult: document.querySelector(CONFIG.selectors.sizeResult),
       previewContainer: document.querySelector(
-        CONFIG.selectors.previewContainer
+        CONFIG.selectors.previewContainer,
       ),
       exteriorImages: document.querySelector(CONFIG.selectors.exteriorImages),
       interiorImages: document.querySelector(CONFIG.selectors.interiorImages),
@@ -158,12 +160,12 @@
     // Exterior/Interior toggle
     if (elements.exteriorButton) {
       elements.exteriorButton.addEventListener("change", () =>
-        switchView("exterior")
+        switchView("exterior"),
       );
     }
     if (elements.interiorButton) {
       elements.interiorButton.addEventListener("change", () =>
-        switchView("interior")
+        switchView("interior"),
       );
     }
 
@@ -202,7 +204,7 @@
 
     // Value popup overlay click to close
     const valuePopupOverlay = document.querySelector(
-      ".vpc-value-popup__overlay"
+      ".vpc-value-popup__overlay",
     );
     if (valuePopupOverlay) {
       valuePopupOverlay.addEventListener("click", closeValuePopup);
@@ -295,7 +297,7 @@
         CHECKBOX_COMPONENTS.includes(input.name)
       ) {
         const checkedInputs = component.querySelectorAll(
-          `input[name="${input.name}"]:checked`
+          `input[name="${input.name}"]:checked`,
         );
         const values = Array.from(checkedInputs).map((i) => i.value);
         selectedSpan.textContent = values.join(", ");
@@ -340,12 +342,12 @@
     const component = input.closest(".vpc-component");
     const inputName = input.name;
     const allCheckboxes = component.querySelectorAll(
-      `input[name="${inputName}"]`
+      `input[name="${inputName}"]`,
     );
 
     // Find the "geen" option (first option with empty data-img or "geen" in value)
     const geenOption = component.querySelector(
-      `input[name="${inputName}"][data-default="1"]`
+      `input[name="${inputName}"][data-default="1"]`,
     );
     const isGeenOption =
       input.dataset.default === "1" ||
@@ -392,7 +394,7 @@
 
     // Add images for all checked options (except "geen" options)
     const checkedInputs = component.querySelectorAll(
-      `input[name="${inputName}"]:checked`
+      `input[name="${inputName}"]:checked`,
     );
     checkedInputs.forEach((input) => {
       const imgUrl = input.dataset.img;
@@ -439,7 +441,7 @@
   function handleConditionalOptions(selectedInput) {
     // Handle rollaag visibility based on gevelbekleding selection
     const gevelbekleding = selectedInput.closest(
-      '[data-component_id="component-5e68ad18fbbc0"]'
+      '[data-component_id="component-5e68ad18fbbc0"]',
     );
     if (gevelbekleding) {
       const value = selectedInput.value.toLowerCase();
@@ -485,13 +487,13 @@
 
   function updateLichtpuntTypeVisibility() {
     const lichtpuntTypeComponent = document.querySelector(
-      "#component-verlichting-lichtpunt-type"
+      "#component-verlichting-lichtpunt-type",
     );
     if (!lichtpuntTypeComponent) return;
 
     // Check if any lichtpunt option (other than "geen lichtpunt") is selected
     const lichtpuntInputs = document.querySelectorAll(
-      'input[name="Verlichting lichtpunt[]"]:checked'
+      'input[name="Verlichting lichtpunt[]"]:checked',
     );
     let hasLichtpuntSelected = false;
 
@@ -508,7 +510,7 @@
       lichtpuntTypeComponent.classList.add("hidden");
       // Reset to default when hidden
       const defaultInput = lichtpuntTypeComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -519,7 +521,7 @@
 
   function updateSchilderwerkVisibility(stucwerkValue) {
     const schilderwerkComponent = document.querySelector(
-      "#component-schilderwerk"
+      "#component-schilderwerk",
     );
     if (!schilderwerkComponent) return;
 
@@ -534,7 +536,7 @@
       schilderwerkComponent.classList.add("hidden");
       // Reset Schilderwerk to default (nee) when hidden
       const defaultInput = schilderwerkComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -545,13 +547,13 @@
 
   function updateWandlampenTypeVisibility() {
     const wandlampenTypeComponent = document.querySelector(
-      "#component-wandlampen-type"
+      "#component-wandlampen-type",
     );
     if (!wandlampenTypeComponent) return;
 
     // Check if any Wandlampen option (other than "geen wandlampen") is selected
     const wandlampenInputs = document.querySelectorAll(
-      'input[name="Wandlampen[]"]:checked'
+      'input[name="Wandlampen[]"]:checked',
     );
     let hasLampSelected = false;
 
@@ -568,7 +570,7 @@
       wandlampenTypeComponent.classList.add("hidden");
       // Reset Wandlampen type to default when hidden
       const defaultInput = wandlampenTypeComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -580,7 +582,7 @@
   // Show/hide Spots in overstek based on Overstek selection
   function updateSpotsOverstekVisibility(overstekValue) {
     const spotsOverstekComponent = document.querySelector(
-      "#component-spots-overstek"
+      "#component-spots-overstek",
     );
     if (!spotsOverstekComponent) return;
 
@@ -595,7 +597,7 @@
       spotsOverstekComponent.classList.add("hidden");
       // Reset to default when hidden
       const defaultInput = spotsOverstekComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -609,7 +611,7 @@
   // Show/hide Spots in overstek type based on Spots in overstek selection
   function updateSpotsOverstekTypeVisibility(spotsValue) {
     const spotsTypeComponent = document.querySelector(
-      "#component-spots-overstek-type"
+      "#component-spots-overstek-type",
     );
     if (!spotsTypeComponent) return;
 
@@ -623,7 +625,7 @@
       spotsTypeComponent.classList.add("hidden");
       // Reset to default when hidden
       const defaultInput = spotsTypeComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -635,7 +637,7 @@
   // Show/hide Buitenlicht type based on Buitenlicht selection
   function updateBuitenlichtTypeVisibility(buitenlichtValue) {
     const buitenlichtTypeComponent = document.querySelector(
-      "#component-buitenlicht-type"
+      "#component-buitenlicht-type",
     );
     if (!buitenlichtTypeComponent) return;
 
@@ -650,7 +652,7 @@
       buitenlichtTypeComponent.classList.add("hidden");
       // Reset to default when hidden
       const defaultInput = buitenlichtTypeComponent.querySelector(
-        'input[data-default="1"]'
+        'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
@@ -664,7 +666,7 @@
     if (!rollaagComponent) return;
 
     const options = rollaagComponent.querySelectorAll(
-      ".vpc-single-option-wrap"
+      ".vpc-single-option-wrap",
     );
 
     options.forEach((wrap) => {
@@ -716,7 +718,7 @@
 
     // Check if Daktrim zwart or kraal is selected
     const daktrimInput = document.querySelector(
-      'input[name="Daktrim"]:checked'
+      'input[name="Daktrim"]:checked',
     );
     const daktrimValue = daktrimInput ? daktrimInput.value.toLowerCase() : "";
     const isZwart = daktrimValue.includes("zwart");
@@ -766,7 +768,7 @@
   // Also update daktrim preview when Daktrim color changes
   function updateDaktrimPreview() {
     const overstekInput = document.querySelector(
-      'input[name="Overstek"]:checked'
+      'input[name="Overstek"]:checked',
     );
     if (overstekInput) {
       updateDaktrimOptions(overstekInput.value);
@@ -780,6 +782,20 @@
     let exteriorTotal = 0;
     let interiorTotal = 0;
 
+    // Calculate dynamic base price from dimensions
+    const depthM = state.dimensions.depth / 100;
+    const lengthM = state.dimensions.length / 100;
+    const area = depthM * lengthM;
+    let basePrice = 0;
+    if (area <= CONFIG.areaThreshold) {
+      basePrice = Math.round(area * CONFIG.pricePerM2_1);
+    } else {
+      basePrice = Math.round(
+        CONFIG.areaThreshold * CONFIG.pricePerM2_1 +
+          (area - CONFIG.areaThreshold) * CONFIG.pricePerM2_2,
+      );
+    }
+
     // Calculate from state for radio-based components
     Object.values(state.selectedOptions).forEach((option) => {
       if (option.class === "exterior-element") {
@@ -792,7 +808,7 @@
     // Handle all checkbox-based components separately
     CHECKBOX_COMPONENTS.forEach((componentName) => {
       const checkedInputs = document.querySelectorAll(
-        `input[name="${componentName}"]:checked`
+        `input[name="${componentName}"]:checked`,
       );
       checkedInputs.forEach((input) => {
         const price = parseFloat(input.dataset.price) || 0;
@@ -816,17 +832,17 @@
 
     state.exteriorPrice = exteriorTotal;
     state.interiorPrice = interiorTotal;
-    state.totalPrice = CONFIG.basePrice + exteriorTotal + interiorTotal;
+    state.totalPrice = basePrice + exteriorTotal + interiorTotal;
 
     updatePriceDisplay();
   }
 
   function updatePriceDisplay() {
     const exteriorPriceEl = document.querySelector(
-      ".vpc-step-2__section-price-value--exterior"
+      ".vpc-step-2__section-price-value--exterior",
     );
     const interiorPriceEl = document.querySelector(
-      ".vpc-step-2__section-price-value--interior"
+      ".vpc-step-2__section-price-value--interior",
     );
 
     // Update floating price banner
@@ -867,7 +883,7 @@
     optionId,
     imgUrl,
     optionClass,
-    zIndex
+    zIndex,
   ) {
     const isInterior = optionClass === "interior-element";
     const container = isInterior
@@ -933,10 +949,10 @@
     const exteriorComponents = document.querySelectorAll(".exterior-element");
     const interiorComponents = document.querySelectorAll(".interior-element");
     const exteriorImages = document.querySelector(
-      ".s-configurator-container__exterior-images"
+      ".s-configurator-container__exterior-images",
     );
     const interiorImages = document.querySelector(
-      ".s-configurator-container__interior-images"
+      ".s-configurator-container__interior-images",
     );
 
     // Get radio buttons
@@ -1105,17 +1121,20 @@
 
     // Update summary table
     updateSummaryTable();
+
+    // Recalculate prices when size changes
+    calculatePrices();
   }
 
   function updateSummaryTable() {
     const depthValue = document.querySelector(
-      ".vpc-table__extension-depth-value"
+      ".vpc-table__extension-depth-value",
     );
     const lengthValue = document.querySelector(
-      ".vpc-table__extension-length-value"
+      ".vpc-table__extension-length-value",
     );
     const sizeValue = document.querySelector(
-      ".vpc-table__extension-size-value"
+      ".vpc-table__extension-size-value",
     );
 
     if (depthValue) depthValue.textContent = state.dimensions.depth;
@@ -1159,10 +1178,10 @@
 
   function populateSummaryTables() {
     const exteriorTable = document.querySelector(
-      ".vpc-table--exterior-summary tbody"
+      ".vpc-table--exterior-summary tbody",
     );
     const interiorTable = document.querySelector(
-      ".vpc-table--interior-summary tbody"
+      ".vpc-table--interior-summary tbody",
     );
 
     if (!exteriorTable || !interiorTable) return;
@@ -1182,7 +1201,7 @@
           component.querySelector(".vpc-component-name")?.textContent?.trim() ||
           "";
         const selectedOptionEl = component.querySelector(
-          ".vpc-selected-option"
+          ".vpc-selected-option",
         );
         const selectedOption = selectedOptionEl?.textContent?.trim() || "";
         const isExterior = component.classList.contains("exterior-element");
@@ -1260,10 +1279,10 @@
   function updateFloatingBannerButtons() {
     // Update preview floating banner buttons
     const prevBtn = document.querySelector(
-      ".vpc-price-container .vpc-prev-step-btn"
+      ".vpc-price-container .vpc-prev-step-btn",
     );
     const nextBtn = document.querySelector(
-      ".vpc-price-container .vpc-next-step-btn"
+      ".vpc-price-container .vpc-next-step-btn",
     );
 
     if (prevBtn) {
@@ -1446,7 +1465,7 @@
 
     // Exterior selections
     const exteriorSelectionsField = document.getElementById(
-      "form_exterior_selections"
+      "form_exterior_selections",
     );
     if (exteriorSelectionsField) {
       const exteriorItems = [];
@@ -1468,7 +1487,7 @@
               exteriorItems.push(
                 `${name}: ${value}${
                   price > 0 ? ` (+${formatPrice(price)})` : ""
-                }`
+                }`,
               );
             }
           }
@@ -1478,7 +1497,7 @@
 
     // Interior selections
     const interiorSelectionsField = document.getElementById(
-      "form_interior_selections"
+      "form_interior_selections",
     );
     if (interiorSelectionsField) {
       const interiorItems = [];
@@ -1500,7 +1519,7 @@
               interiorItems.push(
                 `${name}: ${value}${
                   price > 0 ? ` (+${formatPrice(price)})` : ""
-                }`
+                }`,
               );
             }
           }
@@ -1510,14 +1529,14 @@
 
     // Additional options from step 2 form
     const additionalOptionsField = document.getElementById(
-      "form_additional_options"
+      "form_additional_options",
     );
     if (additionalOptionsField) {
       const additionalItems = [];
 
       // Achterom option
       const achteromInput = document.querySelector(
-        'input[name="achterom"]:checked'
+        'input[name="achterom"]:checked',
       );
       if (achteromInput) {
         const label =
@@ -1528,7 +1547,7 @@
 
       // Doorbraak option
       const doorbraakInput = document.querySelector(
-        'input[name="doorbraak"]:checked'
+        'input[name="doorbraak"]:checked',
       );
       if (doorbraakInput) {
         const label =

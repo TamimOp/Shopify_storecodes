@@ -1,17 +1,5 @@
-{% comment %}
-  Product Configurator Template
-  De Prefabriek - Shopify Theme
-  
-  Include CSS and JS files:
-  - assets/configurator.css
-  - assets/configurator.js
-{% endcomment %}
-
 {{ 'configurator.css' | asset_url | stylesheet_tag }}
 
-{% comment %} ============================================
-    PRODUCT SELECTION POPUP - Aanbouw / Woonserre
-============================================ {% endcomment %}
 <style>
   /* Product Selection Popup Styles */
   .vpc-product-select-popup {
@@ -329,7 +317,6 @@
 <section id="section-number-1" class="section-number-1 s-configurator-container step-1-visible" data-visiblestep="1">
   <div class="c-content s-configurator-container__content">
 
-    {% comment %} Help Popup {% endcomment %}
     {% if section.settings.show_help_button %}
     <div id="vpc-save" class="vpc-save-popup">
       <button type="button" class="vpc-save-popup__button">
@@ -381,7 +368,6 @@
     </div>
     {% endif %}
 
-    {% comment %} Value Appreciation Popup {% endcomment %}
     <div id="vpc-value-popup" class="vpc-value-popup">
       <div class="vpc-value-popup__overlay"></div>
       <div class="vpc-value-popup__inner">
@@ -407,11 +393,9 @@
       </div>
     </div>
 
-    {% comment %} Main Configurator Container {% endcomment %}
     <div id="vpc-container" class="o-wrap VPC_Modern_Skin modern-sticky" data-curr="€">
       <div id="vpc-modern-skin--prefabriek">
 
-        {% comment %} Loading Animation {% endcomment %}
         <div class="brick-loader">
           <div class="brick-loader__inner">
             {% for i in (1..10) %}
@@ -2861,7 +2845,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-1-130x130.png"
-                               data-price="0"
+                               data-price="1450"
                                data-oid="option-radiator-2"
                                data-index="20"
                                required>
@@ -2883,7 +2867,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Rechts.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-2-130x130.png"
-                               data-price="0"
+                               data-price="1450"
                                data-oid="option-radiator-3"
                                data-index="20"
                                required>
@@ -2905,7 +2889,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Radiator_Links-Rechts.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_radiator-3-130x130.png"
-                               data-price="0"
+                               data-price="2500"
                                data-oid="option-radiator-4"
                                data-index="20"
                                required>
@@ -2964,7 +2948,7 @@
                                data-class="interior-element"
                                data-img=""
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/03/Iconen_INT_vloerverwarming-130x130.png"
-                               data-price="0"
+                               data-price="2850"
                                data-oid="option-vloerverwarming-2"
                                data-index="13"
                                required>
@@ -3023,7 +3007,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Links_TRANSP.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-1-130x130.png"
-                               data-price="0"
+                               data-price="300"
                                data-oid="option-lichtpunt-2"
                                data-index="25"
                                required>
@@ -3045,7 +3029,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_midden-icm.-daklicht_TRANSP.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-2-130x130.png"
-                               data-price="0"
+                               data-price="300"
                                data-oid="option-lichtpunt-3"
                                data-index="25"
                                required>
@@ -3067,7 +3051,7 @@
                                data-class="interior-element"
                                data-img="https://deprefabriek.nl/wp-content/uploads/2020/11/20.269_Plafondlamp_Rechts_TRANSP.png"
                                data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Lichtpunt-3-130x130.png"
-                               data-price="0"
+                               data-price="300"
                                data-oid="option-lichtpunt-4"
                                data-index="25"
                                required>
@@ -3192,96 +3176,10 @@
                     <div class="vpc-component-arrow"></div>
                   </div>
                   <div class="vpc-options" style="display: none">
-                    <div class="vpc-group">
-                      {% comment %} Option 1: geen spotjes {% endcomment %}
-                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-1">
-                        <input id="option-spotjes-1" 
-                               type="checkbox" 
-                               name="Spotjes[]" 
-                               value="geen spotjes"
-                               data-component-id="component-spotjes" 
-                               data-class="interior-element"
-                               data-img=""
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png"
-                               data-price="0"
-                               data-oid="option-spotjes-1"
-                               data-index="20"
-                               checked data-default="1"
-                               required>
-                        <label id="cboption-spotjes-1" 
-                               for="option-spotjes-1" 
-                               data-oriontip="geen spotjes" 
-                               class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" alt="geen spotjes">
-                        </label>
-                      </div>
-                      
-                      {% comment %} Option 2: spot 1 rij 1 {% endcomment %}
-                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-2">
-                        <input id="option-spotjes-2" 
-                               type="checkbox" 
-                               name="Spotjes[]" 
-                               value="spot 1 rij 1"
-                               data-component-id="component-spotjes" 
-                               data-class="interior-element"
-                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-4origq.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png"
-                               data-price="132"
-                               data-oid="option-spotjes-2"
-                               data-index="20"
-                               required>
-                        <label id="cboption-spotjes-2" 
-                               for="option-spotjes-2" 
-                               data-oriontip="spot 1 rij 1" 
-                               class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" alt="spot 1 rij 1">
-                        </label>
-                      </div>
-                      
-                      {% comment %} Option 3: spot 3 rij 1 {% endcomment %}
-                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-3">
-                        <input id="option-spotjes-3" 
-                               type="checkbox" 
-                               name="Spotjes[]" 
-                               value="spot 3 rij 1"
-                               data-component-id="component-spotjes" 
-                               data-class="interior-element"
-                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-13origq.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png"
-                               data-price="132"
-                               data-oid="option-spotjes-3"
-                               data-index="20"
-                               required>
-                        <label id="cboption-spotjes-3" 
-                               for="option-spotjes-3" 
-                               data-oriontip="spot 3 rij 1" 
-                               class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" alt="spot 3 rij 1">
-                        </label>
-                      </div>
-                      
-                      {% comment %} Option 4: spot 5 rij 1 {% endcomment %}
-                      <div class="vpc-single-option-wrap" data-oid="option-spotjes-4">
-                        <input id="option-spotjes-4" 
-                               type="checkbox" 
-                               name="Spotjes[]" 
-                               value="spot 5 rij 1"
-                               data-component-id="component-spotjes" 
-                               data-class="interior-element"
-                               data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-22origq.png"
-                               data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png"
-                               data-price="132"
-                               data-oid="option-spotjes-4"
-                               data-index="20"
-                               required>
-                        <label id="cboption-spotjes-4" 
-                               for="option-spotjes-4" 
-                               data-oriontip="spot 5 rij 1" 
-                               class="custom custom--icon">
-                          <img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" alt="spot 5 rij 1">
-                        </label>
-                      </div>
-                    </div>
+                    <div class="vpc-group"><div class="vpc-group-name"></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-0"><input id="option-spotjes-0" type="checkbox" name="Spotjes[]" value="geen spotjes" data-component-id="component-spotjes" data-class="interior-element" data-img="" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" data-price="0" data-oid="option-spotjes-0" data-index="20" checked data-default="1" required><label id="cboption-spotjes-0" for="option-spotjes-0" data-oriontip="geen spotjes" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_ALG_NEE-130x130.png" alt="geen spotjes"></label></div></div>
+                    <div class="vpc-group"><div class="vpc-group-name">Spotjes rij 1</div><div class="vpc-single-option-wrap" data-oid="option-spotjes-1"><input id="option-spotjes-1" type="checkbox" name="Spotjes[]" value="spot 1 rij 1" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-4origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" data-price="132" data-oid="option-spotjes-1" data-index="20" required><label id="cboption-spotjes-1" for="option-spotjes-1" data-oriontip="spot 1 rij 1" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" alt="spot 1 rij 1"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-2"><input id="option-spotjes-2" type="checkbox" name="Spotjes[]" value="spot 2 rij 1" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-1.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" data-price="132" data-oid="option-spotjes-2" data-index="20" required><label id="cboption-spotjes-2" for="option-spotjes-2" data-oriontip="spot 2 rij 1" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" alt="spot 2 rij 1"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-3"><input id="option-spotjes-3" type="checkbox" name="Spotjes[]" value="spot 3 rij 1" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-13origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" data-price="132" data-oid="option-spotjes-3" data-index="20" required><label id="cboption-spotjes-3" for="option-spotjes-3" data-oriontip="spot 3 rij 1" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" alt="spot 3 rij 1"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-4"><input id="option-spotjes-4" type="checkbox" name="Spotjes[]" value="spot 4 rij 1" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-4.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" data-price="132" data-oid="option-spotjes-4" data-index="20" required><label id="cboption-spotjes-4" for="option-spotjes-4" data-oriontip="spot 4 rij 1" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" alt="spot 4 rij 1"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-5"><input id="option-spotjes-5" type="checkbox" name="Spotjes[]" value="spot 5 rij 1" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-22origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" data-price="132" data-oid="option-spotjes-5" data-index="20" required><label id="cboption-spotjes-5" for="option-spotjes-5" data-oriontip="spot 5 rij 1" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" alt="spot 5 rij 1"></label></div></div>
+                    <div class="vpc-group"><div class="vpc-group-name">Spotjes rij 2</div><div class="vpc-single-option-wrap" data-oid="option-spotjes-6"><input id="option-spotjes-6" type="checkbox" name="Spotjes[]" value="spot 1 rij 2" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-5origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" data-price="132" data-oid="option-spotjes-6" data-index="20" required><label id="cboption-spotjes-6" for="option-spotjes-6" data-oriontip="spot 1 rij 2" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" alt="spot 1 rij 2"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-7"><input id="option-spotjes-7" type="checkbox" name="Spotjes[]" value="spot 2 rij 2" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-2.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" data-price="132" data-oid="option-spotjes-7" data-index="20" required><label id="cboption-spotjes-7" for="option-spotjes-7" data-oriontip="spot 2 rij 2" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" alt="spot 2 rij 2"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-8"><input id="option-spotjes-8" type="checkbox" name="Spotjes[]" value="spot 3 rij 2" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-14.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" data-price="132" data-oid="option-spotjes-8" data-index="20" required><label id="cboption-spotjes-8" for="option-spotjes-8" data-oriontip="spot 3 rij 2" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" alt="spot 3 rij 2"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-9"><input id="option-spotjes-9" type="checkbox" name="Spotjes[]" value="spot 4 rij 2" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-5.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" data-price="132" data-oid="option-spotjes-9" data-index="20" required><label id="cboption-spotjes-9" for="option-spotjes-9" data-oriontip="spot 4 rij 2" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" alt="spot 4 rij 2"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-10"><input id="option-spotjes-10" type="checkbox" name="Spotjes[]" value="spot 5 rij 2" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-23origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" data-price="132" data-oid="option-spotjes-10" data-index="20" required><label id="cboption-spotjes-10" for="option-spotjes-10" data-oriontip="spot 5 rij 2" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" alt="spot 5 rij 2"></label></div></div>
+                    <div class="vpc-group"><div class="vpc-group-name">Spotjes rij 3</div><div class="vpc-single-option-wrap" data-oid="option-spotjes-11"><input id="option-spotjes-11" type="checkbox" name="Spotjes[]" value="spot 1 rij 3" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-6origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" data-price="132" data-oid="option-spotjes-11" data-index="20" required><label id="cboption-spotjes-11" for="option-spotjes-11" data-oriontip="spot 1 rij 3" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-1-130x130.png" alt="spot 1 rij 3"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-12"><input id="option-spotjes-12" type="checkbox" name="Spotjes[]" value="spot 2 rij 3" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-3.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" data-price="132" data-oid="option-spotjes-12" data-index="20" required><label id="cboption-spotjes-12" for="option-spotjes-12" data-oriontip="spot 2 rij 3" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-2-130x130.png" alt="spot 2 rij 3"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-13"><input id="option-spotjes-13" type="checkbox" name="Spotjes[]" value="spot 3 rij 3" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-15.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" data-price="132" data-oid="option-spotjes-13" data-index="20" required><label id="cboption-spotjes-13" for="option-spotjes-13" data-oriontip="spot 3 rij 3" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-3-130x130.png" alt="spot 3 rij 3"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-14"><input id="option-spotjes-14" type="checkbox" name="Spotjes[]" value="spot 4 rij 3" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_spot-6.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" data-price="132" data-oid="option-spotjes-14" data-index="20" required><label id="cboption-spotjes-14" for="option-spotjes-14" data-oriontip="spot 4 rij 3" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-4-130x130.png" alt="spot 4 rij 3"></label></div><div class="vpc-single-option-wrap" data-oid="option-spotjes-15"><input id="option-spotjes-15" type="checkbox" name="Spotjes[]" value="spot 5 rij 3" data-component-id="component-spotjes" data-class="interior-element" data-img="https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_Verlichting_spot-24origq.png" data-icon="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" data-price="132" data-oid="option-spotjes-15" data-index="20" required><label id="cboption-spotjes-15" for="option-spotjes-15" data-oriontip="spot 5 rij 3" class="custom custom--icon"><img src="https://deprefabriek.nl/wp-content/uploads/2020/11/Icoon_INT_Spot-5-130x130.png" alt="spot 5 rij 3"></label></div></div>
                   </div>
                 </div>
 

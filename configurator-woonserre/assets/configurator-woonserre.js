@@ -70,15 +70,1345 @@
   const imageCache = new Map();
 
   // ================================
+  // Image Layer Data - Generated dynamically to avoid Shopify 256KB template limit
+  // ================================
+  const IMAGE_LAYERS_DATA = [
+    // Base renders
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/03/PDF-glass-extension-001-1800x1350.png",
+      layer: "Buitenzijde main",
+      choice: "default render exterior",
+      layer_id: 39,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/01/PASS-PDF-glass-extension-osnovni-render-1800x1350.png",
+      layer: "Binnenzijde main",
+      choice: "default render interior",
+      layer_id: 40,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/hoofdaanzicht-wit-nieuw-1800x1350.png",
+      layer: "Main render white (hidden)",
+      choice: "hoofdaanzicht wit",
+      layer_id: 18,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "",
+      layer: "Main render interior white (hidden)",
+      choice: "Binnenzijde wit",
+      layer_id: 37,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "",
+      layer: "Main render interior white (hidden)",
+      choice: "Binnenzijde wit met roedes",
+      layer_id: 37,
+      choice_id: 2,
+    },
+    // Kozijn (28 options)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-wit-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren wit (kunststof)",
+      layer_id: 1,
+      choice_id: 1,
+    },
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-antraciet-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren antraciet (kunststof)",
+      layer_id: 1,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-wit-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes wit (kunststof)",
+      layer_id: 1,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-antraciet-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes antraciet (kunststof)",
+      layer_id: 1,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-wit-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui wit (kunststof)",
+      layer_id: 1,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-antraciet-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui antraciet (kunststof)",
+      layer_id: 1,
+      choice_id: 6,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-wit-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui wit (kunststof)",
+      layer_id: 1,
+      choice_id: 7,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-antraciet-kunststof-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui antraciet (kunststof)",
+      layer_id: 1,
+      choice_id: 8,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-wit-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren wit (aluminium)",
+      layer_id: 1,
+      choice_id: 10,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-antraciet-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren antraciet (aluminium)",
+      layer_id: 1,
+      choice_id: 11,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-wit-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes wit (aluminium)",
+      layer_id: 1,
+      choice_id: 12,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-antraciet-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes antraciet (aluminium)",
+      layer_id: 1,
+      choice_id: 13,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-wit-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui wit (aluminium)",
+      layer_id: 1,
+      choice_id: 14,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-antraciet-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui antraciet (aluminium)",
+      layer_id: 1,
+      choice_id: 15,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-wit-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui wit (aluminium)",
+      layer_id: 1,
+      choice_id: 16,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-antraciet-aluminium-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui antraciet (aluminium)",
+      layer_id: 1,
+      choice_id: 17,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/harmonicapui-wit-aluminium-nieuw-1800x1350.png",
+      layer: "Kozijn",
+      choice: "harmonicapui wit (aluminium)",
+      layer_id: 1,
+      choice_id: 18,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/harmonicapui-antraciet-aluminium-nieuw-1800x1350.png",
+      layer: "Kozijn",
+      choice: "harmonicapui antraciet (aluminium)",
+      layer_id: 1,
+      choice_id: 19,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-wit-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren wit gegrond (hout)",
+      layer_id: 1,
+      choice_id: 21,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-antraciet-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren antraciet gegrond (hout)",
+      layer_id: 1,
+      choice_id: 22,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-wit-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes wit gegrond (hout)",
+      layer_id: 1,
+      choice_id: 23,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/openslaande-deuren-met-roedes-antraciet-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "openslaande deuren met roedes antraciet gegrond (hout)",
+      layer_id: 1,
+      choice_id: 24,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-wit-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui wit gegrond (hout)",
+      layer_id: 1,
+      choice_id: 25,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-delige-schuifpui-antraciet-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "2 delige schuifpui antraciet gegrond (hout)",
+      layer_id: 1,
+      choice_id: 26,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-wit-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui wit gegrond (hout)",
+      layer_id: 1,
+      choice_id: 27,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-delige-schuifpui-antraciet-gegrond-hout-1800x1350.png",
+      layer: "Kozijn",
+      choice: "4 delige schuifpui antraciet gegrond (hout)",
+      layer_id: 1,
+      choice_id: 28,
+    },
+    // Rechterzijde - Wall textures (circle class)
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-rood-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "baksteen rood",
+      layer_id: 2,
+      choice_id: 2,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-geel-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "baksteen geel",
+      layer_id: 2,
+      choice_id: 3,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-zwart-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "baksteen zwart",
+      layer_id: 2,
+      choice_id: 4,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-wit-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "baksteen wit",
+      layer_id: 2,
+      choice_id: 5,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-zwart-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "kunststof rabat (keralit) zwart",
+      layer_id: 2,
+      choice_id: 7,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-antraciet-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "kunststof rabat (keralit) antraciet",
+      layer_id: 2,
+      choice_id: 8,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-cremewit-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "kunststof rabat (keralit) cremewit",
+      layer_id: 2,
+      choice_id: 9,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-groen-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "kunststof rabat (keralit) groen",
+      layer_id: 2,
+      choice_id: 10,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/red-cedar-rabat-hout-horizontaal-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "red cedar rabat (hout) horizontaal",
+      layer_id: 2,
+      choice_id: 12,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/red-cedar-rabat-hout-verticaal-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "red cedar rabat (hout) verticaal",
+      layer_id: 2,
+      choice_id: 13,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/open-gevelbekleding-frake-hout-horizontaal-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "open gevelbekleding frake (hout) horizontaal",
+      layer_id: 2,
+      choice_id: 14,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/open-gevelbekleding-frake-hout-verticaal-nieuw-1800x1350.png",
+      layer: "Rechterzijde",
+      choice: "open gevelbekleding frake (hout) verticaal",
+      layer_id: 2,
+      choice_id: 15,
+    },
+    // Rechter glazen zijwandtype
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-met-roedes-wit-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "vast raam met roedes wit",
+      layer_id: 60,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-met-roedes-zwart-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "vast raam met roedes zwart",
+      layer_id: 60,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-wit-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "vast raam wit",
+      layer_id: 60,
+      choice_id: 3,
+    },
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-zwart-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "vast raam zwart",
+      layer_id: 60,
+      choice_id: 4,
+    },
+    // Rechter glazen schuifpui options
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/schuifpui-wit-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "schuifpui wit",
+      layer_id: 60,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/schuifpui-zwart-1800x1350.png",
+      layer: "Rechter glazen zijwandtype (hidden)",
+      choice: "schuifpui zwart",
+      layer_id: 60,
+      choice_id: 6,
+    },
+    // Linkerzijde - Wall textures (circle class)
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-rood-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "baksteen rood",
+      layer_id: 3,
+      choice_id: 2,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-geel-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "baksteen geel",
+      layer_id: 3,
+      choice_id: 3,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-zwart-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "baksteen zwart",
+      layer_id: 3,
+      choice_id: 4,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/baksteen-wit-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "baksteen wit",
+      layer_id: 3,
+      choice_id: 5,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-zwart-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "kunststof rabat (keralit) zwart",
+      layer_id: 3,
+      choice_id: 7,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-antraciet-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "kunststof rabat (keralit) antraciet",
+      layer_id: 3,
+      choice_id: 8,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-cremewit-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "kunststof rabat (keralit) cremewit",
+      layer_id: 3,
+      choice_id: 9,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/kunststof-rabat-keralit-groen-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "kunststof rabat (keralit) groen",
+      layer_id: 3,
+      choice_id: 10,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/red-cedar-rabat-hout-horizontaal-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "red cedar rabat (hout) horizontaal",
+      layer_id: 3,
+      choice_id: 12,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/red-cedar-rabat-hout-verticaal-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "red cedar rabat (hout) verticaal",
+      layer_id: 3,
+      choice_id: 13,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/open-gevelbekleding-frake-hout-horizontaal-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "open gevelbekleding frake (hout) horizontaal",
+      layer_id: 3,
+      choice_id: 14,
+    },
+    {
+      cls: "simple circle",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/open-gevelbekleding-frake-hout-verticaal-links-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "open gevelbekleding frake (hout) verticaal",
+      layer_id: 3,
+      choice_id: 15,
+    },
+    // Linker glazen zijwandtype
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-met-roedes-wit-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "vast raam met roedes wit",
+      layer_id: 61,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-met-roedes-zwart-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "vast raam met roedes zwart",
+      layer_id: 61,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-wit-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "vast raam wit",
+      layer_id: 61,
+      choice_id: 3,
+    },
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/vast-raam-zwart-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "vast raam zwart",
+      layer_id: 61,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/schuifpui-wit-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "schuifpui wit",
+      layer_id: 61,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/schuifpui-zwart-links-1800x1350.png",
+      layer: "Linker glazen zijwandtype interior (hidden)",
+      choice: "schuifpui zwart",
+      layer_id: 61,
+      choice_id: 6,
+    },
+    // Regenpijp
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-links-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC links",
+      layer_id: 15,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-rechts-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC rechts",
+      layer_id: 15,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-links-rechts-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC links & rechts",
+      layer_id: 15,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Regenpijp-zink-links-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "zink links",
+      layer_id: 15,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Regenpijp-zink-rechts-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "zink rechts",
+      layer_id: 15,
+      choice_id: 6,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Regenpijp-zink-links-rechts-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "zink links & rechts",
+      layer_id: 15,
+      choice_id: 7,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-zwart-links-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC zwart links",
+      layer_id: 15,
+      choice_id: 9,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-zwart-rechts-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC zwart rechts",
+      layer_id: 15,
+      choice_id: 10,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Regenpijp-PVC-zwart-links-rechts-nieuw-1800x1350.png",
+      layer: "Regenpijp",
+      choice: "PVC zwart links & rechts",
+      layer_id: 15,
+      choice_id: 11,
+    },
+    // Overstek
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Overstek-wit-nieuw-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek wit, geen zijkant (kunststof)",
+      layer_id: 8,
+      choice_id: 20,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Overstek-wit-met-zijkant-nieuw-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek wit met zijkant (kunststof)",
+      layer_id: 8,
+      choice_id: 21,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Overstek-antraciet-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek antraciet, geen zijkant (kunststof)",
+      layer_id: 8,
+      choice_id: 22,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Overstek-antraciet-met-zijkant-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek antraciet met zijkant (kunststof)",
+      layer_id: 8,
+      choice_id: 23,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Overstek-wit-nieuw-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek wit gegrond, geen zijkant",
+      layer_id: 8,
+      choice_id: 25,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Overstek-wit-met-zijkant-nieuw-1800x1350.png",
+      layer: "Overstek",
+      choice: "overstek wit gegrond met zijkant",
+      layer_id: 8,
+      choice_id: 26,
+    },
+    // Groen dak - must be rendered BEFORE Daklicht so Daklicht appears on top
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak",
+      layer_id: 20,
+      choice_id: 1,
+    },
+    // Daklicht - rendered after Groen dak to appear on top
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/1-vaks-lessenaar-1800x1350.png",
+      layer: "Daklicht",
+      choice: "1 vaks lessenaar",
+      layer_id: 4,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-vaks-lessenaar-1800x1350.png",
+      layer: "Daklicht",
+      choice: "2 vaks lessenaar",
+      layer_id: 4,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/3-vaks-lessenaar-1800x1350.png",
+      layer: "Daklicht",
+      choice: "3 vaks lessenaar",
+      layer_id: 4,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-vaks-lessenaar-1800x1350.png",
+      layer: "Daklicht",
+      choice: "4 vaks lessenaar",
+      layer_id: 4,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/5-vaks-lessenaar-1800x1350.png",
+      layer: "Daklicht",
+      choice: "5 vaks lessenaar",
+      layer_id: 4,
+      choice_id: 6,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/2-vaks-zadeldak-1800x1350.png",
+      layer: "Daklicht",
+      choice: "2 vaks zadeldak",
+      layer_id: 4,
+      choice_id: 11,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/4-vaks-zadeldak-1800x1350.png",
+      layer: "Daklicht",
+      choice: "4 vaks zadeldak",
+      layer_id: 4,
+      choice_id: 7,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/6-vaks-zadeldak-1800x1350.png",
+      layer: "Daklicht",
+      choice: "6 vaks zadeldak",
+      layer_id: 4,
+      choice_id: 8,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/8-vaks-zadeldak-1800x1350.png",
+      layer: "Daklicht",
+      choice: "8 vaks zadeldak",
+      layer_id: 4,
+      choice_id: 9,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/10-vaks-zadeldak-1800x1350.png",
+      layer: "Daklicht",
+      choice: "10 vaks zadeldak",
+      layer_id: 4,
+      choice_id: 10,
+    },
+    // Daklicht zonwering - overlay images when zonwering = ja
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/1-vaks-lessenaar-zonwering-1800x1350.png",
+      layer: "Daklicht zonwering (hidden)",
+      choice: "1 vaks lessenaar zonwering",
+      layer_id: 5,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/2-vaks-lessenaar-zonwering-1800x1350.png",
+      layer: "Daklicht zonwering (hidden)",
+      choice: "2 vaks lessenaar zonwering",
+      layer_id: 5,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/3-vaks-lessenaar-zonwering-1800x1350.png",
+      layer: "Daklicht zonwering (hidden)",
+      choice: "3 vaks lessenaar zonwering",
+      layer_id: 5,
+      choice_id: 3,
+    },
+    // Linker zijwand kozijn overlay - shows door frame when wall texture is selected
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linker zijwand kozijn (hidden)",
+      choice: "linker zijwand kozijn",
+      layer_id: 3,
+      choice_id: 100,
+    },
+    // Daktrim Aluminium (hidden) - layer_id 65 - only shows for geen overstek, transparent for overstek
+    {
+      cls: "simple active",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/aluminium-daktrim-overstek-met-zijkant-1800x1350.png",
+      layer: "Daktrim aluminium (hidden)",
+      choice: "daktrim aluminium geen overstek",
+      layer_id: 65,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim aluminium (hidden)",
+      choice: "daktrim aluminium overstek geen zijkant",
+      layer_id: 65,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim aluminium (hidden)",
+      choice: "daktrim aluminium overstek met zijkant",
+      layer_id: 65,
+      choice_id: 3,
+    },
+    // Daktrim Aluminium Zwart (hidden) - layer_id 66 - transparent for overstek options
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/daktrim-aluminium-zwart-geen-overstek-1800x1350.png",
+      layer: "Daktrim aluminium zwart (hidden)",
+      choice: "daktrim aluminium zwart geen overstek",
+      layer_id: 66,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim aluminium zwart (hidden)",
+      choice: "daktrim aluminium zwart overstek geen zijkant",
+      layer_id: 66,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim aluminium zwart (hidden)",
+      choice: "daktrim aluminium zwart overstek met zijkant",
+      layer_id: 66,
+      choice_id: 4,
+    },
+    // Daktrim Zinken kraal (hidden) - layer_id 16 - different images for overstek/kozijn
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-nieuw-1800x1350.png",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal",
+      layer_id: 16,
+      choice_id: 8,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voorkant",
+      layer_id: 16,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voor- en zijkant",
+      layer_id: 16,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voorkant kunststof wit",
+      layer_id: 16,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voor- en zijkant kunststof wit",
+      layer_id: 16,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voorkant kunststof antraciet",
+      layer_id: 16,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Daktrim (hidden)",
+      choice: "Zinken kraal voor- en zijkant kunststof antraciet",
+      layer_id: 16,
+      choice_id: 6,
+    },
+    // Buitenlicht
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenlicht-links-1800x1350.png",
+      layer: "Buitenlicht",
+      choice: "buitenlicht links",
+      layer_id: 11,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenlicht-rechts-1800x1350.png",
+      layer: "Buitenlicht",
+      choice: "buitenlicht rechts",
+      layer_id: 11,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenlicht-links-rechts-1800x1350.png",
+      layer: "Buitenlicht",
+      choice: "buitenlicht links en rechts",
+      layer_id: 11,
+      choice_id: 4,
+    },
+    // Buitenstopcontact
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-enkel-links-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "enkel links",
+      layer_id: 13,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-enkel-rechts-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "enkel rechts",
+      layer_id: 13,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-enkel-links-rechts-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "enkel links & rechts",
+      layer_id: 13,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-dubbel-links-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "dubbel links",
+      layer_id: 13,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-dubbel-rechts-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "dubbel rechts",
+      layer_id: 13,
+      choice_id: 6,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Buitenstopcontact-dubbel-links-rechts-1800x1350.png",
+      layer: "Buitenstopcontact",
+      choice: "dubbel links & rechts",
+      layer_id: 13,
+      choice_id: 7,
+    },
+    // Buitenkraan
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenkraan-links-1800x1350.png",
+      layer: "Buitenkraan",
+      choice: "buitenkraan links",
+      layer_id: 14,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenkraan-rechts-1800x1350.png",
+      layer: "Buitenkraan",
+      choice: "buitenkraan rechts",
+      layer_id: 14,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/buitenkraan-links-rechts-1800x1350.png",
+      layer: "Buitenkraan",
+      choice: "buitenkraan links & rechts",
+      layer_id: 14,
+      choice_id: 4,
+    },
+    // Interior elements - Radiator
+    {
+      cls: "simple",
+      src: "",
+      layer: "Radiator(en)",
+      choice: "radiator links",
+      layer_id: 23,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "",
+      layer: "Radiator(en)",
+      choice: "radiator rechts",
+      layer_id: 23,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "",
+      layer: "Radiator(en)",
+      choice: "radiator links & rechts",
+      layer_id: 23,
+      choice_id: 4,
+    },
+    // Verlichting lichtpunt (multiple)
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Verlichting lichtpunt",
+      choice: "lichtpunt links",
+      layer_id: 25,
+      choice_id: 3,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Verlichting lichtpunt",
+      choice: "lichtpunt midden",
+      layer_id: 25,
+      choice_id: 4,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Verlichting lichtpunt",
+      choice: "lichtpunt rechts",
+      layer_id: 25,
+      choice_id: 5,
+    },
+    // Spotjes (multiple)
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 1",
+      layer_id: 27,
+      choice_id: 3,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 2",
+      layer_id: 27,
+      choice_id: 4,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 3",
+      layer_id: 27,
+      choice_id: 5,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 4",
+      layer_id: 27,
+      choice_id: 6,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 5",
+      layer_id: 27,
+      choice_id: 7,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 6",
+      layer_id: 27,
+      choice_id: 9,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 7",
+      layer_id: 27,
+      choice_id: 10,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 8",
+      layer_id: 27,
+      choice_id: 11,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 9",
+      layer_id: 27,
+      choice_id: 12,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Spotjes",
+      choice: "spot 10",
+      layer_id: 27,
+      choice_id: 13,
+    },
+    // Wandlampen (multiple)
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "L1 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 3,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "L2 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 4,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "L3 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 5,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "R1 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 7,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "R2 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 8,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Wandlampen",
+      choice: "R3 (lamp & armatuur niet inbegrepen)",
+      layer_id: 29,
+      choice_id: 9,
+    },
+    // Stopcontacten muur (multiple)
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "L1",
+      layer_id: 64,
+      choice_id: 3,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "L2",
+      layer_id: 64,
+      choice_id: 4,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "L3",
+      layer_id: 64,
+      choice_id: 5,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "R1",
+      layer_id: 64,
+      choice_id: 7,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "R2",
+      layer_id: 64,
+      choice_id: 8,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten muur (hidden)",
+      choice: "R3",
+      layer_id: 64,
+      choice_id: 9,
+    },
+    // Stopcontacten vloer (multiple)
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "L1 glas",
+      layer_id: 63,
+      choice_id: 1,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "L2 glas",
+      layer_id: 63,
+      choice_id: 2,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "L3 glas",
+      layer_id: 63,
+      choice_id: 3,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "R1 glas",
+      layer_id: 63,
+      choice_id: 4,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "R2 glas",
+      layer_id: 63,
+      choice_id: 5,
+    },
+    {
+      cls: "multiple",
+      src: "",
+      layer: "Stopcontacten vloer (hidden)",
+      choice: "R3 glas",
+      layer_id: 63,
+      choice_id: 6,
+    },
+  ];
+
+  // Placeholder for empty images
+  const EMPTY_IMG =
+    "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+
+  /**
+   * Generate image layer elements dynamically
+   */
+  function generateImageLayers() {
+    const mklLayers = document.querySelector(".mkl_pc_layers");
+    if (!mklLayers) {
+      console.error("ERROR: .mkl_pc_layers container not found!");
+      return;
+    }
+
+    console.log("Found .mkl_pc_layers container, generating images...");
+
+    // Create document fragment for better performance
+    const fragment = document.createDocumentFragment();
+
+    IMAGE_LAYERS_DATA.forEach((data) => {
+      const img = document.createElement("img");
+      img.className = data.cls;
+      img.src = data.src || EMPTY_IMG;
+      img.setAttribute("aria-hidden", "true");
+      img.setAttribute("data-layer", data.layer);
+      img.setAttribute("data-choice", data.choice);
+      img.setAttribute("data-layer_id", data.layer_id);
+      img.setAttribute("data-choice_id", data.choice_id);
+      fragment.appendChild(img);
+    });
+
+    // Insert before the loading element
+    const loadingEl = mklLayers.querySelector(".images-loading");
+    if (loadingEl) {
+      mklLayers.insertBefore(fragment, loadingEl);
+    } else {
+      mklLayers.appendChild(fragment);
+    }
+
+    console.log("Generated", IMAGE_LAYERS_DATA.length, "image layers");
+
+    // Verify images were added
+    const addedImages = mklLayers.querySelectorAll("img");
+    console.log("Total images in .mkl_pc_layers:", addedImages.length);
+    const activeImages = mklLayers.querySelectorAll("img.active");
+    console.log("Active images:", activeImages.length);
+  }
+
+  // ================================
   // Initialization
   // ================================
   function init() {
+    generateImageLayers(); // Generate image layers first
     cacheElements();
     preloadAllImages();
     bindEvents();
     initializeSizeCalculator();
     initializeDefaultSelections();
+    switchView("exterior"); // Set default view to exterior
     updatePreview();
+    updateWhiteRenderVisibility(); // Check white kozijn on init
     updateFloatingBannerButtons();
     console.log("Woonserre Configurator initialized");
   }
@@ -349,6 +1679,47 @@
 
     // Handle conditional options
     handleConditionalOptions(input);
+
+    // Update white render visibility based on kozijn selection
+    updateWhiteRenderVisibility();
+  }
+
+  // ================================
+  // White Render Layer Control
+  // ================================
+  function updateWhiteRenderVisibility() {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Check if a white kozijn option is selected
+    const kozijnInput = document.querySelector('input[name="Kozijn"]:checked');
+    if (!kozijnInput) {
+      const whiteRenderImg = mklLayers.querySelector(
+        'img[data-layer="Main render white (hidden)"]',
+      );
+      if (whiteRenderImg) {
+        whiteRenderImg.classList.remove("active");
+      }
+      return;
+    }
+
+    const value = kozijnInput.value.toLowerCase();
+    // Show white render for white kozijn options
+    const isWhiteKozijn =
+      value.includes("wit") &&
+      !value.includes("antraciet") &&
+      !value.includes("zwart");
+
+    const whiteRenderImg = mklLayers.querySelector(
+      'img[data-layer="Main render white (hidden)"]',
+    );
+    if (whiteRenderImg) {
+      if (isWhiteKozijn) {
+        whiteRenderImg.classList.add("active");
+      } else {
+        whiteRenderImg.classList.remove("active");
+      }
+    }
   }
 
   function handleCheckboxComponent(input) {
@@ -442,6 +1813,38 @@
     // Handle Linkerzijde - show/hide glazen zijwandtype based on selection
     if (selectedInput.name === "Linkerzijde") {
       updateLinkerGlazenTypeVisibility(selectedInput.value);
+      updateLinkerZijwandKozijnVisibility(selectedInput.value);
+    }
+
+    // Handle Daklicht - show/hide Daklicht zonwering based on selection
+    if (selectedInput.name === "Daklicht") {
+      updateDaklichtZonweringVisibility(selectedInput.value);
+    }
+
+    // Handle DaklichtZonwering - show/hide zonwering images
+    if (selectedInput.name === "DaklichtZonwering") {
+      updateZonweringImage(selectedInput.value);
+    }
+
+    // Handle Buitenlicht - show/hide Buitenlicht type based on selection
+    if (selectedInput.name === "Buitenlicht") {
+      updateBuitenlichtTypeVisibility(selectedInput.value);
+    }
+
+    // Handle Overstek - show/hide Spots in overstek based on selection
+    if (selectedInput.name === "Overstek") {
+      updateSpotsOverstekVisibility(selectedInput.value);
+      updateDaktrimImage(); // Update daktrim based on overstek
+    }
+
+    // Handle Daktrim - update daktrim image based on overstek
+    if (selectedInput.name === "Daktrim") {
+      updateDaktrimImage();
+    }
+
+    // Handle SpotsOverstek - show/hide Spots in overstek type based on selection
+    if (selectedInput.name === "SpotsOverstek") {
+      updateSpotsOverstekTypeVisibility(selectedInput.value);
     }
 
     // Handle Verlichting lichtpunt type visibility
@@ -455,27 +1858,373 @@
     }
   }
 
+  function updateBuitenlichtTypeVisibility(buitenlichtValue) {
+    const typeComponent = document.querySelector("#component-buitenlicht-type");
+    if (!typeComponent) return;
+
+    // Show type only if buitenlicht is not "geen"
+    const hasBuitenlicht =
+      buitenlichtValue && buitenlichtValue.toLowerCase() !== "geen";
+
+    if (hasBuitenlicht) {
+      typeComponent.classList.remove("hidden");
+      typeComponent.style.removeProperty("display");
+    } else {
+      typeComponent.classList.add("hidden");
+      // Reset to default when hiding
+      const defaultInput = typeComponent.querySelector(
+        'input[data-default="1"]',
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        const selectedSpan = typeComponent.querySelector(".vpc-selected");
+        if (selectedSpan) {
+          selectedSpan.textContent = defaultInput.value;
+        }
+      }
+    }
+  }
+
+  function updateDaklichtZonweringVisibility(daklichtValue) {
+    const zonweringComponent = document.querySelector(
+      "#component-daklicht-zonwering",
+    );
+    if (!zonweringComponent) return;
+
+    // Show zonwering only for EXACTLY 1, 2, or 3 vaks lessenaar (not 4, 5 vaks or zadeldak)
+    const valueLower = daklichtValue ? daklichtValue.toLowerCase() : "";
+    const isValidLessenaar =
+      valueLower === "1 vaks lessenaar" ||
+      valueLower === "2 vaks lessenaar" ||
+      valueLower === "3 vaks lessenaar";
+
+    if (isValidLessenaar) {
+      zonweringComponent.classList.remove("hidden");
+      zonweringComponent.style.removeProperty("display");
+
+      // Update zonwering price based on daklicht selection
+      updateZonweringPrice(daklichtValue);
+    } else {
+      zonweringComponent.classList.add("hidden");
+      // Reset to "nee" when hiding
+      const defaultInput = zonweringComponent.querySelector(
+        'input[data-default="1"]',
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        // Update the selected display text
+        const selectedSpan = zonweringComponent.querySelector(".vpc-selected");
+        if (selectedSpan) {
+          selectedSpan.textContent = defaultInput.value;
+        }
+      }
+      // Recalculate prices since zonwering is now hidden
+      calculatePrices();
+    }
+  }
+
+  function updateZonweringPrice(daklichtValue) {
+    const zonweringJaInput = document.querySelector(
+      'input[name="DaklichtZonwering"][value="ja"]',
+    );
+    if (!zonweringJaInput) return;
+
+    let price = 0;
+    const valueLower = daklichtValue.toLowerCase();
+
+    // Set price based on daklicht type
+    // Reference site: 1 vaks = €850, 2 vaks = €1050, 3 vaks = €1250
+    if (valueLower.includes("1 vaks lessenaar")) {
+      price = 850;
+    } else if (valueLower.includes("2 vaks lessenaar")) {
+      price = 1050;
+    } else if (valueLower.includes("3 vaks lessenaar")) {
+      price = 1250;
+    }
+
+    // Update the data-price attribute
+    zonweringJaInput.dataset.price = price.toString();
+
+    // Update tooltip to show price
+    const label = zonweringJaInput.nextElementSibling;
+    if (label && price > 0) {
+      label.dataset.oriontip = `ja +€${price.toLocaleString("nl-NL")}`;
+    }
+
+    // Recalculate total price if zonwering is selected
+    if (zonweringJaInput.checked) {
+      calculatePrices();
+    }
+  }
+
+  function updateZonweringImage(zonweringValue) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Get the currently selected daklicht value
+    const daklichtInput = document.querySelector(
+      'input[name="Daklicht"]:checked',
+    );
+    if (!daklichtInput) return;
+
+    const daklichtValue = daklichtInput.value.toLowerCase();
+
+    // Deactivate all zonwering images first
+    const zonweringImages = mklLayers.querySelectorAll(
+      'img[data-layer="Daklicht zonwering (hidden)"]',
+    );
+    zonweringImages.forEach((img) => img.classList.remove("active"));
+
+    // If zonwering = "ja", activate the corresponding image
+    if (zonweringValue.toLowerCase() === "ja") {
+      let choice = "";
+      if (daklichtValue === "1 vaks lessenaar") {
+        choice = "1 vaks lessenaar zonwering";
+      } else if (daklichtValue === "2 vaks lessenaar") {
+        choice = "2 vaks lessenaar zonwering";
+      } else if (daklichtValue === "3 vaks lessenaar") {
+        choice = "3 vaks lessenaar zonwering";
+      }
+
+      if (choice) {
+        const matchingImage = mklLayers.querySelector(
+          `img[data-layer="Daklicht zonwering (hidden)"][data-choice="${choice}"]`,
+        );
+        if (matchingImage) {
+          matchingImage.classList.add("active");
+        }
+      }
+    }
+  }
+
+  function updateLinkerZijwandKozijnVisibility(linkerzijdeValue) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Find the linker zijwand kozijn overlay image
+    const kozijnOverlay = mklLayers.querySelector(
+      'img[data-layer="Linker zijwand kozijn (hidden)"]',
+    );
+    if (!kozijnOverlay) return;
+
+    const valueLower = linkerzijdeValue.toLowerCase();
+
+    // Show the kozijn overlay when a wall texture is selected (not "glas")
+    if (valueLower !== "glas") {
+      kozijnOverlay.classList.add("active");
+    } else {
+      kozijnOverlay.classList.remove("active");
+    }
+  }
+
+  function updateSpotsOverstekVisibility(overstekValue) {
+    const spotsComponent = document.querySelector("#component-spots-overstek");
+    if (!spotsComponent) return;
+
+    // Show spots only if overstek is not the default "geen overstek" option
+    const valueLower = overstekValue ? overstekValue.toLowerCase() : "";
+    const hasOverstek = valueLower && !valueLower.startsWith("geen overstek");
+
+    if (hasOverstek) {
+      spotsComponent.classList.remove("hidden");
+      spotsComponent.style.removeProperty("display");
+    } else {
+      spotsComponent.classList.add("hidden");
+      // Reset to default when hiding
+      const defaultInput = spotsComponent.querySelector(
+        'input[data-default="1"]',
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        const selectedSpan = spotsComponent.querySelector(".vpc-selected");
+        if (selectedSpan) {
+          selectedSpan.textContent = defaultInput.value;
+        }
+      }
+      // Also hide spots type when hiding spots
+      updateSpotsOverstekTypeVisibility("geen spots");
+    }
+  }
+
+  function updateSpotsOverstekTypeVisibility(spotsValue) {
+    const typeComponent = document.querySelector(
+      "#component-spots-overstek-type",
+    );
+    if (!typeComponent) return;
+
+    // Show type only if spots is not "geen spots"
+    const hasSpots = spotsValue && !spotsValue.toLowerCase().includes("geen");
+
+    if (hasSpots) {
+      typeComponent.classList.remove("hidden");
+      typeComponent.style.removeProperty("display");
+    } else {
+      typeComponent.classList.add("hidden");
+      // Reset to default when hiding
+      const defaultInput = typeComponent.querySelector(
+        'input[data-default="1"]',
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        const selectedSpan = typeComponent.querySelector(".vpc-selected");
+        if (selectedSpan) {
+          selectedSpan.textContent = defaultInput.value;
+        }
+      }
+    }
+  }
+
+  // Update Daktrim image based on both Daktrim type and Overstek selection
+  function updateDaktrimImage() {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) {
+      console.log("updateDaktrimImage: mklLayers not found");
+      return;
+    }
+
+    // Get current Daktrim selection
+    const daktrimInput = document.querySelector(
+      'input[name="Daktrim"]:checked',
+    );
+    if (!daktrimInput) {
+      console.log("updateDaktrimImage: no daktrim input checked");
+      return;
+    }
+    const daktrimValue = daktrimInput.value.toLowerCase();
+    console.log("updateDaktrimImage: daktrimValue =", daktrimValue);
+
+    // Get current Overstek selection
+    const overstekInput = document.querySelector(
+      'input[name="Overstek"]:checked',
+    );
+    const overstekValue = overstekInput
+      ? overstekInput.value.toLowerCase()
+      : "geen overstek, geen zijkant";
+    console.log("updateDaktrimImage: overstekValue =", overstekValue);
+
+    // Deactivate ALL daktrim images from all three layers
+    const allDaktrimImages = mklLayers.querySelectorAll(
+      'img[data-layer="Daktrim (hidden)"], img[data-layer="Daktrim aluminium (hidden)"], img[data-layer="Daktrim aluminium zwart (hidden)"]',
+    );
+    console.log(
+      "updateDaktrimImage: found",
+      allDaktrimImages.length,
+      "daktrim images to deactivate",
+    );
+    allDaktrimImages.forEach((img) => img.classList.remove("active"));
+
+    // Determine which layer and choice to use based on daktrim type and overstek
+    let layer = "";
+    let choice = "";
+
+    // Determine overstek variant
+    let overstekVariant = "geen overstek";
+    if (overstekValue.includes("met zijkant")) {
+      overstekVariant = "overstek met zijkant";
+    } else if (
+      overstekValue.includes("geen zijkant") &&
+      !overstekValue.startsWith("geen overstek")
+    ) {
+      overstekVariant = "overstek geen zijkant";
+    }
+
+    // Set layer and choice based on daktrim type
+    if (daktrimValue === "aluminium" || daktrimValue === "aluminium daktrim") {
+      layer = "Daktrim aluminium (hidden)";
+      if (overstekVariant === "overstek met zijkant") {
+        choice = "daktrim aluminium overstek met zijkant";
+      } else if (overstekVariant === "overstek geen zijkant") {
+        choice = "daktrim aluminium overstek geen zijkant";
+      } else {
+        choice = "daktrim aluminium geen overstek";
+      }
+    } else if (
+      daktrimValue === "aluminium zwart" ||
+      daktrimValue === "aluminium daktrim zwart"
+    ) {
+      layer = "Daktrim aluminium zwart (hidden)";
+      if (overstekVariant === "overstek met zijkant") {
+        choice = "daktrim aluminium zwart overstek met zijkant";
+      } else if (overstekVariant === "overstek geen zijkant") {
+        choice = "daktrim aluminium zwart overstek geen zijkant";
+      } else {
+        choice = "daktrim aluminium zwart geen overstek";
+      }
+    } else if (daktrimValue === "zinken kraal") {
+      layer = "Daktrim (hidden)";
+      // Zinken kraal has different choice names based on overstek
+      if (overstekVariant === "overstek met zijkant") {
+        // Check if it's kunststof wit or antraciet - for now use the base version
+        if (overstekValue.includes("wit")) {
+          choice = "Zinken kraal voor- en zijkant kunststof wit";
+        } else if (overstekValue.includes("antraciet")) {
+          choice = "Zinken kraal voor- en zijkant kunststof antraciet";
+        } else {
+          choice = "Zinken kraal voor- en zijkant";
+        }
+      } else if (overstekVariant === "overstek geen zijkant") {
+        if (overstekValue.includes("wit")) {
+          choice = "Zinken kraal voorkant kunststof wit";
+        } else if (overstekValue.includes("antraciet")) {
+          choice = "Zinken kraal voorkant kunststof antraciet";
+        } else {
+          choice = "Zinken kraal voorkant";
+        }
+      } else {
+        choice = "Zinken kraal";
+      }
+    }
+
+    console.log("updateDaktrimImage: layer =", layer, "choice =", choice);
+
+    // Activate the matching daktrim image
+    if (layer && choice) {
+      const matchingImage = mklLayers.querySelector(
+        `img[data-layer="${layer}"][data-choice="${choice}"]`,
+      );
+      console.log(
+        "updateDaktrimImage: matchingImage =",
+        matchingImage ? "found" : "NOT FOUND",
+      );
+      if (matchingImage) {
+        matchingImage.classList.add("active");
+        console.log("updateDaktrimImage: activated image");
+      }
+    }
+  }
+
   function updateRechterGlazenTypeVisibility(rechterzijdeValue) {
     const rechterGlazenComponent = document.querySelector(
       "#component-rechter-glazen-type",
     );
     if (!rechterGlazenComponent) return;
 
-    // Show glazen type only if rechterzijde = "glazen wand"
+    // Show glazen type only if rechterzijde = "glas" or contains "glazen"
     const isGlazenWand =
-      rechterzijdeValue && rechterzijdeValue.toLowerCase().includes("glazen");
+      rechterzijdeValue &&
+      (rechterzijdeValue.toLowerCase().includes("glazen") ||
+        rechterzijdeValue.toLowerCase() === "glas");
 
     if (isGlazenWand) {
       rechterGlazenComponent.classList.remove("hidden");
       rechterGlazenComponent.style.removeProperty("display");
     } else {
       rechterGlazenComponent.classList.add("hidden");
+      // Remove the preview image for this component when hiding
+      const container = elements.exteriorImages;
+      if (container) {
+        container
+          .querySelectorAll(
+            '.c-image[data-component="component-rechter-glazen-type"]',
+          )
+          .forEach((el) => el.remove());
+      }
       const defaultInput = rechterGlazenComponent.querySelector(
         'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
-        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+        // Don't dispatch change event to avoid adding image back
       }
     }
   }
@@ -486,21 +2235,32 @@
     );
     if (!linkerGlazenComponent) return;
 
-    // Show glazen type only if linkerzijde = "glazen wand"
+    // Show glazen type only if linkerzijde = "glas" or contains "glazen"
     const isGlazenWand =
-      linkerzijdeValue && linkerzijdeValue.toLowerCase().includes("glazen");
+      linkerzijdeValue &&
+      (linkerzijdeValue.toLowerCase().includes("glazen") ||
+        linkerzijdeValue.toLowerCase() === "glas");
 
     if (isGlazenWand) {
       linkerGlazenComponent.classList.remove("hidden");
       linkerGlazenComponent.style.removeProperty("display");
     } else {
       linkerGlazenComponent.classList.add("hidden");
+      // Remove the preview image for this component when hiding
+      const container = elements.exteriorImages;
+      if (container) {
+        container
+          .querySelectorAll(
+            '.c-image[data-component="component-linker-glazen-type"]',
+          )
+          .forEach((el) => el.remove());
+      }
       const defaultInput = linkerGlazenComponent.querySelector(
         'input[data-default="1"]',
       );
       if (defaultInput && !defaultInput.checked) {
         defaultInput.checked = true;
-        defaultInput.dispatchEvent(new Event("change", { bubbles: true }));
+        // Don't dispatch change event to avoid adding image back
       }
     }
   }
@@ -647,6 +2407,245 @@
   // ================================
   // Preview Image Management
   // ================================
+  // Preview Layer System - Class Toggling Approach
+  // Following reference site pattern: toggle 'active' class on pre-rendered images
+  // ================================
+
+  // Get the mkl_pc_layers container
+  function getMklPcLayers() {
+    return document.querySelector(".mkl_pc_layers");
+  }
+
+  // Map component names to layer names in mkl_pc_layers
+  // Keys are lowercase versions of input name attribute values
+  const LAYER_MAP = {
+    // Exterior components
+    kozijn: "Kozijn",
+    rechterzijde: "Rechterzijde",
+    linkerzijde: "Linkerzijde (hidden)",
+    rechterglazentype: "Rechter glazen zijwandtype (hidden)",
+    linkerglazentype: "Linker glazen zijwandtype interior (hidden)",
+    daklicht: "Daklicht",
+    daklichtzonwering: "Daklicht zonwering (hidden)",
+    regenpijp: "Regenpijp",
+    overstek: "Overstek",
+    daktrim: "Daktrim (hidden)",
+    groendak: "Groen dak (hidden)",
+    buitenlicht: "Buitenlicht",
+    buitenstopcontact: "Buitenstopcontact",
+    buitenkraan: "Buitenkraan",
+    // Interior components
+    stucwerk: "Stucwerk (hidden)",
+    schilderwerk: "Schilderwerk (hidden)",
+    radiator: "Radiator(en)",
+    verlichtinglichtpunt: "Verlichting lichtpunt",
+    "verlichtinglichtpunt[]": "Verlichting lichtpunt",
+    verlichtingtype: "Verlichting lichtpunt",
+    spotjes: "Spotjes",
+    "spotjes[]": "Spotjes",
+    spotjestype: "Spotjes",
+    spotsoverstek: "Spots overstek (hidden)",
+    wandlampen: "Wandlampen",
+    stopcontacten: "Stopcontacten muur (hidden)",
+    "stopcontacten[]": "Stopcontacten muur (hidden)",
+    vloerverwarming: "Vloerverwarming",
+  };
+
+  /**
+   * Activate an image layer for the given option
+   * This is the core function - toggles 'active' class on pre-rendered images
+   */
+  function activateImageForOption(input) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) {
+      console.error(
+        "ERROR: .mkl_pc_layers not found in activateImageForOption",
+      );
+      return;
+    }
+
+    // Use input.name directly as it matches layer names (e.g., "Kozijn", "Rechterzijde")
+    // Fallback to component_id for legacy support
+    const inputName = input.name;
+    const componentId = input.closest(".vpc-component")?.dataset.component_id;
+    const value = input.value;
+    const dataImg = input.dataset.img;
+
+    // Try input name first (matches layer names), then component_id without 'component-' prefix
+    const nameLower = inputName?.toLowerCase() || "";
+    const componentIdClean =
+      componentId?.toLowerCase().replace("component-", "") || "";
+    const lookupKey = nameLower || componentIdClean;
+
+    console.log("activateImageForOption:", {
+      inputName,
+      value,
+      lookupKey,
+      dataImg,
+    });
+
+    // Get the layer name for this component
+    const layerName = LAYER_MAP[lookupKey];
+
+    if (!layerName) {
+      console.log("No layer mapping found for:", lookupKey);
+    }
+
+    if (layerName) {
+      // Find all images for this layer
+      const layerImages = mklLayers.querySelectorAll(
+        `img[data-layer="${layerName}"]`,
+      );
+
+      console.log(`Found ${layerImages.length} images for layer: ${layerName}`);
+
+      // Deactivate all images for this layer first
+      layerImages.forEach((img) => {
+        img.classList.remove("active");
+      });
+
+      // Try to find matching image by data-choice
+      // The data-choice value should match the option value
+      let matchingImage = null;
+
+      // First try exact match on data-choice
+      matchingImage = mklLayers.querySelector(
+        `img[data-layer="${layerName}"][data-choice="${value}"]`,
+      );
+
+      // If no match and value is 'geen' or 'glas' or 'nee', don't activate anything
+      if (!matchingImage) {
+        const valueLower = value.toLowerCase();
+        if (
+          valueLower === "geen" ||
+          valueLower === "nee" ||
+          valueLower === "glas"
+        ) {
+          // For "geen" options, just leave all deactivated
+          return;
+        }
+      }
+
+      // Try to find by partial match if exact match failed
+      if (!matchingImage) {
+        const layerImagesArray = Array.from(layerImages);
+        matchingImage = layerImagesArray.find((img) => {
+          const choice = img.getAttribute("data-choice") || "";
+          return (
+            choice.toLowerCase().includes(value.toLowerCase()) ||
+            value.toLowerCase().includes(choice.toLowerCase())
+          );
+        });
+      }
+
+      // Try to find by image URL if we have dataImg
+      if (!matchingImage && dataImg) {
+        const imgFilename = dataImg.split("/").pop().split("?")[0];
+        const layerImagesArray = Array.from(layerImages);
+        matchingImage = layerImagesArray.find((img) => {
+          return img.src && img.src.includes(imgFilename);
+        });
+      }
+
+      if (matchingImage) {
+        matchingImage.classList.add("active");
+        console.log(
+          "Activated layer:",
+          layerName,
+          "choice:",
+          matchingImage.getAttribute("data-choice"),
+        );
+      } else if (
+        value.toLowerCase() !== "geen" &&
+        value.toLowerCase() !== "nee"
+      ) {
+        console.log("No matching image found for:", lookupKey, value);
+      }
+    }
+
+    // Handle special cases - pass the clean lookup key
+    handleSpecialLayerCases(lookupKey, value, input);
+  }
+
+  /**
+   * Handle special layer cases like white render, interior kozijn, etc.
+   */
+  function handleSpecialLayerCases(componentId, value, input) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    const componentIdLower = componentId.toLowerCase();
+    const valueLower = value.toLowerCase();
+
+    // White render visibility - show when white kozijn options are selected
+    if (componentIdLower === "kozijn") {
+      const isWhite =
+        valueLower.includes("wit") &&
+        !valueLower.includes("antraciet") &&
+        !valueLower.includes("zwart");
+      const whiteRenderImg = mklLayers.querySelector(
+        'img[data-layer="Main render white (hidden)"]',
+      );
+
+      if (whiteRenderImg) {
+        if (isWhite) {
+          whiteRenderImg.classList.add("active");
+        } else {
+          whiteRenderImg.classList.remove("active");
+        }
+      }
+
+      // Also activate corresponding interior kozijn layer
+      const interiorLayerImages = mklLayers.querySelectorAll(
+        'img[data-layer="Kozijn interior (hidden)"]',
+      );
+      interiorLayerImages.forEach((img) => img.classList.remove("active"));
+
+      const matchingInterior = mklLayers.querySelector(
+        `img[data-layer="Kozijn interior (hidden)"][data-choice="${value}"]`,
+      );
+      if (matchingInterior) {
+        matchingInterior.classList.add("active");
+      }
+    }
+
+    // Rechterzijde/Linkerzijde - handle glass vs wall texture
+    if (componentIdLower === "rechterzijde") {
+      const glazenType = document.querySelector(
+        'input[name="RechterGlazenType"]:checked',
+      );
+      if (valueLower === "glas" && glazenType) {
+        activateImageForOption(glazenType);
+      } else {
+        // Hide glazen type images if wall texture is selected
+        const glazenImages = mklLayers.querySelectorAll(
+          'img[data-layer="Rechter glazen zijwandtype (hidden)"]',
+        );
+        if (valueLower !== "glas") {
+          glazenImages.forEach((img) => img.classList.remove("active"));
+        }
+      }
+    }
+
+    if (componentIdLower === "linkerzijde") {
+      const glazenType = document.querySelector(
+        'input[name="LinkerGlazenType"]:checked',
+      );
+      if (valueLower === "glas" && glazenType) {
+        activateImageForOption(glazenType);
+      } else {
+        // Hide glazen type images if wall texture is selected
+        const glazenImages = mklLayers.querySelectorAll(
+          'img[data-layer="Linker glazen zijwandtype interior (hidden)"]',
+        );
+        if (valueLower !== "glas") {
+          glazenImages.forEach((img) => img.classList.remove("active"));
+        }
+      }
+    }
+  }
+
+  // Legacy function - now just calls activateImageForOption
   function updatePreviewImage(
     componentId,
     optionId,
@@ -654,52 +2653,21 @@
     optionClass,
     zIndex,
   ) {
-    const isInterior = optionClass === "interior-element";
-    const container = isInterior
-      ? elements.interiorImages
-      : elements.exteriorImages;
+    // Find the input that was changed
+    const input =
+      document.querySelector(`input[data-oid="${optionId}"]:checked`) ||
+      document.querySelector(`input[name="${componentId}"]:checked`);
 
-    if (!container) return;
-
-    // Remove all existing images for this component
-    container
-      .querySelectorAll(`.c-image[data-component="${componentId}"]`)
-      .forEach((el) => {
-        el.remove();
-      });
-
-    // If imgUrl is empty, just remove the overlay
-    if (!imgUrl || !imgUrl.trim()) return;
-
-    requestAnimationFrame(() => {
-      const imgContainer = document.createElement("div");
-      imgContainer.className = `c-image ${optionClass} ${optionId}`;
-      imgContainer.dataset.component = componentId;
-      imgContainer.style.zIndex = parseInt(zIndex) + 10 || 10;
-
-      const img = getCachedImage(imgUrl);
-      img.alt = optionId;
-      img.className = `c-image__img ${optionId}`;
-
-      imgContainer.appendChild(img);
-      container.appendChild(imgContainer);
-    });
+    if (input) {
+      activateImageForOption(input);
+    }
   }
 
   function updatePreview() {
     document
       .querySelectorAll(CONFIG.selectors.optionInputs + ":checked")
       .forEach((input) => {
-        const component = input.closest(".vpc-component");
-        const componentId = component?.dataset.component_id || input.name;
-        const imgUrl = input.dataset.img;
-        const optionClass = input.dataset.class;
-        const index = input.dataset.index;
-        const optionId = input.dataset.oid;
-
-        if (imgUrl && optionId) {
-          updatePreviewImage(componentId, optionId, imgUrl, optionClass, index);
-        }
+        activateImageForOption(input);
       });
   }
 
@@ -712,12 +2680,7 @@
     const section = document.querySelector(".s-configurator-container");
     const exteriorComponents = document.querySelectorAll(".exterior-element");
     const interiorComponents = document.querySelectorAll(".interior-element");
-    const exteriorImages = document.querySelector(
-      ".s-configurator-container__exterior-images",
-    );
-    const interiorImages = document.querySelector(
-      ".s-configurator-container__interior-images",
-    );
+    const mklLayers = getMklPcLayers();
 
     const exteriorRadio = document.getElementById("vpc-exterior-button");
     const interiorRadio = document.getElementById("vpc-interior-button");
@@ -725,8 +2688,17 @@
     if (view === "interior") {
       section?.classList.add("s-configurator-container--interior");
 
-      if (exteriorImages) exteriorImages.style.display = "none";
-      if (interiorImages) interiorImages.style.display = "block";
+      // Toggle main render images
+      if (mklLayers) {
+        const exteriorMain = mklLayers.querySelector(
+          'img[data-layer="Buitenzijde main"]',
+        );
+        const interiorMain = mklLayers.querySelector(
+          'img[data-layer="Binnenzijde main"]',
+        );
+        if (exteriorMain) exteriorMain.classList.remove("active");
+        if (interiorMain) interiorMain.classList.add("active");
+      }
 
       exteriorComponents.forEach((el) => {
         if (!el.classList.contains("c-image")) {
@@ -761,8 +2733,17 @@
     } else {
       section?.classList.remove("s-configurator-container--interior");
 
-      if (exteriorImages) exteriorImages.style.display = "block";
-      if (interiorImages) interiorImages.style.display = "none";
+      // Toggle main render images
+      if (mklLayers) {
+        const exteriorMain = mklLayers.querySelector(
+          'img[data-layer="Buitenzijde main"]',
+        );
+        const interiorMain = mklLayers.querySelector(
+          'img[data-layer="Binnenzijde main"]',
+        );
+        if (exteriorMain) exteriorMain.classList.add("active");
+        if (interiorMain) interiorMain.classList.remove("active");
+      }
 
       exteriorComponents.forEach((el) => {
         if (
@@ -1227,6 +3208,58 @@
         const event = new Event("change", { bubbles: true });
         input.dispatchEvent(event);
       });
+
+    // Initialize conditional visibility for glazen type components
+    const rechterzijdeInput = document.querySelector(
+      'input[name="Rechterzijde"]:checked',
+    );
+    if (rechterzijdeInput) {
+      updateRechterGlazenTypeVisibility(rechterzijdeInput.value);
+    }
+    const linkerzijdeInput = document.querySelector(
+      'input[name="Linkerzijde"]:checked',
+    );
+    if (linkerzijdeInput) {
+      updateLinkerGlazenTypeVisibility(linkerzijdeInput.value);
+      updateLinkerZijwandKozijnVisibility(linkerzijdeInput.value);
+    }
+    // Initialize Daklicht zonwering visibility
+    const daklichtInput = document.querySelector(
+      'input[name="Daklicht"]:checked',
+    );
+    if (daklichtInput) {
+      updateDaklichtZonweringVisibility(daklichtInput.value);
+    }
+    // Initialize Daklicht zonwering image
+    const zonweringInput = document.querySelector(
+      'input[name="DaklichtZonwering"]:checked',
+    );
+    if (zonweringInput) {
+      updateZonweringImage(zonweringInput.value);
+    }
+    // Initialize Buitenlicht type visibility
+    const buitenlichtInput = document.querySelector(
+      'input[name="Buitenlicht"]:checked',
+    );
+    if (buitenlichtInput) {
+      updateBuitenlichtTypeVisibility(buitenlichtInput.value);
+    }
+    // Initialize Spots in overstek visibility
+    const overstekInput = document.querySelector(
+      'input[name="Overstek"]:checked',
+    );
+    if (overstekInput) {
+      updateSpotsOverstekVisibility(overstekInput.value);
+    }
+    // Initialize Daktrim image based on current overstek and daktrim selection
+    updateDaktrimImage();
+    // Initialize Spots in overstek type visibility
+    const spotsOverstekInput = document.querySelector(
+      'input[name="SpotsOverstek"]:checked',
+    );
+    if (spotsOverstekInput) {
+      updateSpotsOverstekTypeVisibility(spotsOverstekInput.value);
+    }
   }
 
   // ================================

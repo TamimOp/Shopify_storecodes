@@ -1006,6 +1006,200 @@ input[type="radio"]:checked + .radio-label {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================
+   MKL PC Layers - Image Layer System
+   Reference site approach: pre-rendered images with active class toggling
+================================ */
+.mkl_pc_layers {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base image styling - hidden by default */
+.mkl_pc_layers img.simple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  max-width: 110%;
+  max-height: 110%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  pointer-events: none;
+}
+
+/* Active state - shows the image */
+.mkl_pc_layers img.simple.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Multiple class - for elements that can have multiple selections */
+.mkl_pc_layers img.multiple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  max-width: 110%;
+  max-height: 110%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.mkl_pc_layers img.multiple.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Circle class - for wall texture masking (Rechterzijde/Linkerzijde) */
+.mkl_pc_layers img.circle {
+  /* Wall textures use the same styling */
+  /* The image itself contains the circular/masked area */
+}
+
+/* Images loading indicator */
+.mkl_pc_layers .images-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--vpc-primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+.mkl_pc_viewer.is-loading-image .images-loading {
+  display: block;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* View switching - Exterior/Interior */
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Buitenzijde main"] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Binnenzijde main"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide exterior-only layers when in interior view */
+.s-configurator-container--interior .mkl_pc_layers img[data-layer="Kozijn"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Rechterzijde"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Rechterzijde (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Rechter glazen zijwandtype (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Linkerzijde (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Linker zijwand kozijn (hidden)"],
+.s-configurator-container--interior .mkl_pc_layers img[data-layer="Regenpijp"],
+.s-configurator-container--interior .mkl_pc_layers img[data-layer="Overstek"],
+.s-configurator-container--interior .mkl_pc_layers img[data-layer="Daklicht"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Daklicht zonwering (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Groen dak (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Daktrim (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Buitenlicht"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Buitenstopcontact"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Buitenkraan"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Spots overstek (hidden)"],
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Main render white (hidden)"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Show interior-only layers when in interior view */
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="interior"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Radiator(en)"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Verlichting lichtpunt"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Spotjes"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Wandlampen"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="Stucwerk"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="Schilderwerk"].active,
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="Stopcontacten"].active {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .s-configurator-container__exterior-images,
@@ -1829,6 +2023,21 @@ input[type="radio"]:checked + .radio-label {
 
 /* Interior images hidden by default */
 .s-configurator-container__interior-images {
+  display: none;
+}
+
+/* Interior component options hidden by default in sidebar */
+.vpc-component.interior-element {
+  display: none;
+}
+
+/* Show interior components when in interior mode */
+.s-configurator-container--interior .vpc-component.interior-element {
+  display: block;
+}
+
+/* Hide exterior components when in interior mode */
+.s-configurator-container--interior .vpc-component.exterior-element {
   display: none;
 }
 

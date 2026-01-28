@@ -567,6 +567,225 @@
       layer_id: 3,
       choice_id: 15,
     },
+    // Linkerzijde kozijn overlays - show door frame based on Kozijn type when wall texture is selected
+    // 2 delig schuifpui kozijn variants (6 material/color combinations)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – aluminium antraciet",
+      layer_id: 19,
+      choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – aluminium wit",
+      layer_id: 19,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – hout antraciet",
+      layer_id: 19,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – hout wit",
+      layer_id: 19,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – kunststof antraciet",
+      layer_id: 19,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-2-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 2 delig kozijn – kunststof wit",
+      layer_id: 19,
+      choice_id: 6,
+    },
+    // 4 delig schuifpui kozijn variants (6 material/color combinations)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – aluminium antraciet",
+      layer_id: 19,
+      choice_id: 7,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – aluminium wit",
+      layer_id: 19,
+      choice_id: 8,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – hout antraciet",
+      layer_id: 19,
+      choice_id: 9,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – hout wit",
+      layer_id: 19,
+      choice_id: 10,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – kunststof antraciet",
+      layer_id: 19,
+      choice_id: 11,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-4-delig-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand 4 delig kozijn – kunststof wit",
+      layer_id: 19,
+      choice_id: 12,
+    },
+    // Harmonicapui kozijn variants (2 - only aluminium)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-harmonicapui-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand harmonicapui kozijn – aluminium antraciet",
+      layer_id: 19,
+      choice_id: 13,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-harmonicapui-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand harmonicapui kozijn – aluminium wit",
+      layer_id: 19,
+      choice_id: 14,
+    },
+    // Openslaande deuren kozijn variants (6 material/color combinations)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – aluminium antraciet",
+      layer_id: 19,
+      choice_id: 15,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – aluminium wit",
+      layer_id: 19,
+      choice_id: 16,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – hout antraciet",
+      layer_id: 19,
+      choice_id: 17,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – hout wit",
+      layer_id: 19,
+      choice_id: 18,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – kunststof antraciet",
+      layer_id: 19,
+      choice_id: 19,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren kozijn – kunststof wit",
+      layer_id: 19,
+      choice_id: 20,
+    },
+    // Openslaande deuren met roedes kozijn variants (6 material/color combinations)
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice:
+        "linker zijwand openslaande deuren met roedes kozijn – aluminium antraciet",
+      layer_id: 19,
+      choice_id: 21,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice:
+        "linker zijwand openslaande deuren met roedes kozijn – aluminium wit",
+      layer_id: 19,
+      choice_id: 22,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice:
+        "linker zijwand openslaande deuren met roedes kozijn – hout antraciet",
+      layer_id: 19,
+      choice_id: 23,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice: "linker zijwand openslaande deuren met roedes kozijn – hout wit",
+      layer_id: 19,
+      choice_id: 24,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice:
+        "linker zijwand openslaande deuren met roedes kozijn – kunststof antraciet",
+      layer_id: 19,
+      choice_id: 25,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/linker-zijwand-openslaande-deuren-met-roedes-kozijn-nieuw-1800x1350.png",
+      layer: "Linkerzijde (hidden)",
+      choice:
+        "linker zijwand openslaande deuren met roedes kozijn – kunststof wit",
+      layer_id: 19,
+      choice_id: 26,
+    },
     // Linker glazen zijwandtype
     {
       cls: "simple",
@@ -1409,6 +1628,7 @@
     switchView("exterior"); // Set default view to exterior
     updatePreview();
     updateWhiteRenderVisibility(); // Check white kozijn on init
+    hideAllLinkerzijdeKozijnOverlays(); // Ensure kozijn overlays are hidden when Linkerzijde is glas (default)
     updateFloatingBannerButtons();
     console.log("Woonserre Configurator initialized");
   }
@@ -1998,22 +2218,19 @@
   }
 
   function updateLinkerZijwandKozijnVisibility(linkerzijdeValue) {
-    const mklLayers = getMklPcLayers();
-    if (!mklLayers) return;
-
-    // Find the linker zijwand kozijn overlay image
-    const kozijnOverlay = mklLayers.querySelector(
-      'img[data-layer="Linker zijwand kozijn (hidden)"]',
-    );
-    if (!kozijnOverlay) return;
-
     const valueLower = linkerzijdeValue.toLowerCase();
 
-    // Show the kozijn overlay when a wall texture is selected (not "glas")
+    // When a wall texture is selected (not "glas"), show the kozijn overlay matching current Kozijn
+    // When "glas" is selected, hide all kozijn overlays
     if (valueLower !== "glas") {
-      kozijnOverlay.classList.add("active");
+      const kozijnInput = document.querySelector(
+        'input[name="Kozijn"]:checked',
+      );
+      if (kozijnInput) {
+        updateLinkerzijdeKozijnOverlay(kozijnInput.value);
+      }
     } else {
-      kozijnOverlay.classList.remove("active");
+      hideAllLinkerzijdeKozijnOverlays();
     }
   }
 
@@ -2607,6 +2824,9 @@
       if (matchingInterior) {
         matchingInterior.classList.add("active");
       }
+
+      // Sync Linkerzijde kozijn overlay when Kozijn changes
+      updateLinkerzijdeKozijnOverlay(value);
     }
 
     // Rechterzijde/Linkerzijde - handle glass vs wall texture
@@ -2633,6 +2853,8 @@
       );
       if (valueLower === "glas" && glazenType) {
         activateImageForOption(glazenType);
+        // Hide kozijn overlay when glass is selected
+        hideAllLinkerzijdeKozijnOverlays();
       } else {
         // Hide glazen type images if wall texture is selected
         const glazenImages = mklLayers.querySelectorAll(
@@ -2640,8 +2862,139 @@
         );
         if (valueLower !== "glas") {
           glazenImages.forEach((img) => img.classList.remove("active"));
+          // Show kozijn overlay matching current Kozijn selection
+          const kozijnInput = document.querySelector(
+            'input[name="Kozijn"]:checked',
+          );
+          if (kozijnInput) {
+            updateLinkerzijdeKozijnOverlay(kozijnInput.value);
+          }
         }
       }
+    }
+  }
+
+  /**
+   * Update Linkerzijde kozijn overlay based on current Kozijn selection
+   * Only shows overlay when Linkerzijde is not "glas"
+   */
+  function updateLinkerzijdeKozijnOverlay(kozijnValue) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Check if Linkerzijde is set to "glas" - don't show kozijn overlay
+    const linkerzijdeInput = document.querySelector(
+      'input[name="Linkerzijde"]:checked',
+    );
+    const linkerzijdeValue = linkerzijdeInput
+      ? linkerzijdeInput.value.toLowerCase()
+      : "glas";
+
+    if (linkerzijdeValue === "glas") {
+      hideAllLinkerzijdeKozijnOverlays();
+      return;
+    }
+
+    // Build the choice string for the kozijn overlay
+    // Format: "linker zijwand [door type] kozijn – [material] [color]"
+    const kozijnLower = kozijnValue.toLowerCase();
+    let doorType = "";
+    let material = "";
+    let color = "";
+
+    // Determine door type from kozijn value
+    if (kozijnLower.includes("harmonicapui")) {
+      doorType = "harmonicapui";
+    } else if (kozijnLower.includes("openslaande deuren met roedes")) {
+      doorType = "openslaande deuren met roedes";
+    } else if (kozijnLower.includes("openslaande deuren")) {
+      doorType = "openslaande deuren";
+    } else if (
+      kozijnLower.includes("4 delig") ||
+      kozijnLower.includes("4-delig")
+    ) {
+      doorType = "4 delig";
+    } else if (
+      kozijnLower.includes("2 delig") ||
+      kozijnLower.includes("2-delig")
+    ) {
+      doorType = "2 delig";
+    }
+
+    // Determine material from kozijn value
+    if (kozijnLower.includes("aluminium")) {
+      material = "aluminium";
+    } else if (kozijnLower.includes("kunststof")) {
+      material = "kunststof";
+    } else if (kozijnLower.includes("hout")) {
+      material = "hout";
+    }
+
+    // Determine color from kozijn value
+    if (kozijnLower.includes("antraciet")) {
+      color = "antraciet";
+    } else if (kozijnLower.includes("wit")) {
+      color = "wit";
+    }
+
+    if (!doorType || !material || !color) {
+      console.log(
+        "updateLinkerzijdeKozijnOverlay: Could not determine door type, material, or color from:",
+        kozijnValue,
+      );
+      return;
+    }
+
+    // Build the choice string matching the data-choice attribute
+    const choiceString = `linker zijwand ${doorType} kozijn – ${material} ${color}`;
+    console.log(
+      "updateLinkerzijdeKozijnOverlay: Looking for choice:",
+      choiceString,
+    );
+
+    // Hide all Linkerzijde kozijn overlays first
+    hideAllLinkerzijdeKozijnOverlays();
+
+    // Find and activate the matching kozijn overlay
+    const matchingImage = mklLayers.querySelector(
+      `img[data-layer="Linkerzijde (hidden)"][data-choice="${choiceString}"]`,
+    );
+
+    if (matchingImage) {
+      matchingImage.classList.add("active");
+      console.log("updateLinkerzijdeKozijnOverlay: Activated:", choiceString);
+    } else {
+      console.log(
+        "updateLinkerzijdeKozijnOverlay: No matching image found for:",
+        choiceString,
+      );
+    }
+  }
+
+  /**
+   * Hide all Linkerzijde kozijn overlay images
+   */
+  function hideAllLinkerzijdeKozijnOverlays() {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Hide all kozijn overlay images from "Linkerzijde (hidden)" layer (layer_id 19)
+    const kozijnOverlays = mklLayers.querySelectorAll(
+      'img[data-layer="Linkerzijde (hidden)"]',
+    );
+    kozijnOverlays.forEach((img) => {
+      const choice = img.getAttribute("data-choice") || "";
+      if (choice.startsWith("linker zijwand") && choice.includes("kozijn")) {
+        img.classList.remove("active");
+      }
+    });
+
+    // Also hide the legacy "Linker zijwand kozijn (hidden)" layer
+    const legacyOverlay = mklLayers.querySelector(
+      'img[data-layer="Linker zijwand kozijn (hidden)"]',
+    );
+    if (legacyOverlay) {
+      legacyOverlay.classList.remove("active");
     }
   }
 

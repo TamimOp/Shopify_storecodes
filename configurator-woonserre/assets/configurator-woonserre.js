@@ -958,6 +958,7 @@
       choice_id: 26,
     },
     // Groen dak - must be rendered BEFORE Daklicht so Daklicht appears on top
+    // Different variants based on Overstek selection
     {
       cls: "simple",
       src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-1800x1350.png",
@@ -965,6 +966,54 @@
       choice: "Groen dak",
       layer_id: 20,
       choice_id: 1,
+    },
+    {
+      cls: "simple",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voorkant",
+      layer_id: 20,
+      choice_id: 2,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-voor-en-zijkant-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voor- en zijkant",
+      layer_id: 20,
+      choice_id: 3,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-voorkant-kunststof-wit-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voorkant kunststof wit",
+      layer_id: 20,
+      choice_id: 4,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-voor-en-zijkant-kunststof-wit-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voor- en zijkant kunststof wit",
+      layer_id: 20,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-voorkant-kunststof-antraciet-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voorkant kunststof antraciet",
+      layer_id: 20,
+      choice_id: 6,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Groen-dak-voor-en-zijkant-kunststof-antraciet-1800x1350.png",
+      layer: "Groen dak (hidden)",
+      choice: "Groen dak voor- en zijkant kunststof antraciet",
+      layer_id: 20,
+      choice_id: 7,
     },
     // Daklicht - rendered after Groen dak to appear on top
     {
@@ -1081,7 +1130,7 @@
       layer_id: 3,
       choice_id: 100,
     },
-    // Daktrim Aluminium (hidden) - layer_id 65 - only shows for geen overstek, transparent for overstek
+    // Daktrim Aluminium (hidden) - layer_id 65 - different images for overstek variations
     {
       cls: "simple active",
       src: "https://deprefabriek.nl/wp-content/uploads/2025/10/aluminium-daktrim-overstek-met-zijkant-1800x1350.png",
@@ -1092,7 +1141,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/aluminium-daktrim-geen-overstek-1800x1350.png",
       layer: "Daktrim aluminium (hidden)",
       choice: "daktrim aluminium overstek geen zijkant",
       layer_id: 65,
@@ -1100,16 +1149,16 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/aliminium-daktrim-overstek-geen-zijkant-1800x1350.png",
       layer: "Daktrim aluminium (hidden)",
       choice: "daktrim aluminium overstek met zijkant",
       layer_id: 65,
       choice_id: 3,
     },
-    // Daktrim Aluminium Zwart (hidden) - layer_id 66 - transparent for overstek options
+    // Daktrim Aluminium Zwart (hidden) - layer_id 66 - different images for overstek variations
     {
       cls: "simple",
-      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/daktrim-aluminium-zwart-geen-overstek-1800x1350.png",
+      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
       layer: "Daktrim aluminium zwart (hidden)",
       choice: "daktrim aluminium zwart geen overstek",
       layer_id: 66,
@@ -1117,7 +1166,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/daktrim-aluminium-zwart-overstek-geen-zijkant-1800x1350.png",
       layer: "Daktrim aluminium zwart (hidden)",
       choice: "daktrim aluminium zwart overstek geen zijkant",
       layer_id: 66,
@@ -1125,7 +1174,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/daktrim-aluminium-zwart-overstek-met-zijkant-1800x1350.png",
       layer: "Daktrim aluminium zwart (hidden)",
       choice: "daktrim aluminium zwart overstek met zijkant",
       layer_id: 66,
@@ -1150,7 +1199,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-voor-en-zijkant-nieuw-1800x1350.png",
       layer: "Daktrim (hidden)",
       choice: "Zinken kraal voor- en zijkant",
       layer_id: 16,
@@ -1158,7 +1207,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-voorkant-nieuw-1800x1350.png",
       layer: "Daktrim (hidden)",
       choice: "Zinken kraal voorkant kunststof wit",
       layer_id: 16,
@@ -1166,7 +1215,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-voor-en-zijkant-nieuw-1800x1350.png",
       layer: "Daktrim (hidden)",
       choice: "Zinken kraal voor- en zijkant kunststof wit",
       layer_id: 16,
@@ -1174,7 +1223,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-voorkant-nieuw-1800x1350.png",
       layer: "Daktrim (hidden)",
       choice: "Zinken kraal voorkant kunststof antraciet",
       layer_id: 16,
@@ -1182,7 +1231,7 @@
     },
     {
       cls: "simple",
-      src: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/10/Zinken-kraal-voor-en-zijkant-nieuw-1800x1350.png",
       layer: "Daktrim (hidden)",
       choice: "Zinken kraal voor- en zijkant kunststof antraciet",
       layer_id: 16,
@@ -1629,8 +1678,22 @@
     updatePreview();
     updateWhiteRenderVisibility(); // Check white kozijn on init
     hideAllLinkerzijdeKozijnOverlays(); // Ensure kozijn overlays are hidden when Linkerzijde is glas (default)
+    initializeDaktrimAndGroenDak(); // Sync Daktrim and Groen dak with default Overstek
     updateFloatingBannerButtons();
     console.log("Woonserre Configurator initialized");
+  }
+
+  /**
+   * Initialize Daktrim and Groen dak based on default Overstek selection
+   */
+  function initializeDaktrimAndGroenDak() {
+    const overstekInput = document.querySelector(
+      'input[name="Overstek"]:checked',
+    );
+    if (overstekInput) {
+      updateDaktrimImage(); // Use updateDaktrimImage instead of updateDaktrimForOverstek
+      updateGroenDakForOverstek(overstekInput.value);
+    }
   }
 
   // ================================
@@ -2872,6 +2935,22 @@
         }
       }
     }
+
+    // Overstek - sync Daktrim and Groen dak layers based on Overstek selection
+    if (componentIdLower === "overstek") {
+      // Note: updateDaktrimImage() is called separately in handleOptionChange
+      updateGroenDakForOverstek(value);
+    }
+
+    // Groen dak - update based on current Overstek selection
+    if (componentIdLower === "groendak") {
+      const overstekInput = document.querySelector(
+        'input[name="Overstek"]:checked',
+      );
+      if (overstekInput) {
+        updateGroenDakForOverstek(overstekInput.value);
+      }
+    }
   }
 
   /**
@@ -2995,6 +3074,197 @@
     );
     if (legacyOverlay) {
       legacyOverlay.classList.remove("active");
+    }
+  }
+
+  /**
+   * Update Daktrim layers based on Overstek selection
+   * When overstek is selected, show transparent images for Daktrim
+   * When geen overstek, show the actual Daktrim images
+   */
+  function updateDaktrimForOverstek(overstekValue) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    const overstekLower = overstekValue.toLowerCase();
+    const isGeenOverstek = overstekLower.includes("geen");
+    const hasZijkant = overstekLower.includes("met zijkant");
+    const isKunststofWit =
+      overstekLower.includes("wit") && overstekLower.includes("kunststof");
+    const isKunststofAntraciet =
+      overstekLower.includes("antraciet") &&
+      overstekLower.includes("kunststof");
+
+    // Get current Daktrim selection
+    const daktrimInput = document.querySelector(
+      'input[name="Daktrim"]:checked',
+    );
+    if (!daktrimInput) return;
+
+    const daktrimValue = daktrimInput.value.toLowerCase();
+
+    console.log("updateDaktrimForOverstek:", {
+      overstekValue,
+      daktrimValue,
+      isGeenOverstek,
+      hasZijkant,
+    });
+
+    // Handle Daktrim aluminium (hidden) - layer_id 65
+    const daktrimAluminiumImages = mklLayers.querySelectorAll(
+      'img[data-layer="Daktrim aluminium (hidden)"]',
+    );
+    daktrimAluminiumImages.forEach((img) => img.classList.remove("active"));
+
+    // Handle Daktrim aluminium zwart (hidden) - layer_id 66
+    const daktrimZwartImages = mklLayers.querySelectorAll(
+      'img[data-layer="Daktrim aluminium zwart (hidden)"]',
+    );
+    daktrimZwartImages.forEach((img) => img.classList.remove("active"));
+
+    // Handle Daktrim (hidden) / Zinken kraal - layer_id 16
+    const daktrimZinkenImages = mklLayers.querySelectorAll(
+      'img[data-layer="Daktrim (hidden)"]',
+    );
+    daktrimZinkenImages.forEach((img) => img.classList.remove("active"));
+
+    // Determine which Daktrim choice to activate based on Daktrim selection and Overstek
+    if (daktrimValue === "aluminium") {
+      let choiceToActivate;
+      if (isGeenOverstek) {
+        choiceToActivate = "daktrim aluminium geen overstek";
+      } else if (hasZijkant) {
+        choiceToActivate = "daktrim aluminium overstek met zijkant";
+      } else {
+        choiceToActivate = "daktrim aluminium overstek geen zijkant";
+      }
+      const matchingImg = mklLayers.querySelector(
+        `img[data-layer="Daktrim aluminium (hidden)"][data-choice="${choiceToActivate}"]`,
+      );
+      if (matchingImg) {
+        matchingImg.classList.add("active");
+        console.log("Activated Daktrim aluminium:", choiceToActivate);
+      }
+    } else if (daktrimValue === "aluminium zwart") {
+      let choiceToActivate;
+      if (isGeenOverstek) {
+        choiceToActivate = "daktrim aluminium zwart geen overstek";
+      } else if (hasZijkant) {
+        choiceToActivate = "daktrim aluminium zwart overstek met zijkant";
+      } else {
+        choiceToActivate = "daktrim aluminium zwart overstek geen zijkant";
+      }
+      const matchingImg = mklLayers.querySelector(
+        `img[data-layer="Daktrim aluminium zwart (hidden)"][data-choice="${choiceToActivate}"]`,
+      );
+      if (matchingImg) {
+        matchingImg.classList.add("active");
+        console.log("Activated Daktrim aluminium zwart:", choiceToActivate);
+      }
+    } else if (daktrimValue === "zinken kraal") {
+      let choiceToActivate;
+      if (isGeenOverstek) {
+        // No overstek - show full Zinken kraal
+        choiceToActivate = "Zinken kraal";
+      } else if (isKunststofWit) {
+        choiceToActivate = hasZijkant
+          ? "Zinken kraal voor- en zijkant kunststof wit"
+          : "Zinken kraal voorkant kunststof wit";
+      } else if (isKunststofAntraciet) {
+        choiceToActivate = hasZijkant
+          ? "Zinken kraal voor- en zijkant kunststof antraciet"
+          : "Zinken kraal voorkant kunststof antraciet";
+      } else {
+        // Default overstek (gegrond hout)
+        choiceToActivate = hasZijkant
+          ? "Zinken kraal voor- en zijkant"
+          : "Zinken kraal voorkant";
+      }
+      const matchingImg = mklLayers.querySelector(
+        `img[data-layer="Daktrim (hidden)"][data-choice="${choiceToActivate}"]`,
+      );
+      if (matchingImg) {
+        matchingImg.classList.add("active");
+        console.log("Activated Daktrim Zinken kraal:", choiceToActivate);
+      }
+    }
+  }
+
+  /**
+   * Update Groen dak layer based on Overstek selection
+   * Different images for different Overstek configurations
+   */
+  function updateGroenDakForOverstek(overstekValue) {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Get current Groen dak selection
+    const groendakInput = document.querySelector(
+      'input[name="GroenDak"]:checked',
+    );
+    if (!groendakInput) return;
+
+    const groendakValue = groendakInput.value.toLowerCase();
+
+    // If no green roof is selected, deactivate all
+    if (groendakValue === "nee" || groendakValue === "geen") {
+      const groendakImages = mklLayers.querySelectorAll(
+        'img[data-layer="Groen dak (hidden)"]',
+      );
+      groendakImages.forEach((img) => img.classList.remove("active"));
+      return;
+    }
+
+    const overstekLower = overstekValue.toLowerCase();
+    const isGeenOverstek = overstekLower.includes("geen");
+    const hasZijkant = overstekLower.includes("met zijkant");
+    const isKunststofWit =
+      overstekLower.includes("wit") && overstekLower.includes("kunststof");
+    const isKunststofAntraciet =
+      overstekLower.includes("antraciet") &&
+      overstekLower.includes("kunststof");
+
+    console.log("updateGroenDakForOverstek:", {
+      overstekValue,
+      groendakValue,
+      isGeenOverstek,
+      hasZijkant,
+    });
+
+    // Deactivate all Groen dak images first
+    const groendakImages = mklLayers.querySelectorAll(
+      'img[data-layer="Groen dak (hidden)"]',
+    );
+    groendakImages.forEach((img) => img.classList.remove("active"));
+
+    // Determine which Groen dak choice to activate based on Overstek
+    let choiceToActivate;
+    if (isGeenOverstek) {
+      // No overstek - show full Groen dak
+      choiceToActivate = "Groen dak";
+    } else if (isKunststofWit) {
+      choiceToActivate = hasZijkant
+        ? "Groen dak voor- en zijkant kunststof wit"
+        : "Groen dak voorkant kunststof wit";
+    } else if (isKunststofAntraciet) {
+      choiceToActivate = hasZijkant
+        ? "Groen dak voor- en zijkant kunststof antraciet"
+        : "Groen dak voorkant kunststof antraciet";
+    } else {
+      // Default overstek (gegrond hout)
+      choiceToActivate = hasZijkant
+        ? "Groen dak voor- en zijkant"
+        : "Groen dak voorkant";
+    }
+
+    const matchingImg = mklLayers.querySelector(
+      `img[data-layer="Groen dak (hidden)"][data-choice="${choiceToActivate}"]`,
+    );
+    if (matchingImg) {
+      matchingImg.classList.add("active");
+      console.log("Activated Groen dak:", choiceToActivate);
+    } else {
+      console.log("No matching Groen dak image found for:", choiceToActivate);
     }
   }
 

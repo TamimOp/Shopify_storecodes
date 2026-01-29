@@ -1251,7 +1251,7 @@ input[type="radio"]:checked + .radio-label {
   img[data-layer="Wandlampen type"].active,
 .s-configurator-container--interior
   .mkl_pc_layers
-  img[data-layer*="Stucwerk"].active,
+  img[data-layer*="stucwerk" i].active,
 .s-configurator-container--interior
   .mkl_pc_layers
   img[data-layer*="Schilderwerk"].active,

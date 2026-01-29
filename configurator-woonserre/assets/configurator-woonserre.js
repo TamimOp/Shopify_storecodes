@@ -3477,6 +3477,207 @@
   }
 
   /**
+   * Update visibility of Wandlampen checkbox options based on wall configuration
+   *
+   * IMPORTANT: Exterior and Interior are MIRRORED!
+   * - L1-L3 (interior LEFT) require EXTERIOR RIGHT wall (Rechterzijde != glas)
+   * - R1-R3 (interior RIGHT) require EXTERIOR LEFT wall (Linkerzijde != glas)
+   */
+  function updateWandlampenOptionsVisibility() {
+    const linkerzijdeInput = document.querySelector(
+      'input[name="Linkerzijde"]:checked',
+    );
+    const rechterzijdeInput = document.querySelector(
+      'input[name="Rechterzijde"]:checked',
+    );
+
+    // Exterior wall selections
+    const exteriorLeftIsWall =
+      linkerzijdeInput && linkerzijdeInput.value.toLowerCase() !== "glas";
+    const exteriorRightIsWall =
+      rechterzijdeInput && rechterzijdeInput.value.toLowerCase() !== "glas";
+
+    // Interior is MIRRORED from exterior
+    const interiorLeftIsWall = exteriorRightIsWall; // Exterior right = Interior left
+    const interiorRightIsWall = exteriorLeftIsWall; // Exterior left = Interior right
+
+    // Get the group containers for left and right wandlampen
+    const leftGroup = document.querySelector(
+      "#component-wandlampen .vpc-group:first-of-type",
+    );
+    const rightGroup = document.querySelector(
+      "#component-wandlampen .vpc-group:last-of-type",
+    );
+
+    // Hide/show left wandlampen options (L1, L2, L3)
+    const leftOptions = [
+      document.querySelector('[data-oid="option-wandlamp-l1"]'),
+      document.querySelector('[data-oid="option-wandlamp-l2"]'),
+      document.querySelector('[data-oid="option-wandlamp-l3"]'),
+    ];
+    leftOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = interiorLeftIsWall ? "" : "none";
+      }
+    });
+
+    // Hide/show right wandlampen options (R1, R2, R3)
+    const rightOptions = [
+      document.querySelector('[data-oid="option-wandlamp-r1"]'),
+      document.querySelector('[data-oid="option-wandlamp-r2"]'),
+      document.querySelector('[data-oid="option-wandlamp-r3"]'),
+    ];
+    rightOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = interiorRightIsWall ? "" : "none";
+      }
+    });
+
+    // Hide entire left group if no left wall
+    if (leftGroup) {
+      leftGroup.style.display = interiorLeftIsWall ? "" : "none";
+    }
+    // Hide entire right group if no right wall
+    if (rightGroup) {
+      rightGroup.style.display = interiorRightIsWall ? "" : "none";
+    }
+
+    // If any selected wandlampen become hidden, uncheck them
+    const wandlampenInputs = document.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked',
+    );
+    wandlampenInputs.forEach((input) => {
+      const value = input.value.toLowerCase();
+      const isLeft =
+        value.startsWith("l1") ||
+        value.startsWith("l2") ||
+        value.startsWith("l3");
+      const isRight =
+        value.startsWith("r1") ||
+        value.startsWith("r2") ||
+        value.startsWith("r3");
+
+      if (
+        (isLeft && !interiorLeftIsWall) ||
+        (isRight && !interiorRightIsWall)
+      ) {
+        input.checked = false;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    // Update the wandlampen type visibility
+    updateWandlampenTypeVisibility();
+  }
+
+  /**
+   * Update visibility of Stopcontacten muur checkbox options based on wall configuration
+   *
+   * IMPORTANT: Exterior and Interior are MIRRORED!
+   * - L1-L3 muur (interior LEFT) require EXTERIOR RIGHT wall (Rechterzijde != glas)
+   * - R1-R3 muur (interior RIGHT) require EXTERIOR LEFT wall (Linkerzijde != glas)
+   */
+  function updateStopcontactenOptionsVisibility() {
+    const linkerzijdeInput = document.querySelector(
+      'input[name="Linkerzijde"]:checked',
+    );
+    const rechterzijdeInput = document.querySelector(
+      'input[name="Rechterzijde"]:checked',
+    );
+
+    // Exterior wall selections
+    const exteriorLeftIsWall =
+      linkerzijdeInput && linkerzijdeInput.value.toLowerCase() !== "glas";
+    const exteriorRightIsWall =
+      rechterzijdeInput && rechterzijdeInput.value.toLowerCase() !== "glas";
+
+    // Interior is MIRRORED from exterior
+    const interiorLeftIsWall = exteriorRightIsWall;
+    const interiorRightIsWall = exteriorLeftIsWall;
+
+    // Get the group containers for left and right stopcontacten
+    const leftMuurOptions = [
+      document.querySelector('[data-oid="option-stopcontact-muur-l1"]'),
+      document.querySelector('[data-oid="option-stopcontact-muur-l2"]'),
+      document.querySelector('[data-oid="option-stopcontact-muur-l3"]'),
+    ];
+    const rightMuurOptions = [
+      document.querySelector('[data-oid="option-stopcontact-muur-r1"]'),
+      document.querySelector('[data-oid="option-stopcontact-muur-r2"]'),
+      document.querySelector('[data-oid="option-stopcontact-muur-r3"]'),
+    ];
+    const leftVloerOptions = [
+      document.querySelector('[data-oid="option-stopcontact-vloer-l1"]'),
+      document.querySelector('[data-oid="option-stopcontact-vloer-l2"]'),
+      document.querySelector('[data-oid="option-stopcontact-vloer-l3"]'),
+    ];
+    const rightVloerOptions = [
+      document.querySelector('[data-oid="option-stopcontact-vloer-r1"]'),
+      document.querySelector('[data-oid="option-stopcontact-vloer-r2"]'),
+      document.querySelector('[data-oid="option-stopcontact-vloer-r3"]'),
+    ];
+
+    // Muur options: only show when wall exists
+    leftMuurOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = interiorLeftIsWall ? "" : "none";
+      }
+    });
+    rightMuurOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = interiorRightIsWall ? "" : "none";
+      }
+    });
+
+    // Vloer options: only show when there's NO wall (glass)
+    leftVloerOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = !interiorLeftIsWall ? "" : "none";
+      }
+    });
+    rightVloerOptions.forEach((opt) => {
+      if (opt) {
+        opt.style.display = !interiorRightIsWall ? "" : "none";
+      }
+    });
+
+    // Uncheck any selected muur options that became hidden
+    const muurInputs = document.querySelectorAll(
+      'input[name="StopcontactenMuur[]"]:checked',
+    );
+    muurInputs.forEach((input) => {
+      const value = input.value.toLowerCase();
+      const isLeft = value === "l1" || value === "l2" || value === "l3";
+      const isRight = value === "r1" || value === "r2" || value === "r3";
+
+      if (
+        (isLeft && !interiorLeftIsWall) ||
+        (isRight && !interiorRightIsWall)
+      ) {
+        input.checked = false;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    // Uncheck any selected vloer options that became hidden
+    const vloerInputs = document.querySelectorAll(
+      'input[name="StopcontactenVloer[]"]:checked',
+    );
+    vloerInputs.forEach((input) => {
+      const value = input.value.toLowerCase();
+      const isLeft =
+        value.includes("l1") || value.includes("l2") || value.includes("l3");
+      const isRight =
+        value.includes("r1") || value.includes("r2") || value.includes("r3");
+
+      if ((isLeft && interiorLeftIsWall) || (isRight && interiorRightIsWall)) {
+        input.checked = false;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+  }
+
+  /**
    * Sync Radiator layer in preview based on current selection and wall configuration
    *
    * IMPORTANT: Exterior and Interior are MIRRORED!
@@ -3998,6 +4199,9 @@
       syncStopcontactenLayers();
       // Update Radiator options visibility based on wall configuration
       updateRadiatorOptionsVisibility();
+      // Update Wandlampen and Stopcontacten options visibility based on wall configuration
+      updateWandlampenOptionsVisibility();
+      updateStopcontactenOptionsVisibility();
     }
 
     if (componentIdLower === "linkerzijde") {
@@ -4043,6 +4247,9 @@
       syncStopcontactenLayers();
       // Update Radiator options visibility based on wall configuration
       updateRadiatorOptionsVisibility();
+      // Update Wandlampen and Stopcontacten options visibility based on wall configuration
+      updateWandlampenOptionsVisibility();
+      updateStopcontactenOptionsVisibility();
     }
 
     // LinkerGlazenType - sync interior layer when exterior selection changes
@@ -4109,6 +4316,11 @@
       componentIdLower === "wandlampen[]"
     ) {
       syncWandlampenLayers();
+    }
+
+    // WandlampenType - sync layer based on wall configuration and selected type
+    if (componentIdLower === "wandlampentype") {
+      syncWandlampenTypeLayers();
     }
 
     // Stopcontacten - sync after selection to filter based on wall configuration
@@ -4480,6 +4692,108 @@
       interiorLeftIsWall,
       interiorRightIsWall,
     });
+
+    // Also sync Wandlampen type layer based on wall configuration
+    syncWandlampenTypeLayers();
+  }
+
+  /**
+   * Sync Wandlampen type layer based on wall configuration and selected type
+   * The type (geschakeld/gedimd) can be "links" or "rechts" based on which wall has lamps
+   * - Interior LEFT wall (from exterior RIGHT) → "links" type
+   * - Interior RIGHT wall (from exterior LEFT) → "rechts" type
+   */
+  function syncWandlampenTypeLayers() {
+    const mklLayers = getMklPcLayers();
+    if (!mklLayers) return;
+
+    // Check wall configuration (EXTERIOR sides)
+    const linkerzijdeInput = document.querySelector(
+      'input[name="Linkerzijde"]:checked',
+    );
+    const rechterzijdeInput = document.querySelector(
+      'input[name="Rechterzijde"]:checked',
+    );
+
+    // Exterior selections
+    const exteriorLeftIsWall =
+      linkerzijdeInput && linkerzijdeInput.value.toLowerCase() !== "glas";
+    const exteriorRightIsWall =
+      rechterzijdeInput && rechterzijdeInput.value.toLowerCase() !== "glas";
+
+    // Interior is MIRRORED from exterior
+    const interiorLeftIsWall = exteriorRightIsWall;
+    const interiorRightIsWall = exteriorLeftIsWall;
+
+    // Deactivate all Wandlampen type images first
+    const wandlampenTypeImages = mklLayers.querySelectorAll(
+      'img[data-layer="Wandlampen type"]',
+    );
+    wandlampenTypeImages.forEach((img) => img.classList.remove("active"));
+
+    // Check if any wandlampen are selected (not "geen")
+    const wandlampenInputs = document.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked',
+    );
+    let hasWandlampenSelected = false;
+    wandlampenInputs.forEach((input) => {
+      if (!input.value.toLowerCase().includes("geen")) {
+        hasWandlampenSelected = true;
+      }
+    });
+
+    if (!hasWandlampenSelected) {
+      return; // No wandlampen selected, leave all deactivated
+    }
+
+    // Get the selected Wandlampen type
+    const wandlampenTypeInput = document.querySelector(
+      'input[name="WandlampenType"]:checked',
+    );
+    if (!wandlampenTypeInput) return;
+
+    const typeValue = wandlampenTypeInput.value.toLowerCase();
+
+    // Determine the type (geschakeld or gedimd)
+    let typePrefix = "";
+    if (typeValue.includes("geschakeld")) {
+      typePrefix = "geschakeld";
+    } else if (typeValue.includes("gedimd")) {
+      typePrefix = "gedimd";
+    }
+
+    if (!typePrefix) return;
+
+    // Determine which side to show based on wall configuration
+    // Preference: show "rechts" if only right wall, "links" if only left wall,
+    // or the selected side if both walls exist
+    let sideSuffix = "";
+    if (interiorLeftIsWall && !interiorRightIsWall) {
+      sideSuffix = "links";
+    } else if (!interiorLeftIsWall && interiorRightIsWall) {
+      sideSuffix = "rechts";
+    } else if (interiorLeftIsWall && interiorRightIsWall) {
+      // Both walls exist - use the selected side from the input
+      if (typeValue.includes("links")) {
+        sideSuffix = "links";
+      } else if (typeValue.includes("rechts")) {
+        sideSuffix = "rechts";
+      } else {
+        sideSuffix = "rechts"; // Default fallback
+      }
+    } else {
+      // No walls - no wandlampen visible
+      return;
+    }
+
+    const choice = `${typePrefix} ${sideSuffix}`;
+    const matchingImg = mklLayers.querySelector(
+      `img[data-layer="Wandlampen type"][data-choice="${choice}"]`,
+    );
+    if (matchingImg) {
+      matchingImg.classList.add("active");
+      console.log("Activated Wandlampen type:", choice);
+    }
   }
 
   /**
@@ -5544,8 +5858,18 @@
     syncWandlampenLayers();
     syncStopcontactenLayers();
 
+    // Initialize Wandlampen type layer
+    syncWandlampenTypeLayers();
+
     // Initialize Radiator options visibility based on wall configuration
     updateRadiatorOptionsVisibility();
+
+    // Initialize Wandlampen and Stopcontacten options visibility based on wall configuration
+    updateWandlampenOptionsVisibility();
+    updateStopcontactenOptionsVisibility();
+
+    // Initialize Wandlampen type component visibility
+    updateWandlampenTypeVisibility();
   }
 
   // ================================

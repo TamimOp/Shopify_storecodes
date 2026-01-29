@@ -1050,7 +1050,7 @@
     // Daklicht interior (hidden) - synced with exterior Daklicht selection
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-1-vaks-lessenaar-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "1 vaks lessenaar",
       layer_id: 33,
@@ -1058,7 +1058,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-2-vaks-lessenaar-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "2 vaks lessenaar",
       layer_id: 33,
@@ -1066,7 +1066,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-3-vaks-lessenaar-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "3 vaks lessenaar",
       layer_id: 33,
@@ -1074,7 +1074,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-4-vaks-lessenaar-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "4 vaks lessenaar",
       layer_id: 33,
@@ -1082,7 +1082,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-5-vaks-lessenaar-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "5 vaks lessenaar",
       layer_id: 33,
@@ -1090,7 +1090,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-4-vaks-zadeldak-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "4 vaks zadeldak",
       layer_id: 33,
@@ -1098,7 +1098,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-6-vaks-zadeldak-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "6 vaks zadeldak",
       layer_id: 33,
@@ -1106,7 +1106,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-8-vaks-zadeldak-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "8 vaks zadeldak",
       layer_id: 33,
@@ -1114,7 +1114,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/Binnenzijde-10-vaks-zadeldak-1800x1350.png",
       layer: "Daklicht interior (hidden)",
       choice: "10 vaks zadeldak",
       layer_id: 33,
@@ -1697,7 +1697,7 @@
     // Interior elements - Stucwerk / Geen stucwerk
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/geen-stucwerk-plafond-1800x1350.png",
       layer: "Geen stucwerk (hidden)",
       choice: "geen stucwerk plafond",
       layer_id: 35,
@@ -1729,7 +1729,7 @@
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/stucwerk-plafond-1800x1350.png",
       layer: "Stucwerk (hidden)",
       choice: "stucwerk plafond",
       layer_id: 36,
@@ -1762,17 +1762,25 @@
     // Interior elements - Schilderwerk
     {
       cls: "simple",
-      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/schilderwerk-linker-muur-1800x1350.png",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/schilderwerk-plafond-1800x1350.png",
       layer: "Schilderwerk (hidden)",
-      choice: "schilderwerk linker muur",
+      choice: "schilderwerk plafond",
+      layer_id: 38,
+      choice_id: 5,
+    },
+    {
+      cls: "simple",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/schilderwerk-linker-muur-plafond-1800x1350.png",
+      layer: "Schilderwerk (hidden)",
+      choice: "schilderwerk linker muur plafond",
       layer_id: 38,
       choice_id: 6,
     },
     {
       cls: "simple",
-      src: "",
+      src: "https://deprefabriek.nl/wp-content/uploads/2025/05/schilderwerk-rechter-muur-plafond-1800x1350.png",
       layer: "Schilderwerk (hidden)",
-      choice: "schilderwerk rechter muur",
+      choice: "schilderwerk rechter muur plafond",
       layer_id: 38,
       choice_id: 7,
     },
@@ -1780,7 +1788,7 @@
       cls: "simple",
       src: "https://deprefabriek.nl/wp-content/uploads/2025/05/schilderwerk-1800x1350.png",
       layer: "Schilderwerk (hidden)",
-      choice: "schilderwerk linker rechter muur",
+      choice: "schilderwerk",
       layer_id: 38,
       choice_id: 8,
     },
@@ -2895,6 +2903,14 @@
       img.classList.remove("active");
     });
 
+    // Special handling for Stopcontacten - also deactivate vloer layer
+    if (layerName === "Stopcontacten muur (hidden)") {
+      const vloerImages = mklLayers.querySelectorAll(
+        'img[data-layer="Stopcontacten vloer (hidden)"]',
+      );
+      vloerImages.forEach((img) => img.classList.remove("active"));
+    }
+
     // Get all checked inputs (excluding "geen" options)
     const checkedInputs = component.querySelectorAll(
       `input[name="${inputName}"]:checked`,
@@ -2917,6 +2933,53 @@
           matchingImage = mklLayers.querySelector(
             `img[data-layer="${layerName}"][data-choice="${dataChoice}"]`,
           );
+        }
+      }
+
+      // Special handling for Stopcontacten - choose muur or vloer based on wall configuration
+      if (layerName === "Stopcontacten muur (hidden)") {
+        // Get wall configuration
+        const linkerzijdeInput = document.querySelector(
+          'input[name="Linkerzijde"]:checked',
+        );
+        const rechterzijdeInput = document.querySelector(
+          'input[name="Rechterzijde"]:checked',
+        );
+
+        const exteriorLeftIsWall =
+          linkerzijdeInput && linkerzijdeInput.value.toLowerCase() !== "glas";
+        const exteriorRightIsWall =
+          rechterzijdeInput && rechterzijdeInput.value.toLowerCase() !== "glas";
+
+        // Interior is MIRRORED from exterior
+        const interiorLeftIsWall = exteriorRightIsWall;
+        const interiorRightIsWall = exteriorLeftIsWall;
+
+        // Get the position from value (L1, L2, L3, R1, R2, R3)
+        const positionMatch = value.match(/^([LR])(\d)/i);
+        if (positionMatch) {
+          const side = positionMatch[1].toUpperCase();
+          const position = positionMatch[0].toUpperCase();
+
+          // Determine if this position's side is wall or glass
+          let isWallSide = false;
+          if (side === "L") {
+            isWallSide = interiorLeftIsWall;
+          } else if (side === "R") {
+            isWallSide = interiorRightIsWall;
+          }
+
+          if (isWallSide) {
+            // Wall side - use muur layer
+            matchingImage = mklLayers.querySelector(
+              `img[data-layer="Stopcontacten muur (hidden)"][data-choice="${position}"]`,
+            );
+          } else {
+            // Glass side - use vloer layer with " glas" suffix
+            matchingImage = mklLayers.querySelector(
+              `img[data-layer="Stopcontacten vloer (hidden)"][data-choice="${position} glas"]`,
+            );
+          }
         }
       }
 
@@ -2969,6 +3032,7 @@
     // Handle Daklicht - show/hide Daklicht zonwering based on selection
     if (selectedInput.name === "Daklicht") {
       updateDaklichtZonweringVisibility(selectedInput.value);
+      updateSpotjesVisibilityForDaklicht(selectedInput.value);
     }
 
     // Handle DaklichtZonwering - show/hide zonwering images
@@ -3016,6 +3080,56 @@
       selectedInput.name === "Wandlampen[]"
     ) {
       updateWandlampenTypeVisibility();
+    }
+
+    // Handle Stucwerk - show/hide Schilderwerk based on selection
+    if (selectedInput.name === "Stucwerk") {
+      updateSchilderwerkVisibility(selectedInput.value);
+    }
+  }
+
+  /**
+   * Update Schilderwerk component visibility based on Stucwerk selection
+   * Schilderwerk is only available when Stucwerk is "ja voorzien van stucwerk"
+   */
+  function updateSchilderwerkVisibility(stucwerkValue) {
+    const schilderwerkComponent = document.getElementById(
+      "component-schilderwerk",
+    );
+    if (!schilderwerkComponent) return;
+
+    const hasStucwerk =
+      stucwerkValue && stucwerkValue.toLowerCase().includes("ja");
+
+    if (hasStucwerk) {
+      schilderwerkComponent.classList.remove("hidden");
+      // Also set display if we're in interior view
+      if (state.currentView === "interior") {
+        schilderwerkComponent.style.display = "";
+      }
+    } else {
+      schilderwerkComponent.classList.add("hidden");
+      schilderwerkComponent.style.display = "none";
+      // Reset Schilderwerk to default when hiding
+      const defaultInput = schilderwerkComponent.querySelector(
+        'input[data-default="1"]',
+      );
+      if (defaultInput && !defaultInput.checked) {
+        defaultInput.checked = true;
+        const selectedSpan =
+          schilderwerkComponent.querySelector(".vpc-selected");
+        if (selectedSpan) {
+          selectedSpan.textContent = defaultInput.value;
+        }
+        // Also deactivate the Schilderwerk layer
+        const mklLayers = getMklPcLayers();
+        if (mklLayers) {
+          const schilderwerkImages = mklLayers.querySelectorAll(
+            'img[data-layer="Schilderwerk (hidden)"]',
+          );
+          schilderwerkImages.forEach((img) => img.classList.remove("active"));
+        }
+      }
     }
   }
 
@@ -3467,7 +3581,27 @@
         const geenOption = document.querySelector("#option-radiator-geen");
         if (geenOption) {
           geenOption.checked = true;
-          geenOption.dispatchEvent(new Event("change", { bubbles: true }));
+          // Update selected label text
+          const component = document.getElementById("component-radiator");
+          if (component) {
+            const selectedSpan = component.querySelector(
+              ".vpc-selected-option",
+            );
+            if (selectedSpan) {
+              selectedSpan.textContent = "geen";
+              selectedSpan.classList.add("no-check-mark-icon");
+              selectedSpan.classList.remove("option-selected");
+            }
+          }
+          // Update state
+          state.selectedOptions["component-radiator"] = {
+            value: geenOption.value,
+            price: 0,
+            imgUrl: "",
+            class: "interior-element",
+            index: geenOption.dataset.index,
+            optionId: geenOption.dataset.oid,
+          };
         }
       }
     }
@@ -3482,6 +3616,8 @@
    * IMPORTANT: Exterior and Interior are MIRRORED!
    * - L1-L3 (interior LEFT) require EXTERIOR RIGHT wall (Rechterzijde != glas)
    * - R1-R3 (interior RIGHT) require EXTERIOR LEFT wall (Linkerzijde != glas)
+   *
+   * Also hides L3/R3 if Radiator is on that wall (radiator takes that position)
    */
   function updateWandlampenOptionsVisibility() {
     const linkerzijdeInput = document.querySelector(
@@ -3501,6 +3637,62 @@
     const interiorLeftIsWall = exteriorRightIsWall; // Exterior right = Interior left
     const interiorRightIsWall = exteriorLeftIsWall; // Exterior left = Interior right
 
+    // Check if radiator is on a wall (radiator takes the L3/R3 position)
+    const radiatorInput = document.querySelector(
+      'input[name="Radiator"]:checked',
+    );
+    const radiatorValue = radiatorInput
+      ? radiatorInput.value.toLowerCase()
+      : "";
+    const hasRadiatorLeft = radiatorValue.includes("links");
+    const hasRadiatorRight =
+      radiatorValue.includes("rechts") && !radiatorValue.includes("links");
+    const hasRadiatorBoth =
+      radiatorValue.includes("links") && radiatorValue.includes("rechts");
+
+    // Get the Wandlampen component
+    const wandlampenComponent = document.getElementById("component-wandlampen");
+    const wandlampenTypeComponent = document.getElementById(
+      "component-wandlampen-type",
+    );
+
+    // If no walls at all, hide entire Wandlampen component
+    if (!interiorLeftIsWall && !interiorRightIsWall) {
+      if (wandlampenComponent) {
+        wandlampenComponent.classList.add("hidden");
+        wandlampenComponent.style.display = "none";
+        // Update selected label
+        const selectedSpan = wandlampenComponent.querySelector(
+          ".vpc-selected-option",
+        );
+        if (selectedSpan) {
+          selectedSpan.textContent = "geen";
+          selectedSpan.classList.add("no-check-mark-icon");
+          selectedSpan.classList.remove("option-selected");
+        }
+      }
+      if (wandlampenTypeComponent) {
+        wandlampenTypeComponent.classList.add("hidden");
+        wandlampenTypeComponent.style.display = "none";
+      }
+      // Uncheck all wandlampen
+      const allWandlampen = document.querySelectorAll(
+        'input[name="Wandlampen[]"]:checked',
+      );
+      allWandlampen.forEach((input) => {
+        input.checked = false;
+      });
+      // Sync the preview
+      syncWandlampenLayers();
+      return;
+    } else if (wandlampenComponent) {
+      // Walls exist - remove hidden class and show if in interior view
+      wandlampenComponent.classList.remove("hidden");
+      if (state.currentView === "interior") {
+        wandlampenComponent.style.display = "";
+      }
+    }
+
     // Get the group containers for left and right wandlampen
     const leftGroup = document.querySelector(
       "#component-wandlampen .vpc-group:first-of-type",
@@ -3510,28 +3702,34 @@
     );
 
     // Hide/show left wandlampen options (L1, L2, L3)
-    const leftOptions = [
-      document.querySelector('[data-oid="option-wandlamp-l1"]'),
-      document.querySelector('[data-oid="option-wandlamp-l2"]'),
-      document.querySelector('[data-oid="option-wandlamp-l3"]'),
-    ];
-    leftOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = interiorLeftIsWall ? "" : "none";
-      }
-    });
+    // L3 is hidden if radiator is on left wall
+    const l1Option = document.querySelector('[data-oid="option-wandlamp-l1"]');
+    const l2Option = document.querySelector('[data-oid="option-wandlamp-l2"]');
+    const l3Option = document.querySelector('[data-oid="option-wandlamp-l3"]');
+
+    if (l1Option) l1Option.style.display = interiorLeftIsWall ? "" : "none";
+    if (l2Option) l2Option.style.display = interiorLeftIsWall ? "" : "none";
+    // L3 hidden if radiator is on left or both sides
+    if (l3Option)
+      l3Option.style.display =
+        interiorLeftIsWall && !hasRadiatorLeft && !hasRadiatorBoth
+          ? ""
+          : "none";
 
     // Hide/show right wandlampen options (R1, R2, R3)
-    const rightOptions = [
-      document.querySelector('[data-oid="option-wandlamp-r1"]'),
-      document.querySelector('[data-oid="option-wandlamp-r2"]'),
-      document.querySelector('[data-oid="option-wandlamp-r3"]'),
-    ];
-    rightOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = interiorRightIsWall ? "" : "none";
-      }
-    });
+    // R3 is hidden if radiator is on right wall
+    const r1Option = document.querySelector('[data-oid="option-wandlamp-r1"]');
+    const r2Option = document.querySelector('[data-oid="option-wandlamp-r2"]');
+    const r3Option = document.querySelector('[data-oid="option-wandlamp-r3"]');
+
+    if (r1Option) r1Option.style.display = interiorRightIsWall ? "" : "none";
+    if (r2Option) r2Option.style.display = interiorRightIsWall ? "" : "none";
+    // R3 hidden if radiator is on right or both sides
+    if (r3Option)
+      r3Option.style.display =
+        interiorRightIsWall && !hasRadiatorRight && !hasRadiatorBoth
+          ? ""
+          : "none";
 
     // Hide entire left group if no left wall
     if (leftGroup) {
@@ -3546,27 +3744,68 @@
     const wandlampenInputs = document.querySelectorAll(
       'input[name="Wandlampen[]"]:checked',
     );
+    let needsSync = false;
     wandlampenInputs.forEach((input) => {
       const value = input.value.toLowerCase();
-      const isLeft =
-        value.startsWith("l1") ||
-        value.startsWith("l2") ||
-        value.startsWith("l3");
-      const isRight =
-        value.startsWith("r1") ||
-        value.startsWith("r2") ||
-        value.startsWith("r3");
+      const isL1 = value.startsWith("l1");
+      const isL2 = value.startsWith("l2");
+      const isL3 = value.startsWith("l3");
+      const isR1 = value.startsWith("r1");
+      const isR2 = value.startsWith("r2");
+      const isR3 = value.startsWith("r3");
 
-      if (
-        (isLeft && !interiorLeftIsWall) ||
-        (isRight && !interiorRightIsWall)
-      ) {
+      const shouldUncheck =
+        ((isL1 || isL2 || isL3) && !interiorLeftIsWall) ||
+        ((isR1 || isR2 || isR3) && !interiorRightIsWall) ||
+        (isL3 && (hasRadiatorLeft || hasRadiatorBoth)) ||
+        (isR3 && (hasRadiatorRight || hasRadiatorBoth));
+
+      if (shouldUncheck) {
         input.checked = false;
-        input.dispatchEvent(new Event("change", { bubbles: true }));
+        needsSync = true;
       }
     });
 
-    // Update the wandlampen type visibility
+    // If any wandlampen were unchecked, sync the layers and update selected label
+    if (needsSync) {
+      syncWandlampenLayers();
+      // Update selected label to reflect remaining selections
+      if (wandlampenComponent) {
+        const selectedSpan = wandlampenComponent.querySelector(
+          ".vpc-selected-option",
+        );
+        const remainingChecked = document.querySelectorAll(
+          'input[name="Wandlampen[]"]:checked',
+        );
+        if (selectedSpan) {
+          if (remainingChecked.length === 0) {
+            selectedSpan.textContent = "geen";
+            selectedSpan.classList.add("no-check-mark-icon");
+            selectedSpan.classList.remove("option-selected");
+          } else {
+            // Build list of selected positions
+            const positions = Array.from(remainingChecked)
+              .map((input) => {
+                const val = input.value.toLowerCase();
+                if (val.startsWith("l1")) return "L1";
+                if (val.startsWith("l2")) return "L2";
+                if (val.startsWith("l3")) return "L3";
+                if (val.startsWith("r1")) return "R1";
+                if (val.startsWith("r2")) return "R2";
+                if (val.startsWith("r3")) return "R3";
+                return "";
+              })
+              .filter((p) => p);
+            selectedSpan.textContent = positions.join(", ");
+            selectedSpan.classList.remove("no-check-mark-icon");
+            selectedSpan.classList.add("option-selected");
+          }
+        }
+      }
+    }
+
+    // Update the wandlampen layers and type visibility
+    syncWandlampenLayers();
     updateWandlampenTypeVisibility();
   }
 
@@ -3576,6 +3815,8 @@
    * IMPORTANT: Exterior and Interior are MIRRORED!
    * - L1-L3 muur (interior LEFT) require EXTERIOR RIGHT wall (Rechterzijde != glas)
    * - R1-R3 muur (interior RIGHT) require EXTERIOR LEFT wall (Linkerzijde != glas)
+   *
+   * Also hides L3/R3 muur if Radiator is on that wall (radiator takes that position)
    */
   function updateStopcontactenOptionsVisibility() {
     const linkerzijdeInput = document.querySelector(
@@ -3595,86 +3836,117 @@
     const interiorLeftIsWall = exteriorRightIsWall;
     const interiorRightIsWall = exteriorLeftIsWall;
 
-    // Get the group containers for left and right stopcontacten
-    const leftMuurOptions = [
-      document.querySelector('[data-oid="option-stopcontact-muur-l1"]'),
-      document.querySelector('[data-oid="option-stopcontact-muur-l2"]'),
-      document.querySelector('[data-oid="option-stopcontact-muur-l3"]'),
-    ];
-    const rightMuurOptions = [
-      document.querySelector('[data-oid="option-stopcontact-muur-r1"]'),
-      document.querySelector('[data-oid="option-stopcontact-muur-r2"]'),
-      document.querySelector('[data-oid="option-stopcontact-muur-r3"]'),
-    ];
-    const leftVloerOptions = [
-      document.querySelector('[data-oid="option-stopcontact-vloer-l1"]'),
-      document.querySelector('[data-oid="option-stopcontact-vloer-l2"]'),
-      document.querySelector('[data-oid="option-stopcontact-vloer-l3"]'),
-    ];
-    const rightVloerOptions = [
-      document.querySelector('[data-oid="option-stopcontact-vloer-r1"]'),
-      document.querySelector('[data-oid="option-stopcontact-vloer-r2"]'),
-      document.querySelector('[data-oid="option-stopcontact-vloer-r3"]'),
-    ];
-
-    // Muur options: only show when wall exists
-    leftMuurOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = interiorLeftIsWall ? "" : "none";
-      }
-    });
-    rightMuurOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = interiorRightIsWall ? "" : "none";
-      }
-    });
-
-    // Vloer options: only show when there's NO wall (glass)
-    leftVloerOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = !interiorLeftIsWall ? "" : "none";
-      }
-    });
-    rightVloerOptions.forEach((opt) => {
-      if (opt) {
-        opt.style.display = !interiorRightIsWall ? "" : "none";
-      }
-    });
-
-    // Uncheck any selected muur options that became hidden
-    const muurInputs = document.querySelectorAll(
-      'input[name="StopcontactenMuur[]"]:checked',
+    // Check if radiator is on a wall (radiator takes the L3/R3 position)
+    const radiatorInput = document.querySelector(
+      'input[name="Radiator"]:checked',
     );
-    muurInputs.forEach((input) => {
-      const value = input.value.toLowerCase();
-      const isLeft = value === "l1" || value === "l2" || value === "l3";
-      const isRight = value === "r1" || value === "r2" || value === "r3";
+    const radiatorValue = radiatorInput
+      ? radiatorInput.value.toLowerCase()
+      : "";
+    const hasRadiatorLeft = radiatorValue.includes("links");
+    const hasRadiatorRight =
+      radiatorValue.includes("rechts") && !radiatorValue.includes("links");
+    const hasRadiatorBoth =
+      radiatorValue.includes("links") && radiatorValue.includes("rechts");
 
-      if (
-        (isLeft && !interiorLeftIsWall) ||
-        (isRight && !interiorRightIsWall)
-      ) {
-        input.checked = false;
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-      }
-    });
-
-    // Uncheck any selected vloer options that became hidden
-    const vloerInputs = document.querySelectorAll(
-      'input[name="StopcontactenVloer[]"]:checked',
+    // Get left stopcontacten options (L1, L2, L3)
+    const l1Option = document.querySelector(
+      '[data-oid="option-stopcontact-l1"]',
     );
-    vloerInputs.forEach((input) => {
-      const value = input.value.toLowerCase();
-      const isLeft =
-        value.includes("l1") || value.includes("l2") || value.includes("l3");
-      const isRight =
-        value.includes("r1") || value.includes("r2") || value.includes("r3");
+    const l2Option = document.querySelector(
+      '[data-oid="option-stopcontact-l2"]',
+    );
+    const l3Option = document.querySelector(
+      '[data-oid="option-stopcontact-l3"]',
+    );
 
-      if ((isLeft && interiorLeftIsWall) || (isRight && interiorRightIsWall)) {
+    // Get right stopcontacten options (R1, R2, R3)
+    const r1Option = document.querySelector(
+      '[data-oid="option-stopcontact-r1"]',
+    );
+    const r2Option = document.querySelector(
+      '[data-oid="option-stopcontact-r2"]',
+    );
+    const r3Option = document.querySelector(
+      '[data-oid="option-stopcontact-r3"]',
+    );
+
+    // All options are always visible EXCEPT L3/R3 when radiator is present
+    // Stopcontacten work with both wall (muur) and glass (vloer) - different images shown
+    if (l1Option) l1Option.style.display = "";
+    if (l2Option) l2Option.style.display = "";
+    if (l3Option)
+      l3Option.style.display =
+        !hasRadiatorLeft && !hasRadiatorBoth ? "" : "none";
+
+    if (r1Option) r1Option.style.display = "";
+    if (r2Option) r2Option.style.display = "";
+    if (r3Option)
+      r3Option.style.display =
+        !hasRadiatorRight && !hasRadiatorBoth ? "" : "none";
+
+    // Groups are always visible
+    const leftGroup = document.querySelector(
+      "#component-stopcontacten .vpc-group:first-of-type",
+    );
+    const rightGroup = document.querySelector(
+      "#component-stopcontacten .vpc-group:last-of-type",
+    );
+
+    if (leftGroup) leftGroup.style.display = "";
+    if (rightGroup) rightGroup.style.display = "";
+
+    // Only uncheck options that are hidden due to radiator
+    const stopcontactenInputs = document.querySelectorAll(
+      'input[name="Stopcontacten[]"]:checked',
+    );
+    let needsSync = false;
+    stopcontactenInputs.forEach((input) => {
+      const value = input.value.toLowerCase();
+      const isL3 = value === "l3";
+      const isR3 = value === "r3";
+
+      const shouldUncheck =
+        (isL3 && (hasRadiatorLeft || hasRadiatorBoth)) ||
+        (isR3 && (hasRadiatorRight || hasRadiatorBoth));
+
+      if (shouldUncheck) {
         input.checked = false;
-        input.dispatchEvent(new Event("change", { bubbles: true }));
+        needsSync = true;
       }
     });
+
+    // Update selected label if anything was unchecked
+    if (needsSync) {
+      const stopcontactenComponent = document.getElementById(
+        "component-stopcontacten",
+      );
+      if (stopcontactenComponent) {
+        const selectedSpan = stopcontactenComponent.querySelector(
+          ".vpc-selected-option",
+        );
+        const remainingChecked = document.querySelectorAll(
+          'input[name="Stopcontacten[]"]:checked',
+        );
+        if (selectedSpan) {
+          if (remainingChecked.length === 0) {
+            selectedSpan.textContent = "geen";
+            selectedSpan.classList.add("no-check-mark-icon");
+            selectedSpan.classList.remove("option-selected");
+          } else {
+            const positions = Array.from(remainingChecked).map((input) =>
+              input.value.toUpperCase(),
+            );
+            selectedSpan.textContent = positions.join(", ");
+            selectedSpan.classList.remove("no-check-mark-icon");
+            selectedSpan.classList.add("option-selected");
+          }
+        }
+      }
+    }
+
+    // Sync stopcontacten layers
+    syncStopcontactenLayers();
   }
 
   /**
@@ -3827,6 +4099,107 @@
     }
   }
 
+  /**
+   * Update Spotjes row 2 visibility based on Daklicht selection
+   * Row 2 spots (6, 7, 8, 9) are affected by larger skylights
+   * - geen: all spots visible
+   * - 6 vaks zadeldak / 8 vaks zadeldak / 10 vaks zadeldak: spots 7, 8, 9 hidden
+   * - other non-geen: spot 8 hidden
+   */
+  function updateSpotjesVisibilityForDaklicht(daklichtValue) {
+    const value = (daklichtValue || "geen").toLowerCase();
+
+    // Get row 2 spot options (spots 6, 7, 8, 9)
+    const spot6Wrap = document.querySelector(
+      '.vpc-single-option-wrap[data-oid="option-spot-6"]',
+    );
+    const spot7Wrap = document.querySelector(
+      '.vpc-single-option-wrap[data-oid="option-spot-7"]',
+    );
+    const spot8Wrap = document.querySelector(
+      '.vpc-single-option-wrap[data-oid="option-spot-8"]',
+    );
+    const spot9Wrap = document.querySelector(
+      '.vpc-single-option-wrap[data-oid="option-spot-9"]',
+    );
+
+    // Track which spots should be hidden
+    let hideSpot6 = false;
+    let hideSpot7 = false;
+    let hideSpot8 = false;
+    let hideSpot9 = false;
+
+    if (value === "geen") {
+      // All spots visible
+      hideSpot6 = false;
+      hideSpot7 = false;
+      hideSpot8 = false;
+      hideSpot9 = false;
+    } else if (
+      value.includes("6 vaks zadeldak") ||
+      value.includes("8 vaks zadeldak") ||
+      value.includes("10 vaks zadeldak")
+    ) {
+      // 6, 8 or 10 vaks zadeldak: hide spots 7, 8, 9
+      hideSpot7 = true;
+      hideSpot8 = true;
+      hideSpot9 = true;
+    } else if (value !== "geen") {
+      // Other daklicht options (1-5 vaks lessenaar, 2/4 vaks zadeldak): hide spot 8
+      hideSpot8 = true;
+    }
+
+    // Apply visibility
+    if (spot6Wrap) spot6Wrap.style.display = hideSpot6 ? "none" : "";
+    if (spot7Wrap) spot7Wrap.style.display = hideSpot7 ? "none" : "";
+    if (spot8Wrap) spot8Wrap.style.display = hideSpot8 ? "none" : "";
+    if (spot9Wrap) spot9Wrap.style.display = hideSpot9 ? "none" : "";
+
+    // Uncheck any hidden spots and sync layers
+    let needsSync = false;
+    [
+      { wrap: spot6Wrap, hide: hideSpot6, id: "option-spot-6" },
+      { wrap: spot7Wrap, hide: hideSpot7, id: "option-spot-7" },
+      { wrap: spot8Wrap, hide: hideSpot8, id: "option-spot-8" },
+      { wrap: spot9Wrap, hide: hideSpot9, id: "option-spot-9" },
+    ].forEach(({ wrap, hide, id }) => {
+      if (hide && wrap) {
+        const input = document.getElementById(id);
+        if (input && input.checked) {
+          input.checked = false;
+          needsSync = true;
+        }
+      }
+    });
+
+    // Update selected label and sync layers if needed
+    if (needsSync) {
+      const spotjesComponent = document.getElementById("component-spotjes");
+      if (spotjesComponent) {
+        const selectedSpan = spotjesComponent.querySelector(".vpc-selected");
+        const remainingChecked = document.querySelectorAll(
+          'input[name="Spotjes[]"]:checked',
+        );
+        if (selectedSpan && remainingChecked.length === 0) {
+          selectedSpan.textContent = "geen";
+          selectedSpan.classList.add("no-check-mark-icon");
+          selectedSpan.classList.remove("option-selected");
+        }
+        // Sync the spotjes layers
+        updateCheckboxComponentPreview(spotjesComponent, "Spotjes[]");
+      }
+      updateSpotjesTypeVisibility();
+    }
+
+    console.log("Updated Spotjes visibility for Daklicht:", {
+      daklichtValue: value,
+      hideSpot6,
+      hideSpot7,
+      hideSpot8,
+      hideSpot9,
+    });
+  }
+
   function updateWandlampenTypeVisibility() {
     const wandlampenInputs = document.querySelectorAll(
       'input[name="Wandlampen[]"]:checked',
@@ -3846,8 +4219,13 @@
     if (wandlampenTypeComponent) {
       if (hasWandlampenSelected) {
         wandlampenTypeComponent.classList.remove("hidden");
+        // Also set display if we're in interior view
+        if (state.currentView === "interior") {
+          wandlampenTypeComponent.style.display = "";
+        }
       } else {
         wandlampenTypeComponent.classList.add("hidden");
+        wandlampenTypeComponent.style.display = "none";
       }
     }
   }
@@ -4084,7 +4462,9 @@
           valueLower === "nee" ||
           valueLower === "glas"
         ) {
-          // For "geen" options, just leave all deactivated
+          // For "geen"/"nee"/"glas" options, just leave all deactivated
+          // But still call handleSpecialLayerCases to handle interior updates
+          handleSpecialLayerCases(lookupKey, value, input);
           return;
         }
       }
@@ -4306,8 +4686,11 @@
     }
 
     // Radiator - sync layer based on selection and wall configuration
+    // Also update Wandlampen/Stopcontacten visibility (L3/R3 hidden when radiator on that side)
     if (componentIdLower === "radiator") {
       syncRadiatorLayer();
+      updateWandlampenOptionsVisibility();
+      updateStopcontactenOptionsVisibility();
     }
 
     // Wandlampen - sync after selection to filter based on wall configuration
@@ -4615,16 +4998,20 @@
       const interiorRightIsWall = exteriorLeftIsWall;
 
       // Determine which schilderwerk layer to show
+      // Same logic as syncStucwerkLayers - includes plafond (ceiling)
       let choiceValue;
       if (interiorLeftIsWall && interiorRightIsWall) {
-        choiceValue = "schilderwerk linker rechter muur";
+        // Both interior walls - use base schilderwerk (shows both walls + ceiling)
+        choiceValue = "schilderwerk";
       } else if (interiorLeftIsWall && !interiorRightIsWall) {
-        choiceValue = "schilderwerk linker muur";
+        // Only interior left wall (from exterior right) + ceiling
+        choiceValue = "schilderwerk linker muur plafond";
       } else if (!interiorLeftIsWall && interiorRightIsWall) {
-        choiceValue = "schilderwerk rechter muur";
+        // Only interior right wall (from exterior left) + ceiling
+        choiceValue = "schilderwerk rechter muur plafond";
       } else {
-        // No walls, no schilderwerk needed
-        return;
+        // Both sides glass - just ceiling (plafond only)
+        choiceValue = "schilderwerk plafond";
       }
 
       const matchingImg = mklLayers.querySelector(
@@ -4666,25 +5053,46 @@
     const interiorLeftIsWall = exteriorRightIsWall;
     const interiorRightIsWall = exteriorLeftIsWall;
 
-    // Get all Wandlampen images
+    // Get all Wandlampen images - DEACTIVATE ALL FIRST
     const wandlampenImages = mklLayers.querySelectorAll(
       'img[data-layer="Wandlampen"]',
     );
+    wandlampenImages.forEach((img) => img.classList.remove("active"));
 
-    wandlampenImages.forEach((img) => {
-      const choice = img.getAttribute("data-choice") || "";
-      const isLeftLamp = choice.startsWith("L");
-      const isRightLamp = choice.startsWith("R");
+    // Get currently checked wandlampen inputs
+    const checkedWandlampen = document.querySelectorAll(
+      'input[name="Wandlampen[]"]:checked',
+    );
 
-      // Check if this lamp should be visible based on wall configuration
-      // Only show lamps if they're on a wall AND they were selected (have active class already from selection)
-      if (isLeftLamp && !interiorLeftIsWall) {
-        // No left interior wall (glass), hide left lamps
-        img.classList.remove("active");
-      }
-      if (isRightLamp && !interiorRightIsWall) {
-        // No right interior wall (glass), hide right lamps
-        img.classList.remove("active");
+    // Activate only checked wandlampen that are on valid walls
+    checkedWandlampen.forEach((input) => {
+      const value = input.value;
+      const valueLower = value.toLowerCase();
+
+      // Determine position (L1, L2, L3, R1, R2, R3)
+      let position = null;
+      if (valueLower.startsWith("l1")) position = "L1";
+      else if (valueLower.startsWith("l2")) position = "L2";
+      else if (valueLower.startsWith("l3")) position = "L3";
+      else if (valueLower.startsWith("r1")) position = "R1";
+      else if (valueLower.startsWith("r2")) position = "R2";
+      else if (valueLower.startsWith("r3")) position = "R3";
+
+      if (!position) return;
+
+      const isLeftLamp = position.startsWith("L");
+      const isRightLamp = position.startsWith("R");
+
+      // Only show if wall exists on that side
+      if (isLeftLamp && !interiorLeftIsWall) return;
+      if (isRightLamp && !interiorRightIsWall) return;
+
+      // Find matching image by data-choice that starts with the position
+      const matchingImg = mklLayers.querySelector(
+        `img[data-layer="Wandlampen"][data-choice^="${position}"]`,
+      );
+      if (matchingImg) {
+        matchingImg.classList.add("active");
       }
     });
 
@@ -4829,43 +5237,63 @@
     const interiorLeftIsWall = exteriorRightIsWall;
     const interiorRightIsWall = exteriorLeftIsWall;
 
-    // Sync Stopcontacten muur (wall-mounted outlets)
-    const stopcontactenMuurImages = mklLayers.querySelectorAll(
+    // Get all currently selected stopcontacten (unified name)
+    const stopcontactenComponent = document.getElementById(
+      "component-stopcontacten",
+    );
+    if (!stopcontactenComponent) return;
+
+    // Get all checked stopcontacten inputs (unified, not separate muur/vloer)
+    const checkedInputs = stopcontactenComponent.querySelectorAll(
+      'input[name="Stopcontacten[]"]:checked',
+    );
+
+    // First, deactivate ALL stopcontacten images (both muur and vloer)
+    const allMuurImages = mklLayers.querySelectorAll(
       'img[data-layer="Stopcontacten muur (hidden)"]',
     );
-
-    stopcontactenMuurImages.forEach((img) => {
-      const choice = img.getAttribute("data-choice") || "";
-      const isLeftOutlet = choice.startsWith("L");
-      const isRightOutlet = choice.startsWith("R");
-
-      // Wall outlets only show on walls
-      if (isLeftOutlet && !interiorLeftIsWall) {
-        img.classList.remove("active");
-      }
-      if (isRightOutlet && !interiorRightIsWall) {
-        img.classList.remove("active");
-      }
-    });
-
-    // Sync Stopcontacten vloer (floor outlets for glass sides)
-    const stopcontactenVloerImages = mklLayers.querySelectorAll(
+    const allVloerImages = mklLayers.querySelectorAll(
       'img[data-layer="Stopcontacten vloer (hidden)"]',
     );
+    allMuurImages.forEach((img) => img.classList.remove("active"));
+    allVloerImages.forEach((img) => img.classList.remove("active"));
 
-    stopcontactenVloerImages.forEach((img) => {
-      const choice = img.getAttribute("data-choice") || "";
-      const isLeftOutlet = choice.startsWith("L");
-      const isRightOutlet = choice.startsWith("R");
+    // Now activate the correct images based on wall configuration
+    checkedInputs.forEach((input) => {
+      const value = input.value;
+      if (value.toLowerCase().includes("geen")) return;
 
-      // Floor outlets only show on glass sides (NOT walls)
-      if (isLeftOutlet && interiorLeftIsWall) {
-        // Left is wall, hide left floor outlets
-        img.classList.remove("active");
-      }
-      if (isRightOutlet && interiorRightIsWall) {
-        // Right is wall, hide right floor outlets
-        img.classList.remove("active");
+      // Get the position from value (L1, L2, L3, R1, R2, R3)
+      const positionMatch = value.match(/^([LR])(\d)/i);
+      if (positionMatch) {
+        const side = positionMatch[1].toUpperCase();
+        const position = positionMatch[0].toUpperCase();
+
+        // Determine if this position's side is wall or glass
+        let isWallSide = false;
+        if (side === "L") {
+          isWallSide = interiorLeftIsWall;
+        } else if (side === "R") {
+          isWallSide = interiorRightIsWall;
+        }
+
+        if (isWallSide) {
+          // Wall side - use muur layer
+          const matchingImage = mklLayers.querySelector(
+            `img[data-layer="Stopcontacten muur (hidden)"][data-choice="${position}"]`,
+          );
+          if (matchingImage) {
+            matchingImage.classList.add("active");
+          }
+        } else {
+          // Glass side - use vloer layer with " glas" suffix
+          const matchingImage = mklLayers.querySelector(
+            `img[data-layer="Stopcontacten vloer (hidden)"][data-choice="${position} glas"]`,
+          );
+          if (matchingImage) {
+            matchingImage.classList.add("active");
+          }
+        }
       }
     });
 
@@ -5844,6 +6272,8 @@
     );
     if (stucwerkInput) {
       syncStucwerkLayers(stucwerkInput.value);
+      // Initialize Schilderwerk visibility based on Stucwerk selection
+      updateSchilderwerkVisibility(stucwerkInput.value);
     }
 
     // Initialize Schilderwerk interior layer
@@ -5870,6 +6300,14 @@
 
     // Initialize Wandlampen type component visibility
     updateWandlampenTypeVisibility();
+
+    // Initialize Spotjes visibility based on Daklicht selection
+    const initDaklichtInput = document.querySelector(
+      'input[name="Daklicht"]:checked',
+    );
+    if (initDaklichtInput) {
+      updateSpotjesVisibilityForDaklicht(initDaklichtInput.value);
+    }
   }
 
   // ================================

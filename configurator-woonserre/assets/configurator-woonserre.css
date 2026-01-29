@@ -1262,6 +1262,80 @@ input[type="radio"]:checked + .radio-label {
   visibility: visible !important;
 }
 
+/* Z-index for interior layers - Daklicht should be above Stucwerk */
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Daklicht interior (hidden)"].active {
+  z-index: 10 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Daklicht zonwering interior (hidden)"].active {
+  z-index: 11 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="stucwerk" i].active {
+  z-index: 5 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="Schilderwerk"].active {
+  z-index: 6 !important;
+}
+
+/* Z-index for interior elements that should appear above stucwerk/schilderwerk */
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Radiator(en)"].active {
+  z-index: 15 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Wandlampen"].active {
+  z-index: 15 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Wandlampen type"].active {
+  z-index: 16 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer*="Stopcontacten"].active {
+  z-index: 15 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Spotjes"].active {
+  z-index: 15 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Spotjes type"].active {
+  z-index: 16 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Verlichting lichtpunt"].active {
+  z-index: 15 !important;
+}
+
+.s-configurator-container--interior
+  .mkl_pc_layers
+  img[data-layer="Verlichting lichtpunt type"].active {
+  z-index: 16 !important;
+}
+
 .s-configurator-container__exterior-images,
 .s-configurator-container__interior-images {
   position: absolute;

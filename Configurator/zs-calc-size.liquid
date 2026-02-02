@@ -4,7 +4,6 @@
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
-    background: #f5f5f5;
   }
 
   .zs-calc-size__card {
@@ -324,11 +323,43 @@
   (function() {
     'use strict';
 
-    // Size Calculator
+    // ================================
+    // DOM Elements
+    // ================================
     const depthInput = document.getElementById('zs-depth');
     const lengthInput = document.getElementById('zs-length');
     const sizeResult = document.getElementById('zs-size-result');
+    const postcodeInput = document.getElementById('zs-postcode');
+    const housenumberInput = document.getElementById('zs-housenumber');
+    const additionInput = document.getElementById('zs-addition');
+    const addressDisplay = document.getElementById('zs-address');
+    const valueDisplay = document.getElementById('zs-value-result');
 
+    // Debounce timer for API calls
+    let debounceTimer = null;
+
+    // ================================
+    // Province-based m² pricing
+    // ================================
+    const provinceM2Prices = {
+      'Noord-Holland': 4200,
+      'Zuid-Holland': 3800,
+      'Utrecht': 4000,
+      'Noord-Brabant': 3200,
+      'Gelderland': 3100,
+      'Limburg': 2600,
+      'Overijssel': 2800,
+      'Flevoland': 3000,
+      'Drenthe': 2400,
+      'Groningen': 2500,
+      'Friesland': 2300,
+      'Zeeland': 2700
+    };
+    const defaultM2Price = 3000;
+
+    // ================================
+    // Size Calculator
+    // ================================
     function calculateSize() {
       const depth = parseFloat(depthInput?.value) || 0;
       const length = parseFloat(lengthInput?.value) || 0;
@@ -336,55 +367,188 @@
       if (sizeResult) {
         sizeResult.textContent = Math.round(sizeM2);
       }
+      // Recalculate value when size changes
+      calculateValueFromCurrentData();
     }
 
+    // ================================
+    // Province Detection from Postcode
+    // ================================
+    function getProvinceFromPostcode(postcode) {
+      const postcodeNum = parseInt(postcode.substring(0, 4), 10);
+      
+      if (postcodeNum >= 1000 && postcodeNum <= 1299) return 'Noord-Holland'; // Amsterdam
+      else if (postcodeNum >= 1300 && postcodeNum <= 1424) return 'Noord-Holland'; // Gooi
+      else if (postcodeNum >= 1425 && postcodeNum <= 1438) return 'Noord-Holland';
+      else if (postcodeNum >= 1439 && postcodeNum <= 1800) return 'Noord-Holland';
+      else if (postcodeNum >= 1800 && postcodeNum <= 1850) return 'Noord-Holland'; // Alkmaar
+      else if (postcodeNum >= 1851 && postcodeNum <= 2200) return 'Noord-Holland';
+      else if (postcodeNum >= 2200 && postcodeNum <= 2299) return 'Zuid-Holland'; // Leiden
+      else if (postcodeNum >= 2300 && postcodeNum <= 2799) return 'Zuid-Holland'; // The Hague, Rotterdam
+      else if (postcodeNum >= 2800 && postcodeNum <= 2999) return 'Zuid-Holland';
+      else if (postcodeNum >= 3000 && postcodeNum <= 3299) return 'Utrecht';
+      else if (postcodeNum >= 3300 && postcodeNum <= 3599) return 'Zuid-Holland';
+      else if (postcodeNum >= 3600 && postcodeNum <= 3899) return 'Utrecht';
+      else if (postcodeNum >= 3900 && postcodeNum <= 3999) return 'Gelderland';
+      else if (postcodeNum >= 4000 && postcodeNum <= 4299) return 'Noord-Brabant';
+      else if (postcodeNum >= 4300 && postcodeNum <= 4699) return 'Zeeland';
+      else if (postcodeNum >= 4700 && postcodeNum <= 4999) return 'Noord-Brabant';
+      else if (postcodeNum >= 5000 && postcodeNum <= 5799) return 'Noord-Brabant';
+      else if (postcodeNum >= 5800 && postcodeNum <= 5999) return 'Limburg';
+      else if (postcodeNum >= 6000 && postcodeNum <= 6499) return 'Limburg';
+      else if (postcodeNum >= 6500 && postcodeNum <= 6999) return 'Gelderland';
+      else if (postcodeNum >= 7000 && postcodeNum <= 7699) return 'Overijssel';
+      else if (postcodeNum >= 7700 && postcodeNum <= 7999) return 'Overijssel';
+      else if (postcodeNum >= 8000 && postcodeNum <= 8299) return 'Flevoland';
+      else if (postcodeNum >= 8300 && postcodeNum <= 8499) return 'Flevoland';
+      else if (postcodeNum >= 8500 && postcodeNum <= 8999) return 'Friesland';
+      else if (postcodeNum >= 9000 && postcodeNum <= 9299) return 'Groningen';
+      else if (postcodeNum >= 9300 && postcodeNum <= 9499) return 'Drenthe';
+      else if (postcodeNum >= 9500 && postcodeNum <= 9699) return 'Groningen';
+      else if (postcodeNum >= 9700 && postcodeNum <= 9999) return 'Groningen';
+      
+      return null;
+    }
+
+    // ================================
+    // Value Calculation
+    // ================================
+    function calculateValueFromCurrentData() {
+      const postcode = (postcodeInput?.value || '').replace(/\s/g, '').toUpperCase();
+      const postcodeRegex = /^[1-9][0-9]{3}[A-Z]{2}$/;
+      
+      // Only calculate if we have a valid postcode
+      if (!postcodeRegex.test(postcode)) {
+        return;
+      }
+
+      // Get extension area
+      const depth = parseFloat(depthInput?.value) || 0;
+      const length = parseFloat(lengthInput?.value) || 0;
+      const extensionArea = (depth * length) / 10000; // Convert cm² to m²
+
+      // Get province and m² price
+      const province = getProvinceFromPostcode(postcode);
+      const m2Price = province && provinceM2Prices[province] 
+        ? provinceM2Prices[province] 
+        : defaultM2Price;
+
+      // Calculate value appreciation
+      const valueIncrease = Math.round(extensionArea * m2Price);
+
+      // Display result
+      if (valueDisplay) {
+        valueDisplay.innerHTML = `€${valueIncrease.toLocaleString('nl-NL')}<sup>*</sup>`;
+      }
+    }
+
+    // ================================
+    // Address Lookup via PDOK API
+    // ================================
+    async function lookupAddress() {
+      const postcode = (postcodeInput?.value || '').replace(/\s/g, '').toUpperCase();
+      const housenumber = (housenumberInput?.value || '').trim();
+      const addition = (additionInput?.value || '').trim();
+
+      // Validate inputs
+      if (!postcode || postcode.length < 6 || !housenumber) {
+        if (addressDisplay) addressDisplay.textContent = 'Straatnaam, Plaats';
+        if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+        return;
+      }
+
+      // Validate postcode format (1234AB pattern)
+      const postcodeRegex = /^[1-9][0-9]{3}[A-Z]{2}$/;
+      if (!postcodeRegex.test(postcode)) {
+        if (addressDisplay) addressDisplay.textContent = 'Ongeldige postcode';
+        if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+        return;
+      }
+
+      try {
+        // Use PDOK API for address lookup
+        const searchQuery = `${postcode} ${housenumber}${addition ? ' ' + addition : ''}`;
+        const apiUrl = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${encodeURIComponent(searchQuery)}&rows=1&fq=type:adres`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+
+        const data = await response.json();
+
+        if (data.response && data.response.docs && data.response.docs.length > 0) {
+          const address = data.response.docs[0];
+          const street = address.straatnaam || '';
+          const city = address.woonplaatsnaam || '';
+
+          // Update address display
+          if (addressDisplay) {
+            addressDisplay.textContent = `${street}, ${city}`;
+          }
+
+          // Calculate and display value appreciation
+          calculateValueFromCurrentData();
+        } else {
+          if (addressDisplay) addressDisplay.textContent = 'Adres niet gevonden';
+          if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+        }
+      } catch (error) {
+        console.error('Address lookup error:', error);
+        if (addressDisplay) addressDisplay.textContent = 'Adres niet gevonden';
+        if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+      }
+    }
+
+    // ================================
+    // Debounced Input Handler
+    // ================================
+    function handleAddressInput() {
+      // Clear existing timer
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
+      // Set new timer for debounced API call
+      debounceTimer = setTimeout(() => {
+        lookupAddress();
+      }, 500);
+    }
+
+    // ================================
+    // Event Bindings
+    // ================================
     if (depthInput) {
       depthInput.addEventListener('input', calculateSize);
     }
     if (lengthInput) {
       lengthInput.addEventListener('input', calculateSize);
     }
+    if (postcodeInput) {
+      postcodeInput.addEventListener('input', handleAddressInput);
+    }
+    if (housenumberInput) {
+      housenumberInput.addEventListener('input', handleAddressInput);
+    }
+    if (additionInput) {
+      additionInput.addEventListener('input', handleAddressInput);
+    }
 
     // Initialize calculation
     calculateSize();
 
-    // Postcode lookup (placeholder - integrate with your API)
-    const postcodeInput = document.getElementById('zs-postcode');
-    const housenumberInput = document.getElementById('zs-housenumber');
-    const addressDisplay = document.getElementById('zs-address');
-
-    function lookupAddress() {
-      const postcode = postcodeInput?.value?.replace(/\s/g, '') || '';
-      const housenumber = housenumberInput?.value || '';
-
-      // Placeholder: Replace with actual API call
-      if (postcode.length >= 6 && housenumber.length >= 1) {
-        // Example: Call your postcode API here
-        // fetch(`/api/postcode?code=${postcode}&number=${housenumber}`)
-        //   .then(res => res.json())
-        //   .then(data => {
-        //     addressDisplay.textContent = `${data.street}, ${data.city}`;
-        //   });
-        console.log('Postcode lookup:', postcode, housenumber);
-      }
-    }
-
-    if (postcodeInput) {
-      postcodeInput.addEventListener('change', lookupAddress);
-    }
-    if (housenumberInput) {
-      housenumberInput.addEventListener('change', lookupAddress);
-    }
-
-    // Expose to global scope if needed
+    // ================================
+    // Public API
+    // ================================
     window.ZSCalcSize = {
       calculateSize,
       lookupAddress,
+      calculateValue: calculateValueFromCurrentData,
       getValues: function() {
         return {
           postcode: postcodeInput?.value || '',
           housenumber: housenumberInput?.value || '',
-          addition: document.getElementById('zs-addition')?.value || '',
+          addition: additionInput?.value || '',
           depth: parseFloat(depthInput?.value) || 0,
           length: parseFloat(lengthInput?.value) || 0,
           sizeM2: parseFloat(sizeResult?.textContent) || 0

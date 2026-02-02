@@ -1705,6 +1705,7 @@ input[type="radio"]:checked + .radio-label {
   color: #fff;
   font-size: 42px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .vpc-value-popup__result-value sup {
@@ -2229,6 +2230,10 @@ input[type="radio"]:checked + .radio-label {
     max-width: 95%;
     padding: 20px;
     margin: 10px;
+  }
+
+  .vpc-value-popup__result-value {
+    font-size: 28px;
   }
 
   .vpc-value-popup__form-inputs {

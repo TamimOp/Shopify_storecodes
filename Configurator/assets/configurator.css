@@ -9,8 +9,8 @@
 :root {
   --vpc-primary: 21 85% 49%;
   --vpc-primary-color: #de4600;
-  --vpc-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --vpc-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 /* ================================
@@ -1465,6 +1465,7 @@ input[type="radio"]:checked + .radio-label {
   color: #fff;
   font-size: 42px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .vpc-value-popup__result-value sup {
@@ -2008,6 +2009,10 @@ input[type="radio"]:checked + .radio-label {
     max-width: 95%;
     padding: 20px;
     margin: 10px;
+  }
+
+  .vpc-value-popup__result-value {
+    font-size: 28px;
   }
 
   .vpc-value-popup__form-inputs {

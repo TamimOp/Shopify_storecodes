@@ -1,29 +1,57 @@
 {{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
 
-<div class="announcement-bar color-{{ section.settings.color_scheme }}">
-  <div class="page-width">
-    <div class="announcement-bar__wrapper">
-      {% for block in section.blocks %}
-        <div class="announcement-bar__item" {{ block.shopify_attributes }}>
-          {% if block.settings.icon != blank %}
-            <div class="announcement-bar__icon">
-              <img src="{{ block.settings.icon | image_url: width: 30 }}" 
-                   alt="{{ block.settings.icon.alt | default: 'icon' }}" 
-                   width="24" 
-                   height="24"
-                   loading="lazy">
-            </div>
-          {% endif %}
-          {% if block.settings.text != blank %}
-            <div class="announcement-bar__text" 
-                 style="font-size: {{ block.settings.text_size }}px; 
-                        {% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}
-                        font-weight: {{ block.settings.text_weight }};">
-              {{ block.settings.text }}
-            </div>
-          {% endif %}
-        </div>
-      {% endfor %}
+<div class="announcement-bar color-{{ section.settings.color_scheme }}" data-marquee-enabled="{{ section.settings.enable_marquee }}" data-marquee-speed="{{ section.settings.marquee_speed }}">
+  <div class="{% unless section.settings.enable_marquee %}page-width{% endunless %}">
+    <div class="announcement-bar__wrapper {% if section.settings.enable_marquee %}announcement-bar__marquee{% endif %}" style="--announcement-bar-speed: {{ section.settings.marquee_speed | times: 0.1 | times: section.blocks.size }}s;">
+      {% if section.settings.enable_marquee %}
+        {% for i in (1..10) %}
+          <ol class="announcement-bar__marquee-track"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+            {% for block in section.blocks %}
+              <li class="announcement-bar__item"{% if forloop.parent.index == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                {% if block.settings.icon != blank %}
+                  <div class="announcement-bar__icon">
+                    <img src="{{ block.settings.icon | image_url: width: 30 }}" 
+                         alt="{{ block.settings.icon.alt | default: 'icon' }}" 
+                         width="24" 
+                         height="24"
+                         loading="lazy">
+                  </div>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="announcement-bar__text" 
+                       style="font-size: {{ block.settings.text_size }}px; 
+                              {% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}
+                              font-weight: {% if block.settings.text_weight != blank %}{{ block.settings.text_weight }}{% else %}{{ section.settings.default_text_weight }}{% endif %};">
+                    {{ block.settings.text }}
+                  </div>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ol>
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          <div class="announcement-bar__item" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              <div class="announcement-bar__icon">
+                <img src="{{ block.settings.icon | image_url: width: 30 }}" 
+                     alt="{{ block.settings.icon.alt | default: 'icon' }}" 
+                     width="24" 
+                     height="24"
+                     loading="lazy">
+              </div>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="announcement-bar__text" 
+                   style="font-size: {{ block.settings.text_size }}px; 
+                          {% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}
+                          font-weight: {% if block.settings.text_weight != blank %}{{ block.settings.text_weight }}{% else %}{{ section.settings.default_text_weight }}{% endif %};">
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 </div>
@@ -33,6 +61,7 @@
     background-color: {{ section.settings.background_color }};
     color: {{ section.settings.text_color }};
     padding: 12px 0;
+    overflow: hidden;
   }
 
   .announcement-bar__wrapper {
@@ -47,6 +76,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 0 30px;
   }
 
   .announcement-bar__icon {
@@ -68,15 +98,78 @@
     white-space: nowrap;
   }
 
+  /* Marquee Styles */
+  .announcement-bar__marquee {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0;
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    grid: auto / auto-flow max-content;
+    justify-content: start;
+  }
+
+  .announcement-bar__marquee-track {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    animation-name: announcement-marquee-scroll;
+    animation-duration: var(--announcement-bar-speed);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .announcement-bar__marquee:hover .announcement-bar__marquee-track {
+    animation-play-state: paused;
+  }
+
+  .announcement-bar__marquee .announcement-bar__item {
+    flex-shrink: 0;
+  }
+
+  @keyframes announcement-marquee-scroll {
+    0% {
+      transform: translate(0);
+    }
+    100% {
+      transform: translate(-100%);
+    }
+  }
+
   @media screen and (max-width: 749px) {
-    .announcement-bar__wrapper {
+    .announcement-bar__wrapper:not(.announcement-bar__marquee) {
       gap: 20px;
       flex-direction: column;
     }
     
-    .announcement-bar__text {
+    .announcement-bar__wrapper:not(.announcement-bar__marquee) .announcement-bar__text {
       white-space: normal;
       text-align: center;
+    }
+
+    .announcement-bar__marquee .announcement-bar__item {
+      padding: 0 20px;
+    }
+  }
+
+  /* Reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .announcement-bar__marquee {
+      display: flex;
+      overflow: hidden;
+    }
+
+    .announcement-bar__marquee .announcement-bar__marquee-track[data-duplicated] {
+      display: none;
+    }
+
+    .announcement-bar__marquee-track {
+      animation: none;
+      flex-wrap: wrap;
     }
   }
 </style>
@@ -96,6 +189,57 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Marquee Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_marquee",
+      "label": "Enable Marquee",
+      "default": false,
+      "info": "Enable scrolling marquee animation"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "min": 30,
+      "max": 300,
+      "step": 10,
+      "unit": "s",
+      "label": "Marquee Speed",
+      "default": 100,
+      "info": "Higher value = slower speed"
+    },
+    {
+      "type": "select",
+      "id": "default_text_weight",
+      "label": "Default Text Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400",
+      "info": "Default weight for all announcements"
     }
   ],
         "blocks": [

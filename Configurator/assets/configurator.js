@@ -355,8 +355,12 @@
 
     // Update preview image - remove old overlay for this component and add new one
     // Skip for checkbox components as they're handled in updateCheckboxComponentPreview
+    // Skip for Rollaag as it's handled in handleConditionalOptions to match Gevelbekleding
     if (
-      !(input.type === "checkbox" && CHECKBOX_COMPONENTS.includes(input.name))
+      !(
+        input.type === "checkbox" && CHECKBOX_COMPONENTS.includes(input.name)
+      ) &&
+      input.name !== "Rollaag"
     ) {
       updatePreviewImage(componentId, optionId, imgUrl, optionClass, index);
     }
@@ -470,11 +474,16 @@
   function handleConditionalOptions(selectedInput) {
     // Handle rollaag visibility based on gevelbekleding selection
     const gevelbekleding = selectedInput.closest(
-      '[data-component_id="component-5e68ad18fbbc0"]',
+      '[data-component_id="component-gevelbekleding"]',
     );
     if (gevelbekleding) {
       const value = selectedInput.value.toLowerCase();
       updateRollaagOptions(value);
+    }
+
+    // Handle Rollaag selection - ensure it matches current Gevelbekleding
+    if (selectedInput.name === "Rollaag") {
+      updateRollaagPreviewForGevelbekleding(selectedInput);
     }
 
     // Handle daktrim and spots visibility based on overstek selection
@@ -690,51 +699,181 @@
     }
   }
 
+  // Rollaag image mapping based on Gevelbekleding type and color
+  const ROLLAAG_IMAGES = {
+    // Baksteen
+    "baksteen rood":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_rood-2.png",
+    "baksteen geel":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_geel-2.png",
+    "baksteen zwart":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_zwart-1.png",
+    "baksteen wit":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/11032021_rollaag_wit-1.png",
+    // Keralit
+    "keralit zwart":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-zwart2.png",
+    "keralit antraciet":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-antraciet.png",
+    "keralit cremewit":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-creme.png",
+    "keralit groen":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-donkergroen.png",
+    // Frake (Hout)
+    "frake horizontaal":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Houten_rolllaag_horizontaal.png",
+    "frake verticaal":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Houten_rolllaag.png",
+    // Red Cedar
+    "red cedar horizontaal":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-rabat-horizontaal-3.png",
+    "red cedar verticaal":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-rabat-verticaal.png",
+  };
+
+  /**
+   * Get the Rollaag image URL based on Gevelbekleding value
+   */
+  function getRollaagImageForGevelbekleding(gevelbekledingValue) {
+    const value = gevelbekledingValue.toLowerCase();
+
+    // Check each type and extract key
+    if (value.includes("baksteen")) {
+      const color = value.split(" ").pop();
+      return (
+        ROLLAAG_IMAGES["baksteen " + color] || ROLLAAG_IMAGES["baksteen rood"]
+      );
+    } else if (value.includes("keralit")) {
+      const color = value.split(" ").pop();
+      return (
+        ROLLAAG_IMAGES["keralit " + color] || ROLLAAG_IMAGES["keralit zwart"]
+      );
+    } else if (value.includes("frake")) {
+      const orientation = value.includes("horizontaal")
+        ? "horizontaal"
+        : "verticaal";
+      return ROLLAAG_IMAGES["frake " + orientation];
+    } else if (value.includes("red cedar")) {
+      const orientation = value.includes("horizontaal")
+        ? "horizontaal"
+        : "verticaal";
+      return ROLLAAG_IMAGES["red cedar " + orientation];
+    }
+
+    // Default fallback
+    return ROLLAAG_IMAGES["baksteen rood"];
+  }
+
   function updateRollaagOptions(gevelbekledingValue) {
-    const rollaagComponent = document.querySelector("#component-5e68ad185da99");
+    const rollaagComponent = document.querySelector("#component-rollaag");
     if (!rollaagComponent) return;
 
-    const options = rollaagComponent.querySelectorAll(
-      ".vpc-single-option-wrap",
+    // Find the "ja" option input
+    const jaInput = rollaagComponent.querySelector('input[value="ja"]');
+    if (!jaInput) return;
+
+    // Get the correct Rollaag image for current Gevelbekleding
+    const rollaagImgUrl = getRollaagImageForGevelbekleding(gevelbekledingValue);
+
+    // Update the "ja" option's data-img attribute
+    jaInput.dataset.img = rollaagImgUrl;
+
+    // Check if Rollaag "ja" is currently selected
+    const currentRollaagInput = rollaagComponent.querySelector(
+      'input[name="Rollaag"]:checked',
+    );
+    const isRollaagEnabled =
+      currentRollaagInput && currentRollaagInput.value.toLowerCase() !== "nee";
+
+    // If Rollaag is enabled, update the preview image
+    if (isRollaagEnabled) {
+      const componentId = rollaagComponent.dataset.component_id;
+      const optionId = jaInput.dataset.oid;
+      const optionClass = jaInput.dataset.class;
+      const index = jaInput.dataset.index;
+
+      updatePreviewImage(
+        componentId,
+        optionId,
+        rollaagImgUrl,
+        optionClass,
+        index,
+      );
+
+      // Update state
+      state.selectedOptions[componentId] = {
+        value: jaInput.value,
+        price: parseFloat(jaInput.dataset.price) || 0,
+        imgUrl: rollaagImgUrl,
+        imgHtml: "",
+        class: optionClass,
+        index: index,
+        optionId: optionId,
+      };
+    }
+  }
+
+  /**
+   * Update Rollaag preview when user selects "ja".
+   * Uses the dynamically set data-img based on current Gevelbekleding.
+   */
+  function updateRollaagPreviewForGevelbekleding(selectedRollaagInput) {
+    const rollaagComponent = document.querySelector("#component-rollaag");
+    if (!rollaagComponent) return;
+
+    const componentId = rollaagComponent.dataset.component_id;
+
+    // If "nee" is selected, just clear the preview and return
+    if (selectedRollaagInput.value.toLowerCase() === "nee") {
+      updatePreviewImage(componentId, null, "", "", "");
+      return;
+    }
+
+    // Get the current Gevelbekleding selection
+    const gevelbekledingInput = document.querySelector(
+      'input[name="Gevelbekleding"]:checked',
+    );
+    if (!gevelbekledingInput) return;
+
+    // Get the correct Rollaag image for current Gevelbekleding
+    const rollaagImgUrl = getRollaagImageForGevelbekleding(
+      gevelbekledingInput.value,
     );
 
-    options.forEach((wrap) => {
-      const input = wrap.querySelector("input");
-      if (!input) return;
+    // Update the input's data-img in case it wasn't updated
+    selectedRollaagInput.dataset.img = rollaagImgUrl;
 
-      const optionValue = input.value.toLowerCase();
+    // Update the selected label display
+    const selectedSpan = rollaagComponent.querySelector(".vpc-selected-option");
+    if (selectedSpan) {
+      selectedSpan.textContent = "ja";
+      selectedSpan.classList.remove("no-check-mark-icon");
+      selectedSpan.classList.add("option-selected");
+    }
 
-      // Hide all specific rollaag options first
-      if (optionValue !== "nee") {
-        wrap.style.display = "none";
+    // Update preview image
+    const optionId = selectedRollaagInput.dataset.oid;
+    const optionClass = selectedRollaagInput.dataset.class;
+    const index = selectedRollaagInput.dataset.index;
 
-        // Show matching rollaag options
-        if (
-          gevelbekledingValue.includes("baksteen") &&
-          optionValue.includes("baksteen")
-        ) {
-          const color = gevelbekledingValue.split(" ").pop();
-          if (optionValue.includes(color) || optionValue.includes("rood")) {
-            wrap.style.display = "";
-          }
-        } else if (
-          gevelbekledingValue.includes("keralit") &&
-          optionValue.includes("keralit")
-        ) {
-          wrap.style.display = "";
-        } else if (
-          gevelbekledingValue.includes("frake") &&
-          optionValue.includes("frake")
-        ) {
-          wrap.style.display = "";
-        } else if (
-          gevelbekledingValue.includes("red cedar") &&
-          optionValue.includes("red cedar")
-        ) {
-          wrap.style.display = "";
-        }
-      }
-    });
+    updatePreviewImage(
+      componentId,
+      optionId,
+      rollaagImgUrl,
+      optionClass,
+      index,
+    );
+
+    // Update state
+    state.selectedOptions[componentId] = {
+      value: selectedRollaagInput.value,
+      price: parseFloat(selectedRollaagInput.dataset.price) || 0,
+      imgUrl: rollaagImgUrl,
+      imgHtml: "",
+      class: optionClass,
+      index: index,
+      optionId: optionId,
+    };
   }
 
   function updateDaktrimOptions(overstekValue) {

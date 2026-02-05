@@ -90,6 +90,15 @@
     initializeDefaultSelections();
     updatePreview();
     updateFloatingBannerButtons(); // Hide Terug button initially
+
+    // Initialize Spotjes availability based on default Daklicht selection
+    const defaultDaklicht = document.querySelector(
+      'input[name="Daklicht"]:checked',
+    );
+    if (defaultDaklicht) {
+      updateSpotjesAvailability(defaultDaklicht.value);
+    }
+
     console.log("Configurator initialized");
   }
 
@@ -522,9 +531,15 @@
       updateLichtpuntTypeVisibility();
     }
 
-    // Handle Daklicht selection - update interior preview to match exterior selection
+    // Handle Daklicht selection - update interior preview and Spotjes availability
     if (selectedInput.name === "Daklicht") {
       updateDaklichtInteriorPreview(selectedInput.value);
+      updateSpotjesAvailability(selectedInput.value);
+    }
+
+    // Handle Kozijn selection - update interior preview to match exterior selection
+    if (selectedInput.name === "Kozijn") {
+      updateKozijnInteriorPreview(selectedInput.value);
     }
   }
 
@@ -755,6 +770,61 @@
       "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-Zadel-8-vlak_Interieur.png",
   };
 
+  // Kozijn interior image mapping based on exterior Kozijn selection
+  const KOZIJN_INTERIOR_IMAGES = {
+    // Kunststof options
+    "openslaande deuren wit (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Draai_INTERIEUR-1.png",
+    "openslaande deuren antraciet (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Draai_INTERIEUR-1.png",
+    "openslaande deuren met roedes wit (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_WIT_Interieur.png",
+    "openslaande deuren met roedes antraciet (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_ZWART_Interieur.png",
+    "2 delige schuifpui wit (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Schuif_2-vlak_INTERIEUR.png",
+    "2 delige schuifpui antraciet (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_2-vlak_INTERIEUR.png",
+    "4 delige schuifpui wit (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Wit_Schuif_4-vlak_INTERIEUR.png",
+    "4 delige schuifpui antraciet (kunststof)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_4-vlak_INTERIEUR-1.png",
+    // Aluminium options
+    "openslaande deuren wit (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_WIT_ALU_draaideur__DEF_Interieur_.png",
+    "openslaande deuren antraciet (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_ZWART_ALU_draaideur__DEF_Interieur_.png",
+    "2 delige schuifpui wit (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_2-vlak_INTERIEUR.png",
+    "2 delige schuifpui antraciet (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Zwart_Schuif_2-vlak_INTERIEUR.png",
+    "4 delige schuifpui wit (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_4-vlak_INTERIEUR.png",
+    "4 delige schuifpui antraciet (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_4-vlak_INTERIEUR-1.png",
+    "harmonicapui wit (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/09/20.269_Harmonica-wit_Zonder-roede_Interieur_TRANSP.png",
+    "harmonicapui antraciet (aluminium)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/09/20.269_Harmonica-wit_Zonder-roede_Interieur_TRANSP.png",
+    // Hout options
+    "openslaande deuren wit gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Draai_INTERIEUR.png",
+    "openslaande deuren antraciet gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Zwart_Draai_INTERIEUR.png",
+    "openslaande deuren met roedes wit gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_WIT_Interieur.png",
+    "openslaande deuren met roedes antraciet gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Kozijn_Aluminium_Roede_ZWART_Interieur.png",
+    "2 delige schuifpui wit gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_2-vlak_INTERIEUR.png",
+    "2 delige schuifpui antraciet gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Zwart_Schuif_2-vlak_INTERIEUR.png",
+    "4 delige schuifpui wit gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Hout_Wit_Schuif_4-vlak_INTERIEUR.png",
+    "4 delige schuifpui antraciet gegrond (hout)":
+      "https://deprefabriek.nl/wp-content/uploads/2020/03/20.269_TRANSP_Kozijn_Kunststof_Zwart_Schuif_4-vlak_INTERIEUR-1.png",
+  };
+
   /**
    * Get the Rollaag image URL based on Gevelbekleding value
    */
@@ -786,6 +856,80 @@
 
     // Default fallback
     return ROLLAAG_IMAGES["baksteen rood"];
+  }
+
+  /**
+   * Update Spotjes options availability based on Daklicht selection.
+   * Certain spot positions are disabled depending on the selected Daklicht type.
+   */
+  function updateSpotjesAvailability(daklichtValue) {
+    const value = daklichtValue.toLowerCase();
+
+    // Define which spotjes inputs should be hidden for each Daklicht type
+    let hiddenSpotInputIds = [];
+
+    if (value === "1 vaks lessenaar") {
+      hiddenSpotInputIds = ["option-spotjes-8"];
+    } else if (
+      value === "2 vaks lessenaar" ||
+      value === "3 vaks lessenaar" ||
+      value === "4 vaks lessenaar"
+    ) {
+      hiddenSpotInputIds = [
+        "option-spotjes-7",
+        "option-spotjes-8",
+        "option-spotjes-9",
+      ];
+    } else if (
+      value === "4 vaks zadeldak" ||
+      value === "6 vaks zadeldak" ||
+      value === "8 vaks zadeldak"
+    ) {
+      hiddenSpotInputIds = [
+        "option-spotjes-7",
+        "option-spotjes-8",
+        "option-spotjes-9",
+        "option-spotjes-12",
+        "option-spotjes-13",
+        "option-spotjes-14",
+      ];
+    }
+
+    // Loop through all spotjes (1-15) and show/hide + uncheck as needed
+    for (let i = 1; i <= 15; i++) {
+      const inputId = "option-spotjes-" + i;
+      const input = document.getElementById(inputId);
+      if (!input) continue;
+
+      const wrapper = input.closest(".vpc-single-option-wrap");
+
+      if (hiddenSpotInputIds.includes(inputId)) {
+        // This spot should be hidden - uncheck it and hide
+        input.checked = false;
+        if (wrapper) wrapper.style.display = "none";
+      } else {
+        // This spot should be visible
+        if (wrapper) wrapper.style.display = "";
+      }
+    }
+
+    // Update the preview by calling the existing function
+    const spotjesComponent = document.querySelector("#component-spotjes");
+    if (spotjesComponent) {
+      updateCheckboxComponentPreview(spotjesComponent, "Spotjes[]");
+
+      // Update selected text
+      const selectedSpan = spotjesComponent.querySelector(
+        ".vpc-selected-option",
+      );
+      if (selectedSpan) {
+        const checkedInputs = spotjesComponent.querySelectorAll(
+          'input[name="Spotjes[]"]:checked',
+        );
+        const values = Array.from(checkedInputs).map((i) => i.value);
+        selectedSpan.textContent = values.join(", ") || "geen spotjes";
+      }
+    }
   }
 
   function updateRollaagOptions(gevelbekledingValue) {
@@ -935,6 +1079,54 @@
       const img = getCachedImage(interiorImgUrl);
       img.alt = "Daklicht interieur";
       img.className = "c-image__img option-daklicht-interior";
+
+      imgContainer.appendChild(img);
+      container.appendChild(imgContainer);
+    });
+  }
+
+  /**
+   * Update Kozijn interior preview when exterior Kozijn selection changes.
+   * This syncs the interior view with the exterior Kozijn selection.
+   */
+  function updateKozijnInteriorPreview(kozijnValue) {
+    const container = elements.interiorImages;
+    if (!container) return;
+
+    const componentId = "component-kozijn-interior";
+
+    // Remove any existing Kozijn interior image
+    container
+      .querySelectorAll(`.c-image[data-component="${componentId}"]`)
+      .forEach((el) => {
+        el.remove();
+      });
+
+    // Also remove the default kozijn interior image that's pre-populated in HTML
+    container
+      .querySelectorAll(".c-image.option-kozijn-interior-1")
+      .forEach((el) => {
+        el.remove();
+      });
+
+    // Get the interior image URL for the selected Kozijn
+    const interiorImgUrl = KOZIJN_INTERIOR_IMAGES[kozijnValue];
+
+    // If no matching image, just return
+    if (!interiorImgUrl || !interiorImgUrl.trim()) {
+      return;
+    }
+
+    // Create and add the interior Kozijn image
+    requestAnimationFrame(() => {
+      const imgContainer = document.createElement("div");
+      imgContainer.className = `c-image interior-element option-kozijn-interior`;
+      imgContainer.dataset.component = componentId;
+      imgContainer.style.zIndex = 15; // Same as default kozijn interior
+
+      const img = getCachedImage(interiorImgUrl);
+      img.alt = "Kozijn interieur";
+      img.className = "c-image__img option-kozijn-interior";
 
       imgContainer.appendChild(img);
       container.appendChild(imgContainer);

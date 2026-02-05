@@ -11,10 +11,22 @@
   // ================================
   const CONFIG = {
     currency: "€",
-    basePrice: 49950, // Base price for woonserre
-    pricePerM2_1: 5550.0, // up to 9m² (slightly higher than aanbouw)
-    pricePerM2_2: 4995.0, // above 9m²
-    areaThreshold: 9.0,
+    // Tiered pricing based on reference site (deprefabriek.nl/configurator-woonserre)
+    // Note: The base price already includes default options, so tier1 is calibrated accordingly
+    // Tier 1: 0-9m² base rate (€49,950 for 9m² with default options included)
+    pricePerM2_tier1: 5550.0,
+    // Tier 2: 9-12m² additional rate
+    pricePerM2_tier2: 925.0,
+    // Tier 3: 12-16m² additional rate
+    pricePerM2_tier3: 1725.0,
+    // Tier 4: 16+m² additional rate
+    pricePerM2_tier4: 1458.33,
+    // Tier boundaries
+    tier1Max: 9.0,
+    tier2Max: 12.0,
+    tier3Max: 16.0,
+    // Default options offset - subtract this from calculated base to account for included defaults
+    defaultOptionsOffset: 2000,
     minDepth: 150,
     maxDepth: 400,
     minLength: 200,
@@ -57,6 +69,7 @@
     totalPrice: 0,
     exteriorPrice: 0,
     interiorPrice: 0,
+    valueAppreciation: 0, // Stored value appreciation from popup calculator
   };
 
   // ================================
@@ -4255,19 +4268,37 @@
     let exteriorTotal = 0;
     let interiorTotal = 0;
 
-    // Calculate dynamic base price from dimensions
+    // Calculate dynamic base price from dimensions using tiered pricing
     const depthM = state.dimensions.depth / 100;
     const lengthM = state.dimensions.length / 100;
     const area = depthM * lengthM;
     let basePrice = 0;
-    if (area <= CONFIG.areaThreshold) {
-      basePrice = Math.round(area * CONFIG.pricePerM2_1);
+
+    // Tiered pricing calculation (matches deprefabriek.nl/configurator-woonserre)
+    if (area <= CONFIG.tier1Max) {
+      // Tier 1: 0-9m² at base rate
+      basePrice = area * CONFIG.pricePerM2_tier1;
+    } else if (area <= CONFIG.tier2Max) {
+      // Tier 2: 9-12m² at tier2 rate for additional area
+      basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+      basePrice += (area - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+    } else if (area <= CONFIG.tier3Max) {
+      // Tier 3: 12-16m² at tier3 rate for additional area
+      basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+      basePrice +=
+        (CONFIG.tier2Max - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+      basePrice += (area - CONFIG.tier2Max) * CONFIG.pricePerM2_tier3;
     } else {
-      basePrice = Math.round(
-        CONFIG.areaThreshold * CONFIG.pricePerM2_1 +
-          (area - CONFIG.areaThreshold) * CONFIG.pricePerM2_2,
-      );
+      // Tier 4: 16+m² at tier4 rate for additional area
+      basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+      basePrice +=
+        (CONFIG.tier2Max - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+      basePrice +=
+        (CONFIG.tier3Max - CONFIG.tier2Max) * CONFIG.pricePerM2_tier3;
+      basePrice += (area - CONFIG.tier3Max) * CONFIG.pricePerM2_tier4;
     }
+    // Subtract default options offset (default options are included in base price)
+    basePrice = Math.round(basePrice - CONFIG.defaultOptionsOffset);
 
     // Calculate from state for radio-based components
     Object.values(state.selectedOptions).forEach((option) => {
@@ -4341,14 +4372,28 @@
       const lengthM = state.dimensions.length / 100;
       const area = depthM * lengthM;
       let basePrice = 0;
-      if (area <= CONFIG.areaThreshold) {
-        basePrice = Math.round(area * CONFIG.pricePerM2_1);
+
+      // Tiered pricing calculation (matches deprefabriek.nl/configurator-woonserre)
+      if (area <= CONFIG.tier1Max) {
+        basePrice = area * CONFIG.pricePerM2_tier1;
+      } else if (area <= CONFIG.tier2Max) {
+        basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+        basePrice += (area - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+      } else if (area <= CONFIG.tier3Max) {
+        basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+        basePrice +=
+          (CONFIG.tier2Max - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+        basePrice += (area - CONFIG.tier2Max) * CONFIG.pricePerM2_tier3;
       } else {
-        basePrice = Math.round(
-          CONFIG.areaThreshold * CONFIG.pricePerM2_1 +
-            (area - CONFIG.areaThreshold) * CONFIG.pricePerM2_2,
-        );
+        basePrice = CONFIG.tier1Max * CONFIG.pricePerM2_tier1;
+        basePrice +=
+          (CONFIG.tier2Max - CONFIG.tier1Max) * CONFIG.pricePerM2_tier2;
+        basePrice +=
+          (CONFIG.tier3Max - CONFIG.tier2Max) * CONFIG.pricePerM2_tier3;
+        basePrice += (area - CONFIG.tier3Max) * CONFIG.pricePerM2_tier4;
       }
+      // Subtract default options offset (default options are included in base price)
+      basePrice = Math.round(basePrice - CONFIG.defaultOptionsOffset);
       basePriceEl.textContent = formatPrice(basePrice);
     }
   }
@@ -6098,6 +6143,12 @@
     const popup = document.getElementById("vpc-value-popup");
     if (popup) {
       popup.classList.add("active");
+      popup.style.display = "flex";
+      // Focus on first input for better UX
+      const firstInput = popup.querySelector("#value-postcode");
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 100);
+      }
     }
   }
 
@@ -6105,6 +6156,7 @@
     const popup = document.getElementById("vpc-value-popup");
     if (popup) {
       popup.classList.remove("active");
+      // Keep the inputs - don't reset them so user can see previous values when reopening
     }
   }
 
@@ -6184,23 +6236,78 @@
           addressDisplay.textContent = `${street}, ${city}`;
         }
 
+        // Ensure postcode is available for fallback province lookup
+        if (!address.postcode) {
+          address.postcode = postcode;
+        }
+
         // Calculate value appreciation
         calculateValueAppreciation(address, valueDisplay);
       } else {
+        // Address not found - try calculating with just the postcode
         if (addressDisplay) addressDisplay.textContent = "Adres niet gevonden";
-        if (valueDisplay) valueDisplay.innerHTML = "€0<sup>?</sup>";
+        // Still calculate with postcode fallback
+        calculateValueAppreciation({ postcode: postcode }, valueDisplay);
       }
     } catch (error) {
       console.error("Address lookup error:", error);
       if (addressDisplay) addressDisplay.textContent = "Adres niet gevonden";
-      if (valueDisplay) valueDisplay.innerHTML = "€0<sup>?</sup>";
+      // Still try to calculate with postcode fallback
+      const postcodeInput = document.getElementById("value-postcode");
+      const postcodeFallback = (postcodeInput?.value || "")
+        .replace(/\s/g, "")
+        .toUpperCase();
+      if (postcodeFallback && postcodeFallback.length >= 4) {
+        calculateValueAppreciation(
+          { postcode: postcodeFallback },
+          valueDisplay,
+        );
+      } else if (valueDisplay) {
+        valueDisplay.innerHTML = "€0<sup>?</sup>";
+      }
     }
   }
 
   /**
+   * Get province from postcode (fallback when API doesn't return province)
+   * @param {string} postcode - Dutch postcode (e.g., "1017AB")
+   * @returns {string|null} Province name or null
+   */
+  function getProvinceFromPostcode(postcode) {
+    if (!postcode || postcode.length < 4) return null;
+
+    const postcodeNum = parseInt(postcode.substring(0, 4), 10);
+
+    // Dutch postcode ranges per province
+    if (postcodeNum >= 1000 && postcodeNum <= 1299) return "Noord-Holland";
+    if (postcodeNum >= 1300 && postcodeNum <= 1949) return "Noord-Holland";
+    if (postcodeNum >= 1950 && postcodeNum <= 1999) return "Noord-Holland";
+    if (postcodeNum >= 2000 && postcodeNum <= 2199) return "Zuid-Holland";
+    if (postcodeNum >= 2200 && postcodeNum <= 2999) return "Zuid-Holland";
+    if (postcodeNum >= 3000 && postcodeNum <= 3199) return "Zuid-Holland";
+    if (postcodeNum >= 3200 && postcodeNum <= 3399) return "Zuid-Holland";
+    if (postcodeNum >= 3400 && postcodeNum <= 3899) return "Utrecht";
+    if (postcodeNum >= 3900 && postcodeNum <= 3999) return "Gelderland";
+    if (postcodeNum >= 4000 && postcodeNum <= 4299) return "Gelderland";
+    if (postcodeNum >= 4300 && postcodeNum <= 4699) return "Zeeland";
+    if (postcodeNum >= 4700 && postcodeNum <= 5799) return "Noord-Brabant";
+    if (postcodeNum >= 5800 && postcodeNum <= 6499) return "Limburg";
+    if (postcodeNum >= 6500 && postcodeNum <= 7399) return "Gelderland";
+    if (postcodeNum >= 7400 && postcodeNum <= 8099) return "Overijssel";
+    if (postcodeNum >= 8100 && postcodeNum <= 8399) return "Flevoland";
+    if (postcodeNum >= 8400 && postcodeNum <= 8999) return "Friesland";
+    if (postcodeNum >= 9000 && postcodeNum <= 9099) return "Groningen";
+    if (postcodeNum >= 9100 && postcodeNum <= 9299) return "Friesland";
+    if (postcodeNum >= 9300 && postcodeNum <= 9499) return "Drenthe";
+    if (postcodeNum >= 9500 && postcodeNum <= 9999) return "Groningen";
+
+    return null;
+  }
+
+  /**
    * Calculate value appreciation based on address data and configured extension size
-   * Uses average m² price estimates for Netherlands regions
-   * @param {Object} addressData - Address data from PDOK
+   * Uses the province from PDOK API response and calibrated m² price estimates
+   * @param {Object} addressData - Address data from PDOK API (contains provincienaam)
    * @param {Element} valueDisplay - DOM element to display result
    */
   function calculateValueAppreciation(addressData, valueDisplay) {
@@ -6209,80 +6316,33 @@
     const lengthM = state.dimensions.length / 100;
     const extensionArea = depthM * lengthM;
 
-    // Average m² price per region (simplified - in production you might want a more detailed lookup)
-    // These are approximate values based on Dutch housing market averages
+    // Updated average m² price per province (Calibrated to match main deprefabriek.nl)
+    // Reference: Gelderland (7207RS) = €3,500/m² → €31,500 for 9m²
     const provinceM2Prices = {
-      "Noord-Holland": 4200,
-      "Zuid-Holland": 3800,
-      Utrecht: 4000,
-      "Noord-Brabant": 3200,
-      Gelderland: 3100,
-      Limburg: 2600,
-      Overijssel: 2800,
-      Flevoland: 3000,
-      Drenthe: 2400,
-      Groningen: 2500,
-      Friesland: 2300,
-      Zeeland: 2700,
+      "Noord-Holland": 4750,
+      "Zuid-Holland": 4300,
+      Utrecht: 4500,
+      "Noord-Brabant": 3600,
+      Gelderland: 3500,
+      Limburg: 2950,
+      Overijssel: 3150,
+      Flevoland: 3400,
+      Drenthe: 2700,
+      Groningen: 2825,
+      Friesland: 2600,
+      Zeeland: 3050,
     };
 
     // Default average m² price for Netherlands
-    const defaultM2Price = 3000;
+    const defaultM2Price = 3400;
 
-    // Try to determine province from postcode (first 2 digits give rough indication)
-    const postcodeInput = document.getElementById("value-postcode");
-    const postcode = (postcodeInput?.value || "").replace(/\s/g, "");
-    const postcodeNum = parseInt(postcode.substring(0, 4), 10);
+    // Use province from PDOK API response
+    let province = addressData?.provincienaam || null;
 
-    // Approximate province mapping based on postcode ranges
-    let province = null;
-    if (postcodeNum >= 1000 && postcodeNum <= 1299)
-      province = "Noord-Holland"; // Amsterdam area
-    else if (postcodeNum >= 1300 && postcodeNum <= 1424)
-      province = "Noord-Holland"; // Gooi
-    else if (postcodeNum >= 1425 && postcodeNum <= 1438)
-      province = "Noord-Holland";
-    else if (postcodeNum >= 1439 && postcodeNum <= 1800)
-      province = "Noord-Holland";
-    else if (postcodeNum >= 1800 && postcodeNum <= 1850)
-      province = "Noord-Holland"; // Alkmaar
-    else if (postcodeNum >= 1851 && postcodeNum <= 2200)
-      province = "Noord-Holland";
-    else if (postcodeNum >= 2200 && postcodeNum <= 2299)
-      province = "Zuid-Holland"; // Leiden area
-    else if (postcodeNum >= 2300 && postcodeNum <= 2799)
-      province = "Zuid-Holland"; // The Hague, Rotterdam
-    else if (postcodeNum >= 2800 && postcodeNum <= 2999)
-      province = "Zuid-Holland";
-    else if (postcodeNum >= 3000 && postcodeNum <= 3299)
-      province = "Utrecht"; // Rotterdam/Utrecht
-    else if (postcodeNum >= 3300 && postcodeNum <= 3599)
-      province = "Zuid-Holland";
-    else if (postcodeNum >= 3600 && postcodeNum <= 3899) province = "Utrecht";
-    else if (postcodeNum >= 3900 && postcodeNum <= 3999)
-      province = "Gelderland";
-    else if (postcodeNum >= 4000 && postcodeNum <= 4299)
-      province = "Noord-Brabant";
-    else if (postcodeNum >= 4300 && postcodeNum <= 4699) province = "Zeeland";
-    else if (postcodeNum >= 4700 && postcodeNum <= 4999)
-      province = "Noord-Brabant";
-    else if (postcodeNum >= 5000 && postcodeNum <= 5799)
-      province = "Noord-Brabant";
-    else if (postcodeNum >= 5800 && postcodeNum <= 5999) province = "Limburg";
-    else if (postcodeNum >= 6000 && postcodeNum <= 6499) province = "Limburg";
-    else if (postcodeNum >= 6500 && postcodeNum <= 6999)
-      province = "Gelderland";
-    else if (postcodeNum >= 7000 && postcodeNum <= 7699)
-      province = "Overijssel";
-    else if (postcodeNum >= 7700 && postcodeNum <= 7999)
-      province = "Overijssel";
-    else if (postcodeNum >= 8000 && postcodeNum <= 8299) province = "Flevoland";
-    else if (postcodeNum >= 8300 && postcodeNum <= 8499) province = "Flevoland";
-    else if (postcodeNum >= 8500 && postcodeNum <= 8999) province = "Friesland";
-    else if (postcodeNum >= 9000 && postcodeNum <= 9299) province = "Groningen";
-    else if (postcodeNum >= 9300 && postcodeNum <= 9499) province = "Drenthe";
-    else if (postcodeNum >= 9500 && postcodeNum <= 9699) province = "Groningen";
-    else if (postcodeNum >= 9700 && postcodeNum <= 9999) province = "Groningen";
+    // Fallback: try to get province from postcode if not in API response
+    if (!province && addressData?.postcode) {
+      province = getProvinceFromPostcode(addressData.postcode);
+    }
 
     // Get m² price for province or use default
     const m2Price =
@@ -6291,13 +6351,45 @@
         : defaultM2Price;
 
     // Calculate value appreciation (extension area × price per m²)
-    // The value increase is typically around 50-70% of the actual build cost
-    // But displaying as full m² value gives a better indication for customers
     const valueIncrease = Math.round(extensionArea * m2Price);
 
-    // Format and display the result
+    // Save to state
+    state.valueAppreciation = valueIncrease;
+
+    // Format and display the result in popup
     if (valueDisplay) {
       valueDisplay.innerHTML = `€${valueIncrease.toLocaleString("nl-NL")}<sup>*</sup>`;
+    }
+
+    // Update the main price container display
+    updateValueAppreciationDisplay();
+  }
+
+  /**
+   * Update the value appreciation display in the main price container
+   */
+  function updateValueAppreciationDisplay() {
+    const valueTextElement = document.querySelector(".vpc-value-text");
+    const valueAmountElement = document.querySelector(".vpc-value-amount");
+
+    if (state.valueAppreciation > 0) {
+      // Update the text to show "Meerwaarde:"
+      if (valueTextElement) {
+        valueTextElement.textContent = "Meerwaarde:";
+      }
+      // Show the calculated value
+      if (valueAmountElement) {
+        valueAmountElement.textContent = `€${state.valueAppreciation.toLocaleString("nl-NL")}`;
+        valueAmountElement.style.display = "inline";
+      }
+    } else {
+      // Reset to default text
+      if (valueTextElement) {
+        valueTextElement.textContent = "Waardevermeerdering weten?";
+      }
+      if (valueAmountElement) {
+        valueAmountElement.style.display = "none";
+      }
     }
   }
 

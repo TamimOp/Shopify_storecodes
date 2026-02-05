@@ -339,23 +339,27 @@
     let debounceTimer = null;
 
     // ================================
-    // Province-based m² pricing
+    // Province-based m² pricing (Calibrated to match main deprefabriek.nl)
+    // Reference: Gelderland (7207RS) = €3,500/m² → €31,500 for 9m²
     // ================================
     const provinceM2Prices = {
-      'Noord-Holland': 4200,
-      'Zuid-Holland': 3800,
-      'Utrecht': 4000,
-      'Noord-Brabant': 3200,
-      'Gelderland': 3100,
-      'Limburg': 2600,
-      'Overijssel': 2800,
-      'Flevoland': 3000,
-      'Drenthe': 2400,
-      'Groningen': 2500,
-      'Friesland': 2300,
-      'Zeeland': 2700
+      'Noord-Holland': 4750,
+      'Zuid-Holland': 4300,
+      'Utrecht': 4500,
+      'Noord-Brabant': 3600,
+      'Gelderland': 3500,
+      'Limburg': 2950,
+      'Overijssel': 3150,
+      'Flevoland': 3400,
+      'Drenthe': 2700,
+      'Groningen': 2825,
+      'Friesland': 2600,
+      'Zeeland': 3050
     };
-    const defaultM2Price = 3000;
+    const defaultM2Price = 3400;
+
+    // Store the province from API response
+    let currentProvince = null;
 
     // ================================
     // Size Calculator
@@ -372,40 +376,87 @@
     }
 
     // ================================
-    // Province Detection from Postcode
+    // Province Detection from Postcode (Calibrated to match deprefabriek.nl)
     // ================================
     function getProvinceFromPostcode(postcode) {
+      if (!postcode || postcode.length < 4) return null;
+      
       const postcodeNum = parseInt(postcode.substring(0, 4), 10);
       
+      // Dutch postcode ranges per province (accurate mapping)
       if (postcodeNum >= 1000 && postcodeNum <= 1299) return 'Noord-Holland'; // Amsterdam
-      else if (postcodeNum >= 1300 && postcodeNum <= 1424) return 'Noord-Holland'; // Gooi
-      else if (postcodeNum >= 1425 && postcodeNum <= 1438) return 'Noord-Holland';
-      else if (postcodeNum >= 1439 && postcodeNum <= 1800) return 'Noord-Holland';
-      else if (postcodeNum >= 1800 && postcodeNum <= 1850) return 'Noord-Holland'; // Alkmaar
-      else if (postcodeNum >= 1851 && postcodeNum <= 2200) return 'Noord-Holland';
-      else if (postcodeNum >= 2200 && postcodeNum <= 2299) return 'Zuid-Holland'; // Leiden
-      else if (postcodeNum >= 2300 && postcodeNum <= 2799) return 'Zuid-Holland'; // The Hague, Rotterdam
-      else if (postcodeNum >= 2800 && postcodeNum <= 2999) return 'Zuid-Holland';
-      else if (postcodeNum >= 3000 && postcodeNum <= 3299) return 'Utrecht';
-      else if (postcodeNum >= 3300 && postcodeNum <= 3599) return 'Zuid-Holland';
-      else if (postcodeNum >= 3600 && postcodeNum <= 3899) return 'Utrecht';
-      else if (postcodeNum >= 3900 && postcodeNum <= 3999) return 'Gelderland';
-      else if (postcodeNum >= 4000 && postcodeNum <= 4299) return 'Noord-Brabant';
-      else if (postcodeNum >= 4300 && postcodeNum <= 4699) return 'Zeeland';
-      else if (postcodeNum >= 4700 && postcodeNum <= 4999) return 'Noord-Brabant';
-      else if (postcodeNum >= 5000 && postcodeNum <= 5799) return 'Noord-Brabant';
-      else if (postcodeNum >= 5800 && postcodeNum <= 5999) return 'Limburg';
-      else if (postcodeNum >= 6000 && postcodeNum <= 6499) return 'Limburg';
-      else if (postcodeNum >= 6500 && postcodeNum <= 6999) return 'Gelderland';
-      else if (postcodeNum >= 7000 && postcodeNum <= 7699) return 'Overijssel';
-      else if (postcodeNum >= 7700 && postcodeNum <= 7999) return 'Overijssel';
-      else if (postcodeNum >= 8000 && postcodeNum <= 8299) return 'Flevoland';
-      else if (postcodeNum >= 8300 && postcodeNum <= 8499) return 'Flevoland';
-      else if (postcodeNum >= 8500 && postcodeNum <= 8999) return 'Friesland';
-      else if (postcodeNum >= 9000 && postcodeNum <= 9299) return 'Groningen';
-      else if (postcodeNum >= 9300 && postcodeNum <= 9499) return 'Drenthe';
-      else if (postcodeNum >= 9500 && postcodeNum <= 9699) return 'Groningen';
-      else if (postcodeNum >= 9700 && postcodeNum <= 9999) return 'Groningen';
+      if (postcodeNum >= 1300 && postcodeNum <= 1379) return 'Flevoland'; // Almere
+      if (postcodeNum >= 1380 && postcodeNum <= 1384) return 'Noord-Holland';
+      if (postcodeNum >= 1385 && postcodeNum <= 1424) return 'Noord-Holland';
+      if (postcodeNum >= 1425 && postcodeNum <= 1949) return 'Noord-Holland';
+      if (postcodeNum >= 1950 && postcodeNum <= 1999) return 'Noord-Holland';
+      if (postcodeNum >= 2000 && postcodeNum <= 2199) return 'Zuid-Holland'; // Leiden area
+      if (postcodeNum >= 2200 && postcodeNum <= 2299) return 'Zuid-Holland';
+      if (postcodeNum >= 2300 && postcodeNum <= 2399) return 'Zuid-Holland'; // The Hague
+      if (postcodeNum >= 2400 && postcodeNum <= 2699) return 'Zuid-Holland';
+      if (postcodeNum >= 2700 && postcodeNum <= 2799) return 'Zuid-Holland'; // Zoetermeer
+      if (postcodeNum >= 2800 && postcodeNum <= 2999) return 'Zuid-Holland'; // Gouda
+      if (postcodeNum >= 3000 && postcodeNum <= 3099) return 'Zuid-Holland'; // Rotterdam
+      if (postcodeNum >= 3100 && postcodeNum <= 3399) return 'Zuid-Holland';
+      if (postcodeNum >= 3400 && postcodeNum <= 3439) return 'Utrecht';
+      if (postcodeNum >= 3440 && postcodeNum <= 3449) return 'Zuid-Holland';
+      if (postcodeNum >= 3450 && postcodeNum <= 3499) return 'Utrecht';
+      if (postcodeNum >= 3500 && postcodeNum <= 3599) return 'Utrecht'; // Utrecht city
+      if (postcodeNum >= 3600 && postcodeNum <= 3799) return 'Utrecht';
+      if (postcodeNum >= 3800 && postcodeNum <= 3899) return 'Utrecht'; // Amersfoort
+      if (postcodeNum >= 3900 && postcodeNum <= 3999) return 'Gelderland'; // Veenendaal
+      if (postcodeNum >= 4000 && postcodeNum <= 4199) return 'Gelderland';
+      if (postcodeNum >= 4200 && postcodeNum <= 4299) return 'Zuid-Holland'; // Gorinchem area
+      if (postcodeNum >= 4300 && postcodeNum <= 4599) return 'Zeeland';
+      if (postcodeNum >= 4600 && postcodeNum <= 4699) return 'Noord-Brabant'; // Bergen op Zoom
+      if (postcodeNum >= 4700 && postcodeNum <= 4799) return 'Noord-Brabant'; // Roosendaal
+      if (postcodeNum >= 4800 && postcodeNum <= 4899) return 'Noord-Brabant'; // Breda
+      if (postcodeNum >= 4900 && postcodeNum <= 4999) return 'Noord-Brabant';
+      if (postcodeNum >= 5000 && postcodeNum <= 5099) return 'Noord-Brabant'; // Tilburg
+      if (postcodeNum >= 5100 && postcodeNum <= 5299) return 'Noord-Brabant'; // 's-Hertogenbosch
+      if (postcodeNum >= 5300 && postcodeNum <= 5599) return 'Noord-Brabant';
+      if (postcodeNum >= 5600 && postcodeNum <= 5699) return 'Noord-Brabant'; // Eindhoven
+      if (postcodeNum >= 5700 && postcodeNum <= 5799) return 'Noord-Brabant'; // Helmond
+      if (postcodeNum >= 5800 && postcodeNum <= 5899) return 'Limburg';
+      if (postcodeNum >= 5900 && postcodeNum <= 5999) return 'Limburg'; // Venlo
+      if (postcodeNum >= 6000 && postcodeNum <= 6199) return 'Limburg';
+      if (postcodeNum >= 6200 && postcodeNum <= 6299) return 'Limburg'; // Maastricht
+      if (postcodeNum >= 6300 && postcodeNum <= 6499) return 'Limburg'; // Heerlen
+      if (postcodeNum >= 6500 && postcodeNum <= 6599) return 'Limburg';
+      if (postcodeNum >= 6600 && postcodeNum <= 6699) return 'Gelderland';
+      if (postcodeNum >= 6700 && postcodeNum <= 6799) return 'Gelderland'; // Wageningen
+      if (postcodeNum >= 6800 && postcodeNum <= 6899) return 'Gelderland'; // Arnhem
+      if (postcodeNum >= 6900 && postcodeNum <= 6999) return 'Gelderland';
+      if (postcodeNum >= 7000 && postcodeNum <= 7099) return 'Gelderland'; // Doetinchem
+      if (postcodeNum >= 7100 && postcodeNum <= 7199) return 'Gelderland';
+      if (postcodeNum >= 7200 && postcodeNum <= 7299) return 'Gelderland'; // Zutphen
+      if (postcodeNum >= 7300 && postcodeNum <= 7399) return 'Gelderland'; // Apeldoorn
+      if (postcodeNum >= 7400 && postcodeNum <= 7499) return 'Overijssel'; // Deventer
+      if (postcodeNum >= 7500 && postcodeNum <= 7599) return 'Overijssel'; // Enschede
+      if (postcodeNum >= 7600 && postcodeNum <= 7699) return 'Overijssel'; // Almelo
+      if (postcodeNum >= 7700 && postcodeNum <= 7799) return 'Overijssel';
+      if (postcodeNum >= 7800 && postcodeNum <= 7899) return 'Drenthe'; // Emmen
+      if (postcodeNum >= 7900 && postcodeNum <= 7999) return 'Overijssel';
+      if (postcodeNum >= 8000 && postcodeNum <= 8099) return 'Overijssel'; // Zwolle
+      if (postcodeNum >= 8100 && postcodeNum <= 8199) return 'Flevoland'; // Lelystad
+      if (postcodeNum >= 8200 && postcodeNum <= 8299) return 'Flevoland';
+      if (postcodeNum >= 8300 && postcodeNum <= 8399) return 'Flevoland'; // Emmeloord
+      if (postcodeNum >= 8400 && postcodeNum <= 8499) return 'Friesland';
+      if (postcodeNum >= 8500 && postcodeNum <= 8599) return 'Friesland'; // Joure
+      if (postcodeNum >= 8600 && postcodeNum <= 8699) return 'Friesland'; // Sneek
+      if (postcodeNum >= 8700 && postcodeNum <= 8799) return 'Friesland';
+      if (postcodeNum >= 8800 && postcodeNum <= 8899) return 'Friesland';
+      if (postcodeNum >= 8900 && postcodeNum <= 8999) return 'Friesland'; // Leeuwarden
+      if (postcodeNum >= 9000 && postcodeNum <= 9099) return 'Groningen'; // Groningen city
+      if (postcodeNum >= 9100 && postcodeNum <= 9199) return 'Friesland'; // Dokkum
+      if (postcodeNum >= 9200 && postcodeNum <= 9299) return 'Friesland'; // Drachten
+      if (postcodeNum >= 9300 && postcodeNum <= 9399) return 'Drenthe'; // Roden
+      if (postcodeNum >= 9400 && postcodeNum <= 9499) return 'Drenthe'; // Assen
+      if (postcodeNum >= 9500 && postcodeNum <= 9599) return 'Groningen';
+      if (postcodeNum >= 9600 && postcodeNum <= 9699) return 'Groningen';
+      if (postcodeNum >= 9700 && postcodeNum <= 9799) return 'Groningen';
+      if (postcodeNum >= 9800 && postcodeNum <= 9899) return 'Groningen';
+      if (postcodeNum >= 9900 && postcodeNum <= 9999) return 'Groningen';
       
       return null;
     }
@@ -427,8 +478,8 @@
       const length = parseFloat(lengthInput?.value) || 0;
       const extensionArea = (depth * length) / 10000; // Convert cm² to m²
 
-      // Get province and m² price
-      const province = getProvinceFromPostcode(postcode);
+      // Use province from API response (more accurate) or fall back to postcode mapping
+      const province = currentProvince || getProvinceFromPostcode(postcode);
       const m2Price = province && provinceM2Prices[province] 
         ? provinceM2Prices[province] 
         : defaultM2Price;
@@ -483,6 +534,9 @@
           const street = address.straatnaam || '';
           const city = address.woonplaatsnaam || '';
 
+          // Store province from API response (more accurate than postcode mapping)
+          currentProvince = address.provincienaam || null;
+
           // Update address display
           if (addressDisplay) {
             addressDisplay.textContent = `${street}, ${city}`;
@@ -491,13 +545,29 @@
           // Calculate and display value appreciation
           calculateValueFromCurrentData();
         } else {
+          // No address found, but still try to calculate using postcode fallback
+          currentProvince = getProvinceFromPostcode(postcode);
           if (addressDisplay) addressDisplay.textContent = 'Adres niet gevonden';
-          if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+          
+          // If we got a province from postcode, still calculate value
+          if (currentProvince) {
+            calculateValueFromCurrentData();
+          } else {
+            if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+          }
         }
       } catch (error) {
         console.error('Address lookup error:', error);
+        // On error, try to calculate using postcode fallback
+        currentProvince = getProvinceFromPostcode(postcode);
         if (addressDisplay) addressDisplay.textContent = 'Adres niet gevonden';
-        if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+        
+        // If we got a province from postcode, still calculate value
+        if (currentProvince) {
+          calculateValueFromCurrentData();
+        } else {
+          if (valueDisplay) valueDisplay.innerHTML = '€0<sup>?</sup>';
+        }
       }
     }
 

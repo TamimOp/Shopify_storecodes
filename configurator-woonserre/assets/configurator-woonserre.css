@@ -1574,19 +1574,26 @@ input[type="radio"]:checked + .radio-label {
    Value Appreciation Popup
 ================================ */
 .vpc-value-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10000;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 999999 !important;
   display: none;
   align-items: center;
   justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .vpc-value-popup.active {
-  display: flex;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .vpc-value-popup__overlay {
@@ -1596,11 +1603,12 @@ input[type="radio"]:checked + .radio-label {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .vpc-value-popup__inner {
   position: relative;
-  background: #fff;
+  background: #fff !important;
   border-radius: 16px;
   padding: 30px 40px;
   max-width: 770px;

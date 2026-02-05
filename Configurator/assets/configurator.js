@@ -521,6 +521,11 @@
     if (selectedInput.name === "Verlichting lichtpunt[]") {
       updateLichtpuntTypeVisibility();
     }
+
+    // Handle Daklicht selection - update interior preview to match exterior selection
+    if (selectedInput.name === "Daklicht") {
+      updateDaklichtInteriorPreview(selectedInput.value);
+    }
   }
 
   function updateLichtpuntTypeVisibility() {
@@ -731,6 +736,25 @@
       "https://deprefabriek.nl/wp-content/uploads/2020/03/Rollaag-rabat-verticaal.png",
   };
 
+  // Daklicht interior image mapping based on exterior Daklicht selection
+  const DAKLICHT_INTERIOR_IMAGES = {
+    "geen daklicht": "",
+    "1 vaks lessenaar":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-1-vlak_Interieur.png",
+    "2 vaks lessenaar":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-2-vlak_Interieur.png",
+    "3 vaks lessenaar":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-3-vlak_Interieur.png",
+    "4 vaks lessenaar":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-4-vlak_Interieur.png",
+    "4 vaks zadeldak":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-Zadel-4-vlak_Interieur.png",
+    "6 vaks zadeldak":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-Zadel-6-vlak_Interieur.png",
+    "8 vaks zadeldak":
+      "https://deprefabriek.nl/wp-content/uploads/2021/02/20.269_Daklicht-Zadel-8-vlak_Interieur.png",
+  };
+
   /**
    * Get the Rollaag image URL based on Gevelbekleding value
    */
@@ -874,6 +898,47 @@
       index: index,
       optionId: optionId,
     };
+  }
+
+  /**
+   * Update Daklicht interior preview when exterior Daklicht selection changes.
+   * This syncs the interior view with the exterior Daklicht selection.
+   */
+  function updateDaklichtInteriorPreview(daklichtValue) {
+    const container = elements.interiorImages;
+    if (!container) return;
+
+    const componentId = "component-daklicht-interior";
+
+    // Remove any existing Daklicht interior image
+    container
+      .querySelectorAll(`.c-image[data-component="${componentId}"]`)
+      .forEach((el) => {
+        el.remove();
+      });
+
+    // Get the interior image URL for the selected Daklicht
+    const interiorImgUrl = DAKLICHT_INTERIOR_IMAGES[daklichtValue];
+
+    // If no Daklicht selected ("geen daklicht") or no image, just return
+    if (!interiorImgUrl || !interiorImgUrl.trim()) {
+      return;
+    }
+
+    // Create and add the interior Daklicht image
+    requestAnimationFrame(() => {
+      const imgContainer = document.createElement("div");
+      imgContainer.className = `c-image interior-element option-daklicht-interior`;
+      imgContainer.dataset.component = componentId;
+      imgContainer.style.zIndex = 25; // Above kozijn (15) but below other overlays
+
+      const img = getCachedImage(interiorImgUrl);
+      img.alt = "Daklicht interieur";
+      img.className = "c-image__img option-daklicht-interior";
+
+      imgContainer.appendChild(img);
+      container.appendChild(imgContainer);
+    });
   }
 
   function updateDaktrimOptions(overstekValue) {

@@ -2243,6 +2243,38 @@
     // Create document fragment for better performance
     const fragment = document.createDocumentFragment();
 
+    // Override base render images with schema settings if provided
+    // Read from data attributes (most reliable) or global config as fallback
+    const mklLayersEl = mklLayers;
+    const extOverride =
+      mklLayersEl.getAttribute("data-base-exterior") ||
+      (window.__woonserreConfig &&
+        window.__woonserreConfig.baseExteriorImage) ||
+      "";
+    const intOverride =
+      mklLayersEl.getAttribute("data-base-interior") ||
+      (window.__woonserreConfig &&
+        window.__woonserreConfig.baseInteriorImage) ||
+      "";
+    if (extOverride) {
+      const extEntry = IMAGE_LAYERS_DATA.find(
+        (d) => d.layer === "Buitenzijde main",
+      );
+      if (extEntry) {
+        console.log("Overriding exterior image:", extOverride);
+        extEntry.src = extOverride;
+      }
+    }
+    if (intOverride) {
+      const intEntry = IMAGE_LAYERS_DATA.find(
+        (d) => d.layer === "Binnenzijde main",
+      );
+      if (intEntry) {
+        console.log("Overriding interior image:", intOverride);
+        intEntry.src = intOverride;
+      }
+    }
+
     IMAGE_LAYERS_DATA.forEach((data) => {
       const img = document.createElement("img");
       img.className = data.cls;

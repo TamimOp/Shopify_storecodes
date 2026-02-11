@@ -3607,7 +3607,9 @@
                 to keep the template file under Shopify's 256KB limit.
                 See configurator-woonserre.js for the IMAGE_LAYERS_DATA definition.
               {% endcomment %}
-              <div class="mkl_pc_layers" role="figure" aria-label="Product live preview with layered images">
+              <div class="mkl_pc_layers" role="figure" aria-label="Product live preview with layered images"
+                {% if section.settings.base_exterior_image != blank %}data-base-exterior="{{ section.settings.base_exterior_image | image_url: width: 1800 }}"{% endif %}
+                {% if section.settings.base_interior_image != blank %}data-base-interior="{{ section.settings.base_interior_image | image_url: width: 1800 }}"{% endif %}>
                 <div class="images-loading"></div>
               </div>
             </div>
@@ -3654,6 +3656,17 @@
     </div>
   </div>
 </section>
+<script>
+  window.__woonserreConfig = {
+    {% if section.settings.base_exterior_image != blank %}
+    baseExteriorImage: {{ section.settings.base_exterior_image | image_url: width: 1800 | json }},
+    {% endif %}
+    {% if section.settings.base_interior_image != blank %}
+    baseInteriorImage: {{ section.settings.base_interior_image | image_url: width: 1800 | json }},
+    {% endif %}
+    _init: true
+  };
+</script>
 <script src="{{ 'configurator-woonserre.js' | asset_url }}" defer></script>
 {% schema %}
 {

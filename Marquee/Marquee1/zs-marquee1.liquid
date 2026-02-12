@@ -11,11 +11,18 @@
   style="
     --zs-marquee-bg: {{ section.settings.background_color }};
     --zs-marquee-text-color: {{ section.settings.text_color }};
-    --zs-marquee-logo-filter: {{ section.settings.logo_style }};
     --zs-marquee-height: {{ section.settings.section_height }}px;
     --zs-marquee-gap: {{ section.settings.logo_gap }}px;
     --zs-marquee-logo-height: {{ section.settings.logo_height }}px;
-    --zs-marquee-speed: {{ section.settings.marquee_speed }}s;
+    --zs-marquee-speed: {{ section.settings.marquee_speed | times: 0.1 | times: section.blocks.size }}s;
+    --zs-padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
+    --zs-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --zs-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --zs-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --zs-margin-top-desktop: {{ section.settings.margin_top_desktop }}px;
+    --zs-margin-bottom-desktop: {{ section.settings.margin_bottom_desktop }}px;
+    --zs-margin-top-mobile: {{ section.settings.margin_top_mobile }}px;
+    --zs-margin-bottom-mobile: {{ section.settings.margin_bottom_mobile }}px;
   "
 >
   <div class="zs-marquee-container">
@@ -26,23 +33,13 @@
     {%- endif -%}
 
     <div class="zs-marquee-wrapper">
-      <div class="zs-marquee-scroll {% if section.settings.marquee_direction == 'right' %}zs-marquee-reverse{% endif %}">
-        {%- for i in (1..10) -%}
-          <div class="zs-marquee-track"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
-            {%- for block in section.blocks -%}
-              <div class="zs-marquee-item"{% if forloop.parent.index == 1 %} {{ block.shopify_attributes }}{% endif %}>
-                {%- if block.settings.logo_image != blank -%}
-                  {%- if block.settings.logo_link != blank -%}
-                    <a href="{{ block.settings.logo_link }}" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.logo_alt | default: 'Logo' }}">
-                      <img 
-                        src="{{ block.settings.logo_image | image_url: width: 300 }}"
-                        alt="{{ block.settings.logo_alt | default: 'Featured logo' }}"
-                        width="auto"
-                        height="{{ section.settings.logo_height }}"
-                        loading="lazy"
-                      >
-                    </a>
-                  {%- else -%}
+      {%- for i in (1..10) -%}
+        <div class="zs-marquee-track {% if section.settings.marquee_direction == 'right' %}zs-marquee-reverse{% endif %}"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+          {%- for block in section.blocks -%}
+            <div class="zs-marquee-item"{% if forloop.parent.index == 1 %} {{ block.shopify_attributes }}{% endif %}>
+              {%- if block.settings.logo_image != blank -%}
+                {%- if block.settings.logo_link != blank -%}
+                  <a href="{{ block.settings.logo_link }}" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.logo_alt | default: 'Logo' }}">
                     <img 
                       src="{{ block.settings.logo_image | image_url: width: 300 }}"
                       alt="{{ block.settings.logo_alt | default: 'Featured logo' }}"
@@ -50,19 +47,27 @@
                       height="{{ section.settings.logo_height }}"
                       loading="lazy"
                     >
-                  {%- endif -%}
-                {%- elsif block.settings.logo_svg != blank -%}
-                  {{ block.settings.logo_svg }}
+                  </a>
                 {%- else -%}
-                  <div class="zs-marquee-placeholder">
-                    {{ 'image' | placeholder_svg_tag: 'zs-placeholder-svg' }}
-                  </div>
+                  <img 
+                    src="{{ block.settings.logo_image | image_url: width: 300 }}"
+                    alt="{{ block.settings.logo_alt | default: 'Featured logo' }}"
+                    width="auto"
+                    height="{{ section.settings.logo_height }}"
+                    loading="lazy"
+                  >
                 {%- endif -%}
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- endfor -%}
-      </div>
+              {%- elsif block.settings.logo_svg != blank -%}
+                {{ block.settings.logo_svg }}
+              {%- else -%}
+                <div class="zs-marquee-placeholder">
+                  {{ 'image' | placeholder_svg_tag: 'zs-placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
     </div>
   </div>
 </section>
@@ -73,6 +78,10 @@
     background-color: var(--zs-marquee-bg, #000000);
     overflow: hidden;
     width: 100%;
+    padding-top: var(--zs-padding-top-desktop, 0px);
+    padding-bottom: var(--zs-padding-bottom-desktop, 0px);
+    margin-top: var(--zs-margin-top-desktop, 0px);
+    margin-bottom: var(--zs-margin-bottom-desktop, 0px);
   }
 
   .zs-marquee-container {
@@ -125,25 +134,20 @@
     justify-content: start;
   }
 
-  /* Marquee Scroll Container */
-  .zs-marquee-scroll {
-    display: flex;
-    align-items: center;
-    animation: zs-marquee-left var(--zs-marquee-speed, 30s) linear infinite;
-  }
-
-  .zs-marquee-scroll:hover {
-    animation-play-state: paused;
-  }
-
-  .zs-marquee-scroll.zs-marquee-reverse {
-    animation-name: zs-marquee-right;
-  }
-
   /* Marquee Track */
   .zs-marquee-track {
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    animation: zs-marquee-left var(--zs-marquee-speed, 30s) linear infinite;
+  }
+
+  .zs-marquee-wrapper:hover .zs-marquee-track {
+    animation-play-state: paused;
+  }
+
+  .zs-marquee-track.zs-marquee-reverse {
+    animation-name: zs-marquee-right;
   }
 
   /* Marquee Item */
@@ -159,14 +163,7 @@
     height: var(--zs-marquee-logo-height, 20px);
     width: auto;
     object-fit: contain;
-    filter: var(--zs-marquee-logo-filter, grayscale(100%) brightness(0.6));
-    transition: filter 0.3s ease, opacity 0.3s ease;
-    opacity: 0.7;
-  }
-
-  .zs-marquee-item:hover img {
-    filter: grayscale(0%) brightness(1);
-    opacity: 1;
+    display: block;
   }
 
   .zs-marquee-item a {
@@ -221,6 +218,13 @@
 
   /* Responsive Styles */
   @media screen and (max-width: 768px) {
+    .zs-marquee-section {
+      padding-top: var(--zs-padding-top-mobile, 0px);
+      padding-bottom: var(--zs-padding-bottom-mobile, 0px);
+      margin-top: var(--zs-margin-top-mobile, 0px);
+      margin-bottom: var(--zs-margin-bottom-mobile, 0px);
+    }
+
     .zs-marquee-container {
       height: calc(var(--zs-marquee-height, 60px) * 0.85);
     }
@@ -264,8 +268,18 @@
 
   /* Reduced motion preference */
   @media (prefers-reduced-motion: reduce) {
-    .zs-marquee-scroll {
+    .zs-marquee-wrapper {
+      display: flex;
+      overflow: hidden;
+    }
+
+    .zs-marquee-track[data-duplicated] {
+      display: none;
+    }
+
+    .zs-marquee-track {
       animation: none;
+      flex-wrap: wrap;
     }
   }
 </style>
@@ -299,6 +313,94 @@
     },
     {
       "type": "header",
+      "content": "Layout Controls - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Top Padding (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom Padding (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_desktop",
+      "label": "Top Margin (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "label": "Bottom Margin (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Layout Controls - Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top Padding (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom Padding (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "label": "Top Margin (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "label": "Bottom Margin (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
       "content": "Colors"
     },
     {
@@ -312,38 +414,6 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#666666"
-    },
-    {
-      "type": "select",
-      "id": "logo_style",
-      "label": "Logo Style",
-      "options": [
-        {
-          "value": "grayscale(100%) brightness(0.6)",
-          "label": "Grayscale (Dark)"
-        },
-        {
-          "value": "grayscale(100%) brightness(1)",
-          "label": "Grayscale (Light)"
-        },
-        {
-          "value": "grayscale(100%) brightness(0.4)",
-          "label": "Grayscale (Darker)"
-        },
-        {
-          "value": "grayscale(0%)",
-          "label": "Original Colors"
-        },
-        {
-          "value": "brightness(0) invert(1) opacity(0.6)",
-          "label": "White Logos"
-        },
-        {
-          "value": "brightness(0) invert(0) opacity(0.6)",
-          "label": "Black Logos"
-        }
-      ],
-      "default": "grayscale(100%) brightness(0.6)"
     },
     {
       "type": "header",
@@ -487,4 +557,4 @@
     }
   ]
 }
-{% endschema %}
+  {% endschema %}

@@ -1,50 +1,149 @@
 {%- style -%}
-  .zs-slider-section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  .zs-feature-logo-marquee-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    margin-top: {{ section.settings.margin_top_mobile }}px;
+    margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+    background-color: {{ section.settings.background_color }};
   }
 
   @media screen and (min-width: 750px) {
-    .zs-slider-section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+    .zs-feature-logo-marquee-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_desktop }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+      margin-top: {{ section.settings.margin_top_desktop }}px;
+      margin-bottom: {{ section.settings.margin_bottom_desktop }}px;
+    }
+  }
+
+  .zs-marquee-header-{{ section.id }} {
+    text-align: {{ section.settings.header_alignment }};
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    padding: 0 20px;
+  }
+
+  .zs-marquee-subtitle-{{ section.id }} {
+    font-size: {{ section.settings.subtitle_size_mobile }}px;
+    color: {{ section.settings.subtitle_color }};
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .zs-marquee-title-{{ section.id }} {
+    font-size: {{ section.settings.title_size_mobile }}px;
+    color: {{ section.settings.title_color }};
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+  }
+
+  .zs-marquee-description-{{ section.id }} {
+    font-size: {{ section.settings.description_size_mobile }}px;
+    color: {{ section.settings.description_color }};
+    margin: 0 0 20px 0;
+    line-height: 1.6;
+  }
+
+  .zs-marquee-button-{{ section.id }} {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ section.settings.button_text_color }};
+    background-color: {{ section.settings.button_bg_color }};
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .zs-marquee-button-{{ section.id }}:hover {
+    background-color: {{ section.settings.button_hover_color }};
+    transform: translateY(-2px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .zs-marquee-subtitle-{{ section.id }} {
+      font-size: {{ section.settings.subtitle_size_desktop }}px;
+    }
+
+    .zs-marquee-title-{{ section.id }} {
+      font-size: {{ section.settings.title_size_desktop }}px;
+    }
+
+    .zs-marquee-description-{{ section.id }} {
+      font-size: {{ section.settings.description_size_desktop }}px;
     }
   }
 {%- endstyle -%}
 
-<section class="zs-slider-section zs-slider-section-{{ section.id }}-padding" style="background-color: {{ section.settings.background_color }};">
-  <zs-feature-slider 
+<section class="zs-feature-logo-marquee zs-feature-logo-marquee-{{ section.id }}">
+  {%- if section.settings.show_header -%}
+    <div class="zs-marquee-header zs-marquee-header-{{ section.id }}">
+      {%- if section.settings.subtitle != blank -%}
+        <div class="zs-marquee-subtitle zs-marquee-subtitle-{{ section.id }}">
+          {{ section.settings.subtitle }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="zs-marquee-title zs-marquee-title-{{ section.id }}">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="zs-marquee-description zs-marquee-description-{{ section.id }}">
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
+        <a href="{{ section.settings.button_link }}" class="zs-marquee-button zs-marquee-button-{{ section.id }}">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <zs-feature-marquee 
     style="
-      --zs-slider-gap: {{ section.settings.block_gap }}px;
-      --zs-slider-animation-speed: {{ section.settings.animation_speed | times: 0.1 | times: section.blocks.size }}s;
-      --zs-slider-icon-size: {{ section.settings.icon_size }}px;
+      --zs-marquee-gap: {{ section.settings.block_gap }}px;
+      --zs-marquee-animation-speed: {{ section.settings.animation_speed | times: 0.1 | times: section.blocks.size }}s;
+      --zs-marquee-icon-size-desktop: {{ section.settings.icon_size_desktop }}px;
+      --zs-marquee-icon-size-mobile: {{ section.settings.icon_size_mobile }}px;
     "
   >
     {%- for content in (1..10) -%}
-      <ol class="zs-slider-track-{{ section.id }}"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
+      <ol class="zs-marquee-track zs-marquee-track-{{ section.id }}"{% if forloop.index > 1 %} data-duplicated aria-hidden="true"{% endif %}>
         {%- for block in section.blocks -%}
-          <li class="zs-slider-block" {{ block.shopify_attributes }}>
-            <div class="zs-slider-icon">
+          <li 
+            class="zs-marquee-block" 
+            style="
+              --title-size-desktop: {{ block.settings.title_size_desktop }}px;
+              --title-size-mobile: {{ block.settings.title_size_mobile }}px;
+              --text-size-desktop: {{ block.settings.text_size_desktop }}px;
+              --text-size-mobile: {{ block.settings.text_size_mobile }}px;
+            "
+            {{ block.shopify_attributes }}
+          >
+            <div class="zs-marquee-icon">
               {% if block.settings.icon != blank %}
                 <img src="{{ block.settings.icon | img_url: '96x96' }}" alt="{{ block.settings.title }}" loading="lazy">
               {% endif %}
             </div>
-            <div class="zs-slider-content">
+            <div class="zs-marquee-content">
               <h3 
-                class="zs-slider-title"
-                style="
-                  font-size: {{ block.settings.title_size }}px;
-                  color: {{ block.settings.title_color }};
-                "
+                class="zs-marquee-block-title"
+                style="color: {{ block.settings.title_color }};"
               >
                 {{ block.settings.title }}
               </h3>
               <p 
-                class="zs-slider-text"
-                style="
-                  font-size: {{ block.settings.text_size }}px;
-                  color: {{ block.settings.text_color }};
-                "
+                class="zs-marquee-block-text"
+                style="color: {{ block.settings.text_color }};"
               >
                 {{ block.settings.text }}
               </p>
@@ -53,41 +152,41 @@
         {%- endfor -%}
       </ol>
     {%- endfor -%}
-  </zs-feature-slider>
+  </zs-feature-marquee>
 </section>
 
 <style>
-  .zs-slider-section {
+  .zs-feature-logo-marquee {
     overflow: hidden;
     position: relative;
     width: 100%;
   }
   
-  zs-feature-slider {
+  zs-feature-marquee {
     display: grid;
     grid: auto / auto-flow max-content;
     transition: transform 0.6s ease-out;
     justify-content: start;
   }
   
-  .zs-slider-track-{{ section.id }} {
+  .zs-marquee-track-{{ section.id }} {
     display: flex;
     align-items: center;
     white-space: nowrap;
     margin: 0;
     padding: 0;
     list-style-type: none;
-    animation-name: zs-slider-scroll-left;
-    animation-duration: var(--zs-slider-animation-speed);
+    animation-name: zs-marquee-scroll-left;
+    animation-duration: var(--zs-marquee-animation-speed);
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
   
-  zs-feature-slider:hover .zs-slider-track-{{ section.id }} {
+  zs-feature-marquee:hover .zs-marquee-track-{{ section.id }} {
     animation-play-state: paused;
   }
   
-  .zs-slider-block {
+  .zs-marquee-block {
     display: flex;
     align-items: center;
     background: white;
@@ -97,10 +196,10 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     min-width: 300px;
     flex-shrink: 0;
-    margin: 0 calc(var(--zs-slider-gap) / 2);
+    margin: 0 calc(var(--zs-marquee-gap) / 2);
   }
   
-  .zs-slider-icon {
+  .zs-marquee-icon {
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -110,33 +209,45 @@
     border-right: 1px solid #e5e5e5;
   }
   
-  .zs-slider-icon img {
-    width: var(--zs-slider-icon-size);
-    height: var(--zs-slider-icon-size);
+  .zs-marquee-icon img {
+    width: var(--zs-marquee-icon-size-desktop);
+    height: var(--zs-marquee-icon-size-desktop);
     object-fit: contain;
     display: block;
   }
   
-  .zs-slider-content {
+  .zs-marquee-content {
     flex: 1;
     min-width: 0;
   }
   
-  .zs-slider-title {
+  .zs-marquee-block-title {
     margin: 0 0 0.25rem 0;
     font-weight: 600;
     line-height: 1.3;
     white-space: normal;
+    font-size: var(--title-size-mobile);
   }
   
-  .zs-slider-text {
+  .zs-marquee-block-text {
     margin: 0;
     line-height: 1.5;
     opacity: 0.7;
     white-space: normal;
+    font-size: var(--text-size-mobile);
   }
   
-  @keyframes zs-slider-scroll-left {
+  @media (min-width: 769px) {
+    .zs-marquee-block-title {
+      font-size: var(--title-size-desktop);
+    }
+    
+    .zs-marquee-block-text {
+      font-size: var(--text-size-desktop);
+    }
+  }
+  
+  @keyframes zs-marquee-scroll-left {
     0% {
       transform: translate(0);
     }
@@ -146,45 +257,45 @@
   }
   
   @media (max-width: 768px) {
-    .zs-slider-block {
+    .zs-marquee-block {
       min-width: 280px;
       padding: 1.25rem 1.5rem;
     }
     
-    .zs-slider-icon {
+    .zs-marquee-icon {
       padding-right: 1rem;
       margin-right: 1rem;
     }
     
-    .zs-slider-icon img {
-      width: 40px;
-      height: 40px;
+    .zs-marquee-icon img {
+      width: var(--zs-marquee-icon-size-mobile);
+      height: var(--zs-marquee-icon-size-mobile);
     }
   }
   
   @media (prefers-reduced-motion) {
-    zs-feature-slider {
+    zs-feature-marquee {
       display: flex;
       overflow: hidden;
     }
     
-    zs-feature-slider .zs-slider-track-{{ section.id }}[data-duplicated] {
+    zs-feature-marquee .zs-marquee-track-{{ section.id }}[data-duplicated] {
       display: none;
     }
     
-    .zs-slider-track-{{ section.id }} {
+    .zs-marquee-track-{{ section.id }} {
       flex-wrap: wrap;
       align-items: normal;
     }
     
-    .zs-slider-block {
+    .zs-marquee-block {
       align-items: center;
     }
   }
 </style>
 
 <script>
-class ZsFeatureSlider extends HTMLElement {
+class ZsFeatureMarquee extends HTMLElement {
   constructor() {
     super();
     this.duplicatedLinks = this.querySelectorAll('ol[data-duplicated] a');
@@ -201,15 +312,177 @@ class ZsFeatureSlider extends HTMLElement {
   }
 }
 
-if (!customElements.get('zs-feature-slider')) {
-  customElements.define('zs-feature-slider', ZsFeatureSlider);
+if (!customElements.get('zs-feature-marquee')) {
+  customElements.define('zs-feature-marquee', ZsFeatureMarquee);
 }
 </script>
 
 {% schema %}
 {
-  "name": "ZS Feature Slider",
+  "name": "ZS Feature Logo Marquee",
   "settings": [
+    {
+      "type": "header",
+      "content": "Header Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header",
+      "label": "Show Header",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "FEATURES"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What Makes Us Special"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover the features that set us apart from the competition."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Header Colors"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Header Typography - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "label": "Subtitle Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Title Font Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "description_size_desktop",
+      "label": "Description Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Header Typography - Mobile"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Subtitle Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title Font Size",
+      "min": 18,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "label": "Description Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Section Layout"
+    },
     {
       "type": "color",
       "id": "background_color",
@@ -218,23 +491,87 @@ if (!customElements.get('zs-feature-slider')) {
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "label": "Padding Top",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
       "min": 0,
       "max": 100,
-      "step": 4,
+      "step": 5,
       "unit": "px",
       "default": 40
     },
     {
       "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding Bottom",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
       "min": 0,
       "max": 100,
-      "step": 4,
+      "step": 5,
       "unit": "px",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "margin_top_desktop",
+      "label": "Margin Top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_desktop",
+      "label": "Margin Bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "label": "Margin Top (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "label": "Margin Bottom (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Marquee Settings"
     },
     {
       "type": "range",
@@ -248,14 +585,23 @@ if (!customElements.get('zs-feature-slider')) {
     },
     {
       "type": "range",
-      "id": "icon_size",
+      "id": "icon_size_desktop",
       "label": "Icon Size (Desktop)",
       "min": 24,
       "max": 96,
       "step": 4,
       "unit": "px",
-      "default": 48,
-      "info": "Controls icon size on desktop only. Mobile stays at 40px."
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Icon Size (Mobile)",
+      "min": 24,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 40
     },
     {
       "type": "range",
@@ -286,9 +632,15 @@ if (!customElements.get('zs-feature-slider')) {
           "default": "Feature Title"
         },
         {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#000000"
+        },
+        {
           "type": "range",
-          "id": "title_size",
-          "label": "Title Font Size",
+          "id": "title_size_desktop",
+          "label": "Title Font Size (Desktop)",
           "min": 12,
           "max": 32,
           "step": 1,
@@ -296,10 +648,14 @@ if (!customElements.get('zs-feature-slider')) {
           "default": 18
         },
         {
-          "type": "color",
-          "id": "title_color",
-          "label": "Title Color",
-          "default": "#000000"
+          "type": "range",
+          "id": "title_size_mobile",
+          "label": "Title Font Size (Mobile)",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 16
         },
         {
           "type": "textarea",
@@ -308,9 +664,15 @@ if (!customElements.get('zs-feature-slider')) {
           "default": "Feature description goes here."
         },
         {
+          "type": "color",
+          "id": "text_color",
+          "label": "Description Color",
+          "default": "#666666"
+        },
+        {
           "type": "range",
-          "id": "text_size",
-          "label": "Text Font Size",
+          "id": "text_size_desktop",
+          "label": "Description Font Size (Desktop)",
           "min": 10,
           "max": 24,
           "step": 1,
@@ -318,17 +680,21 @@ if (!customElements.get('zs-feature-slider')) {
           "default": 14
         },
         {
-          "type": "color",
-          "id": "text_color",
-          "label": "Text Color",
-          "default": "#666666"
+          "type": "range",
+          "id": "text_size_mobile",
+          "label": "Description Font Size (Mobile)",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 13
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Feature Logo Slider",
+      "name": "ZS Feature Logo Marquee",
       "blocks": [
         {
           "type": "feature",

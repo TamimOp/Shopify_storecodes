@@ -1,0 +1,1079 @@
+{% comment %}
+  Testimonial Review Slider
+  Fully customizable review slider with Swiper.js
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  .zs-review-slider-section {
+    width: 100%;
+    background: {{ section.settings.background_color }};
+    padding: {{ section.settings.section_padding_top }}px 20px {{ section.settings.section_padding_bottom }}px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .zs-review-slider-container {
+    max-width: {{ section.settings.container_max_width }}px;
+    margin: 0 auto;
+  }
+
+  .zs-review-slider-header {
+    text-align: {{ section.settings.header_alignment }};
+    margin-bottom: 40px;
+  }
+
+  .zs-review-slider-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ section.settings.label_font_size }}px;
+    color: {{ section.settings.subtitle_color }};
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .zs-review-slider-label svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .zs-review-slider-label img {
+    width: 55px;
+    height: 20px;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
+  .zs-review-slider-title {
+    font-size: {{ section.settings.title_font_size }}px;
+    font-weight: 700;
+    color: {{ section.settings.title_color }};
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+  }
+
+  .zs-review-slider-title p {
+    margin: 0;
+  }
+
+  .zs-review-slider-description {
+    font-size: {{ section.settings.description_font_size }}px;
+    color: {{ section.settings.description_color }};
+    line-height: 1.6;
+    margin: 0 0 25px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .zs-review-slider-description p {
+    margin: 0;
+  }
+
+  .zs-review-slider-button {
+    display: inline-block;
+    padding: 14px 32px;
+    font-size: {{ section.settings.button_font_size }}px;
+    font-weight: 600;
+    color: {{ section.settings.button_text_color }};
+    background: {{ section.settings.button_background_color }};
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .zs-review-slider-button:hover {
+    background: {{ section.settings.button_hover_color }};
+    color: {{ section.settings.button_hover_text_color }};
+    transform: translateY(-2px);
+  }
+
+  .zs-review-swiper-wrapper {
+    position: relative;
+    padding-bottom: 80px;
+  }
+
+  .zs-review-swiper {
+    overflow: hidden !important;
+    padding: 130px 0 0 0;
+  }
+  
+  .zs-review-swiper .swiper-wrapper {
+    padding: 0 !important;
+  }
+
+  .zs-review-swiper .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .zs-review-swiper .swiper-slide {
+    height: 390px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+  }
+
+  .zs-review-card {
+    background: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_border_radius }}px;
+    padding: {{ section.settings.card_padding }}px;
+    box-shadow: {{ section.settings.card_shadow }};
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Side cards - smaller and slightly faded */
+  .zs-review-swiper .swiper-slide-prev .zs-review-card,
+  .zs-review-swiper .swiper-slide-next .zs-review-card {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+
+  /* Center card - full size and lifted up 112px */
+  .zs-review-swiper .swiper-slide-active .zs-review-card {
+    transform: translateY(-112px) scale(1);
+    opacity: 1;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  }
+
+  .zs-review-stars {
+    display: flex;
+    gap: 4px;
+  }
+
+  .zs-review-stars svg {
+    width: {{ section.settings.star_size }}px;
+    height: {{ section.settings.star_size }}px;
+    fill: {{ section.settings.star_color }};
+  }
+
+  .zs-review-text {
+    font-size: {{ section.settings.review_text_size }}px;
+    line-height: 1.7;
+    color: {{ section.settings.review_text_color }};
+    margin-bottom: 20px;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+  }
+
+  .zs-review-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .zs-review-author-image {
+    width: {{ section.settings.author_image_size }}px;
+    height: {{ section.settings.author_image_size }}px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .zs-review-author-info {
+    flex-grow: 1;
+  }
+
+  .zs-review-author-name {
+    font-size: {{ section.settings.author_name_size }}px;
+    font-weight: 400;
+    color: {{ section.settings.author_name_color }};
+    margin: 0 0 6px;
+  }
+
+  .zs-review-author-label {
+    font-size: {{ section.settings.author_label_size }}px;
+    color: {{ section.settings.author_label_color }};
+    margin: 0;
+  }
+
+  .zs-review-navigation {
+    position: absolute;
+    top: 0;
+    bottom: 70%;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 20;
+    pointer-events: none;
+    padding: 0 20px;
+  }
+
+  .zs-review-nav-button {
+    width: {{ section.settings.nav_button_size }}px;
+    height: {{ section.settings.nav_button_size }}px;
+    border-radius: 50%;
+    border: {{ section.settings.nav_button_border_width }}px solid {{ section.settings.nav_button_border_color }};
+    background: {{ section.settings.nav_button_background }};
+    color: {{ section.settings.nav_button_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+  }
+
+  .zs-review-nav-button:hover {
+    background: {{ section.settings.nav_button_hover_background }};
+    color: {{ section.settings.nav_button_hover_color }};
+    border-color: {{ section.settings.nav_button_hover_border_color }};
+    transform: scale(1.1);
+  }
+
+  .zs-review-nav-button.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .zs-review-nav-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .zs-review-counter {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: {{ section.settings.counter_background }};
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .zs-counter-badge {
+    background: {{ section.settings.counter_badge_background }};
+    color: {{ section.settings.counter_badge_color }};
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .zs-counter-avatars {
+    display: flex;
+  }
+
+  .zs-counter-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid {{ section.settings.counter_background }};
+    margin-left: -14px;
+    object-fit: cover;
+  }
+
+  .zs-counter-avatar:first-child {
+    margin-left: 0;
+  }
+
+  @media (max-width: 1024px) {
+  .zs-review-swiper {
+    padding: 100px 0 40px 0;
+  }
+
+  .zs-review-swiper .swiper-slide {
+    height: 390px;
+  }
+
+  .zs-review-swiper .swiper-slide-active .zs-review-card {
+    transform: translateY(-80px) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .zs-review-slider-title {
+    font-size: {{ section.settings.title_font_size_mobile }}px !important;
+  }
+  .zs-review-slider-label{
+    font-size: {{ section.settings.label_font_size_mobile }}px !important;
+  }
+  .zs-review-slider-label img{
+    width: 24px;
+  }
+  .zs-review-slider-description {
+    font-size: {{ section.settings.description_font_size_mobile }}px !important;
+  }
+  .zs-review-slider-button {
+    font-size: {{ section.settings.button_font_size_mobile }}px !important;
+    padding: 12px 28px;
+  }
+  .zs-review-card {
+    padding: {{ section.settings.card_padding | times: 0.75 }}px;
+  }
+
+  .zs-review-swiper {
+    padding: 80px 0 40px 0;
+  }
+
+  .zs-review-swiper .swiper-slide {
+    height: 380px;
+  }
+
+  .zs-review-swiper .swiper-slide-active .zs-review-card {
+    transform: translateY(-60px) scale(1);
+  }
+
+  .zs-review-navigation {
+    padding: 0 10px;
+    top: 65%;
+    bottom: 0;
+  }
+  .zs-review-nav-button{
+    width: 50px;
+    height: 50px;
+  }
+
+  .zs-counter-badge {
+    font-size: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .zs-counter-avatar {
+    width: 45px;
+    height: 45px;
+  }
+
+  .zs-review-text {
+    -webkit-line-clamp: 6;
+  }
+}
+</style>
+
+<div class="zs-review-slider-section">
+  <div class="zs-review-slider-container">
+    <!-- Header -->
+    <div class="zs-review-slider-header">
+      {% if section.settings.show_label %}
+        <div class="zs-review-slider-label">
+          {% if section.settings.label_icon != blank %}
+            <img src="{{ section.settings.label_icon | img_url: '40x40' }}" alt="Icon">
+          {% else %}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          {% endif %}
+          <div>{{ section.settings.label_text }}</div>
+        </div>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h2 class="zs-review-slider-title">{{ section.settings.title }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="zs-review-slider-description">{{ section.settings.description }}</div>
+      {% endif %}
+
+      {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" class="zs-review-slider-button">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+
+    <!-- Swiper Slider -->
+    <div class="zs-review-swiper-wrapper">
+      <div class="swiper zs-review-swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              <div class="zs-review-card">
+                <!-- Star Rating -->
+                <div class="zs-review-stars">
+                  {% for i in (1..5) %}
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  {% endfor %}
+                </div>
+
+                <!-- Review Text -->
+                <p class="zs-review-text">{{ block.settings.review_text }}</p>
+
+                <!-- Author Info -->
+                <div class="zs-review-author">
+                  {% if block.settings.author_image != blank %}
+                    <img 
+                      src="{{ block.settings.author_image | img_url: '200x200' }}" 
+                      alt="{{ block.settings.author_name }}"
+                      class="zs-review-author-image"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <img 
+                      src="https://via.placeholder.com/200x200/cccccc/ffffff?text={{ block.settings.author_name | slice: 0 }}" 
+                      alt="{{ block.settings.author_name }}"
+                      class="zs-review-author-image"
+                    >
+                  {% endif %}
+
+                  <div class="zs-review-author-info">
+                    <p class="zs-review-author-name">{{ block.settings.author_name }}</p>
+                    <p class="zs-review-author-label">{{ block.settings.author_label }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Navigation Arrows - Centered on Whole Section -->
+      <div class="zs-review-navigation">
+        <div class="zs-review-nav-button zs-review-button-prev">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </div>
+
+        <div class="zs-review-nav-button zs-review-button-next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Counter at Bottom -->
+      {% if section.settings.show_counter %}
+        <div class="zs-review-counter">
+          <div class="zs-counter-badge">{{ section.settings.counter_text }}</div>
+          {% if section.settings.show_counter_avatars %}
+            <div class="zs-counter-avatars">
+              {% if section.settings.counter_avatar_1 != blank %}
+                <img src="{{ section.settings.counter_avatar_1 | img_url: '100x100' }}" alt="Customer" class="zs-counter-avatar">
+              {% else %}
+                <img src="https://via.placeholder.com/100x100/ff9500/ffffff?text=1" alt="Customer" class="zs-counter-avatar">
+              {% endif %}
+              {% if section.settings.counter_avatar_2 != blank %}
+                <img src="{{ section.settings.counter_avatar_2 | img_url: '100x100' }}" alt="Customer" class="zs-counter-avatar">
+              {% else %}
+                <img src="https://via.placeholder.com/100x100/ff9500/ffffff?text=2" alt="Customer" class="zs-counter-avatar">
+              {% endif %}
+              {% if section.settings.counter_avatar_3 != blank %}
+                <img src="{{ section.settings.counter_avatar_3 | img_url: '100x100' }}" alt="Customer" class="zs-counter-avatar">
+              {% else %}
+                <img src="https://via.placeholder.com/100x100/ff9500/ffffff?text=3" alt="Customer" class="zs-counter-avatar">
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const swiper = new Swiper('.zs-review-swiper', {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      centeredSlides: true,
+      loop: true,
+      loopedSlides: 6,
+      speed: 700,
+      slideToClickedSlide: false,
+      watchSlidesProgress: true,
+      navigation: {
+        nextEl: '.zs-review-button-next',
+        prevEl: '.zs-review-button-prev',
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          centeredSlides: true,
+        },
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 25,
+          centeredSlides: true,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+          centeredSlides: true,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          centeredSlides: true,
+        },
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Review Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Section Padding Top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Section Padding Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Container Max Width",
+      "min": 1000,
+      "max": 1800,
+      "step": 50,
+      "default": 1400,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle (Label) Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "label": "Show Subtitle",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "label_icon",
+      "label": "Subtitle Icon",
+      "info": "Upload a custom icon (recommended size: 40x40px). If no icon is uploaded, the default lightning bolt icon will be shown."
+    },
+    {
+      "type": "richtext",
+      "id": "label_text",
+      "label": "Subtitle Text",
+      "default": "<p>Getuigenissen</p>"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Subtitle Font Size (Desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size_mobile",
+      "label": "Subtitle Font Size (Mobile)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Title Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Wat Onze Klanten Over Ons Zeggen</p>"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size (Desktop)",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "default": 52,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "label": "Title Font Size (Mobile)",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Description Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Read what our customers have to say about their experience with us.</p>"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description Font Size (Desktop)",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_mobile",
+      "label": "Description Font Size (Mobile)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "View All Reviews"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button Background Color",
+      "default": "#ff9500"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Background Color",
+      "default": "#e68600"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size (Desktop)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size_mobile",
+      "label": "Button Font Size (Mobile)",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },    
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card Padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "card_shadow",
+      "label": "Card Shadow",
+      "default": "0 10px 40px rgba(0, 0, 0, 0.1)",
+      "info": "CSS box-shadow value"
+    },
+    {
+      "type": "header",
+      "content": "Star Rating"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star Size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "default": 22,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Review Text"
+    },
+    {
+      "type": "color",
+      "id": "review_text_color",
+      "label": "Review Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "review_text_size",
+      "label": "Review Text Size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 17,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Author Settings"
+    },
+    {
+      "type": "range",
+      "id": "author_image_size",
+      "label": "Author Image Size",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "author_name_color",
+      "label": "Author Name Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "author_name_size",
+      "label": "Author Name Size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 17,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "author_label_color",
+      "label": "Author Label Color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "author_label_size",
+      "label": "Author Label Size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Buttons"
+    },
+    {
+      "type": "range",
+      "id": "nav_button_size",
+      "label": "Button Size",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 65,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_background",
+      "label": "Button Background",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Button Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_border_color",
+      "label": "Button Border Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "nav_button_border_width",
+      "label": "Button Border Width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 2,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_background",
+      "label": "Button Hover Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_border_color",
+      "label": "Button Hover Border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Counter Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "Show Counter Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "counter_text",
+      "label": "Counter Text",
+      "default": "14k+"
+    },
+    {
+      "type": "color",
+      "id": "counter_background",
+      "label": "Counter Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "counter_badge_background",
+      "label": "Badge Background",
+      "default": "#ff9500"
+    },
+    {
+      "type": "color",
+      "id": "counter_badge_color",
+      "label": "Badge Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter_avatars",
+      "label": "Show Counter Avatars",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "counter_avatar_1",
+      "label": "Counter Avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "counter_avatar_2",
+      "label": "Counter Avatar 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "counter_avatar_3",
+      "label": "Counter Avatar 3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review Text",
+          "default": "We have been working with Baldan around 6 years and i have to say that all these time, they have been GREAT!"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author Image"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Alessandra Valencia"
+        },
+        {
+          "type": "text",
+          "id": "author_label",
+          "label": "Author Label",
+          "default": "Verified Client"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Zs Review Slider 2",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "review_text": "We have been working with Baldan around 6 years and i have to say that all these time, they have been GREAT! Mala and Brandon exceptional good in customer service and Gianluca exceptional when we need a maintenance support. They always support",
+            "author_name": "Alessandra Valencia",
+            "author_label": "Verified Client"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "review_text": "We have had a great relationship with Brando and Mala. For many years you always come to us when we need the latest devices. You always get great service and support from you. Thank you!",
+            "author_name": "Elizabeth Hurtado",
+            "author_label": "Verified Client"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "review_text": "Cheek Medispa have been working with Baldan Group for the past 5 years. We have all of their equipment and continue to invest in the latest devices as we achieve fantastic results. The service from sales, customer service & servicing machines is",
+            "author_name": "Gemma Depiano",
+            "author_label": "Verified Client"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

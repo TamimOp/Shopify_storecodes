@@ -76,9 +76,9 @@
 
   .zs-features-{{ section.id }} .zs-eyebrow {
     display: inline-block;
-    font-size: {{ section.settings.eyebrow_size }}px;
+    font-size: {{ section.settings.eyebrow_size_desktop }}px;
     font-weight: 700;
-    color: var(--zs-primary);
+    color: {{ section.settings.eyebrow_color }};
     margin-bottom: 12px;
     position: relative;
   }
@@ -94,15 +94,50 @@
   }
 
   .zs-features-{{ section.id }} .zs-main-heading {
-    font-size: clamp(32px, 5vw, {{ section.settings.heading_size }}px);
+    font-size: {{ section.settings.heading_size_desktop }}px;
     font-weight: {{ section.settings.heading_weight }};
     line-height: 1.15;
-    color: var(--zs-text-dark);
-    margin: 0;
+    color: {{ section.settings.heading_color }};
+    margin: 0 0 {{ section.settings.header_description_margin }}px 0;
   }
 
-  .zs-features-{{ section.id }} .zs-main-heading .zs-highlight {
+  .zs-features-{{ section.id }} .zs-main-heading strong,
+  .zs-features-{{ section.id }} .zs-main-heading b {
     color: var(--zs-primary);
+    font-weight: inherit;
+  }
+
+  .zs-features-{{ section.id }} .zs-header-description {
+    font-size: {{ section.settings.description_size_desktop }}px;
+    line-height: 1.7;
+    color: {{ section.settings.description_color }};
+    margin: 0 0 {{ section.settings.header_button_margin }}px 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .zs-features-{{ section.id }} .zs-header-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ section.settings.button_text_color }};
+    background: {{ section.settings.button_bg_color }};
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .zs-features-{{ section.id }} .zs-header-button:hover {
+    background: {{ section.settings.button_hover_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px {{ section.settings.button_bg_color | color_modify: 'alpha', 0.3 }};
   }
 
   /* ============================================
@@ -888,8 +923,14 @@
     .zs-features-{{ section.id }} {
       padding: {{ section.settings.padding_top | times: 0.5 }}px 0 {{ section.settings.padding_bottom | times: 0.5 }}px;
     }
+    .zs-features-{{ section.id }} .zs-eyebrow {
+      font-size: {{ section.settings.eyebrow_size_mobile }}px;
+    }
     .zs-features-{{ section.id }} .zs-main-heading {
-      font-size: 28px;
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+    .zs-features-{{ section.id }} .zs-header-description {
+      font-size: {{ section.settings.description_size_mobile }}px;
     }
     .zs-features-{{ section.id }} .zs-slide {
       flex: 0 0 280px;
@@ -927,13 +968,23 @@
         <div class="zs-eyebrow">{{ section.settings.eyebrow }}</div>
       {%- endif -%}
 
-      <h2 class="zs-main-heading">
-        {{ section.settings.heading_before }}
-        {%- if section.settings.heading_highlight != blank -%}
-          <span class="zs-highlight">{{ section.settings.heading_highlight }}</span>
-        {%- endif -%}
-        {{ section.settings.heading_after }}
-      </h2>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="zs-main-heading">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.header_description != blank -%}
+        <div class="zs-header-description">
+          {{ section.settings.header_description }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.header_button_text != blank and section.settings.header_button_link != blank -%}
+        <a href="{{ section.settings.header_button_link }}" class="zs-header-button">
+          {{ section.settings.header_button_text }}
+        </a>
+      {%- endif -%}
     </div>
   </div>
 
@@ -1354,50 +1405,144 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text",
+      "label": "Subtitle (Eyebrow)",
       "default": "Nog niet overtuigd?"
     },
     {
-      "type": "text",
-      "id": "heading_before",
-      "label": "Heading (Before Highlight)",
-      "default": "Wat de Prefabriek"
+      "type": "richtext",
+      "id": "heading",
+      "label": "Title",
+      "info": "Make text bold to highlight it in the primary color",
+      "default": "<p>Wat de Prefabriek <strong>uniek</strong> maakt</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "header_description",
+      "label": "Description",
+      "default": "<p>Add a compelling description here to provide more context about your features.</p>"
     },
     {
       "type": "text",
-      "id": "heading_highlight",
-      "label": "Highlighted Text",
-      "default": "uniek"
+      "id": "header_button_text",
+      "label": "Button Text",
+      "default": "Learn More"
     },
     {
-      "type": "text",
-      "id": "heading_after",
-      "label": "Heading (After Highlight)",
-      "default": "maakt"
+      "type": "url",
+      "id": "header_button_link",
+      "label": "Button Link"
     },
     {
       "type": "header",
-      "content": "📝 Header Typography"
+      "content": "🎨 Header Colors"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Subtitle Color",
+      "default": "#FF6B00"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#FF6B00"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Color",
+      "default": "#FF8C42"
+    },
+    {
+      "type": "header",
+      "content": "📝 Header Typography - Desktop"
     },
     {
       "type": "range",
-      "id": "eyebrow_size",
+      "id": "eyebrow_size_desktop",
       "min": 12,
-      "max": 20,
+      "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Eyebrow Size",
+      "label": "Subtitle Font Size",
       "default": 14
     },
     {
       "type": "range",
-      "id": "heading_size",
-      "min": 36,
+      "id": "heading_size_desktop",
+      "min": 28,
       "max": 72,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size (Desktop)",
+      "label": "Title Font Size",
       "default": 52
+    },
+    {
+      "type": "range",
+      "id": "description_size_desktop",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "📱 Header Typography - Mobile"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle Font Size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "📏 Header Spacing"
     },
     {
       "type": "select",
@@ -1422,12 +1567,32 @@
     },
     {
       "type": "range",
+      "id": "header_description_margin",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Space Between Title and Description",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "header_button_margin",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Space Between Description and Button",
+      "default": 20
+    },
+    {
+      "type": "range",
       "id": "header_margin",
       "min": 30,
-      "max": 80,
+      "max": 100,
       "step": 10,
       "unit": "px",
-      "label": "Header Margin Bottom",
+      "label": "Header Section Bottom Margin",
       "default": 50
     },
     {

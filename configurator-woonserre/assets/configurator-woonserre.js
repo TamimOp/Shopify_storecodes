@@ -2278,12 +2278,35 @@
     IMAGE_LAYERS_DATA.forEach((data) => {
       const img = document.createElement("img");
       img.className = data.cls;
-      img.src = data.src || EMPTY_IMG;
+      // Safari fix: don't set src for placeholder images to prevent broken image indicator
+      if (data.src && data.src.trim()) {
+        img.src = data.src;
+      } else {
+        // Store empty src flag; image stays without src (no network request, no broken indicator)
+        img.dataset.emptySrc = "1";
+        // Remove 'active' class from images without src to prevent Safari showing '?'
+        img.className = data.cls.replace(/\bactive\b/, "").trim();
+      }
+      img.alt = "";
+      img.decoding = "async";
       img.setAttribute("aria-hidden", "true");
       img.setAttribute("data-layer", data.layer);
       img.setAttribute("data-choice", data.choice);
       img.setAttribute("data-layer_id", data.layer_id);
       img.setAttribute("data-choice_id", data.choice_id);
+      // Safari fix: handle image load failures gracefully
+      img.onerror = function () {
+        this.onerror = null;
+        this.classList.remove("active");
+        this.style.display = "none";
+        this.dataset.broken = "1";
+        console.warn(
+          "Image failed to load:",
+          this.getAttribute("data-layer"),
+          this.getAttribute("data-choice"),
+          this.src?.substring(0, 80),
+        );
+      };
       fragment.appendChild(img);
     });
 
@@ -4441,6 +4464,18 @@
   // Following reference site pattern: toggle 'active' class on pre-rendered images
   // ================================
 
+  /**
+   * Safely activate an image element - skips images without valid src (Safari fix)
+   */
+  function safeActivateImage(img) {
+    if (!img) return false;
+    if (img.dataset.emptySrc || img.dataset.broken) {
+      return false;
+    }
+    img.classList.add("active");
+    return true;
+  }
+
   // Get the mkl_pc_layers container
   function getMklPcLayers() {
     return document.querySelector(".mkl_pc_layers");
@@ -4586,13 +4621,22 @@
       }
 
       if (matchingImage) {
-        matchingImage.classList.add("active");
-        console.log(
-          "Activated layer:",
-          layerName,
-          "choice:",
-          matchingImage.getAttribute("data-choice"),
-        );
+        // Don't activate images that have no src or are marked as broken
+        if (matchingImage.dataset.emptySrc || matchingImage.dataset.broken) {
+          console.log(
+            "Skipping activation of empty/broken image:",
+            layerName,
+            matchingImage.getAttribute("data-choice"),
+          );
+        } else {
+          matchingImage.classList.add("active");
+          console.log(
+            "Activated layer:",
+            layerName,
+            "choice:",
+            matchingImage.getAttribute("data-choice"),
+          );
+        }
       } else if (
         value.toLowerCase() !== "geen" &&
         value.toLowerCase() !== "nee"

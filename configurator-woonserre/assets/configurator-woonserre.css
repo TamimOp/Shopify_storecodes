@@ -1025,6 +1025,24 @@ input[type="radio"]:checked + .radio-label {
   justify-content: center;
 }
 
+/* Fade-in animation for image layers (Safari-safe alternative to transitions) */
+@keyframes vpc-layer-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Safari fix: never render images without src or broken images */
+.mkl_pc_layers img:not([src]) {
+  display: none !important;
+}
+.mkl_pc_layers img[data-broken="1"] {
+  display: none !important;
+}
+
 /* Base image styling - hidden by default */
 .mkl_pc_layers img.simple {
   position: absolute;
@@ -1037,18 +1055,16 @@ input[type="radio"]:checked + .radio-label {
   max-height: 110%;
   object-fit: cover;
   object-position: center;
+  display: none;
   opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
   pointer-events: none;
 }
 
 /* Active state - shows the image */
 .mkl_pc_layers img.simple.active {
+  display: block;
   opacity: 1;
-  visibility: visible;
+  animation: vpc-layer-fade-in 0.25s ease;
 }
 
 /* Multiple class - for elements that can have multiple selections */
@@ -1063,17 +1079,15 @@ input[type="radio"]:checked + .radio-label {
   max-height: 110%;
   object-fit: cover;
   object-position: center;
+  display: none;
   opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
   pointer-events: none;
 }
 
 .mkl_pc_layers img.multiple.active {
+  display: block;
   opacity: 1;
-  visibility: visible;
+  animation: vpc-layer-fade-in 0.25s ease;
 }
 
 /* Circle class - for wall texture masking (Rechterzijde/Linkerzijde) */
@@ -1129,16 +1143,14 @@ input[type="radio"]:checked + .radio-label {
 .mkl_pc_layers img[data-layer="Wandlampen type"],
 .mkl_pc_layers img[data-layer="Stopcontacten muur (hidden)"],
 .mkl_pc_layers img[data-layer="Stopcontacten vloer (hidden)"] {
-  opacity: 0 !important;
-  visibility: hidden !important;
+  display: none !important;
 }
 
 /* INTERIOR VIEW - show interior layers, hide exterior main */
 .s-configurator-container--interior
   .mkl_pc_layers
   img[data-layer="Buitenzijde main"] {
-  opacity: 0 !important;
-  visibility: hidden !important;
+  display: none !important;
 }
 
 .s-configurator-container--interior
@@ -1159,8 +1171,8 @@ input[type="radio"]:checked + .radio-label {
 .s-configurator-container--interior
   .mkl_pc_layers
   img[data-layer="Main render interior white (hidden)"].active {
+  display: block !important;
   opacity: 1 !important;
-  visibility: visible !important;
 }
 
 /* Hide exterior-only layers when in interior view */
@@ -1220,8 +1232,7 @@ input[type="radio"]:checked + .radio-label {
 .s-configurator-container--interior
   .mkl_pc_layers
   img[data-layer="Main render white (hidden)"] {
-  opacity: 0 !important;
-  visibility: hidden !important;
+  display: none !important;
 }
 
 /* Show interior-only layers when in interior view */
@@ -1258,8 +1269,8 @@ input[type="radio"]:checked + .radio-label {
 .s-configurator-container--interior
   .mkl_pc_layers
   img[data-layer*="Stopcontacten"].active {
+  display: block !important;
   opacity: 1 !important;
-  visibility: visible !important;
 }
 
 /* Z-index for interior layers - Daklicht should be above Stucwerk */

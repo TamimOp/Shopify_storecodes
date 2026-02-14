@@ -71,7 +71,17 @@
         </div>
       </div>
     </div>
-    <div id="vpc-container" class="o-wrap VPC_Modern_Skin modern-sticky" data-curr="€">
+    <div id="vpc-container" class="o-wrap VPC_Modern_Skin modern-sticky" data-curr="€"
+         data-pricing='{
+           "pricePerM2_tier1": {{ section.settings.price_per_m2_tier1 | default: "5550.00" }},
+           "pricePerM2_tier2": {{ section.settings.price_per_m2_tier2 | default: "925.00" }},
+           "pricePerM2_tier3": {{ section.settings.price_per_m2_tier3 | default: "1725.00" }},
+           "pricePerM2_tier4": {{ section.settings.price_per_m2_tier4 | default: "1458.33" }},
+           "tier1Max": {{ section.settings.tier1_max | default: "9" }},
+           "tier2Max": {{ section.settings.tier2_max | default: "12" }},
+           "tier3Max": {{ section.settings.tier3_max | default: "16" }},
+           "defaultOptionsOffset": {{ section.settings.default_options_offset | default: "2000" }}
+         }'>
       <div id="vpc-modern-skin--prefabriek">
         <div class="brick-loader">
           <div class="brick-loader__inner">
@@ -3716,14 +3726,67 @@
     },
     {
       "type": "header",
-      "content": "Base Price"
+      "content": "Pricing - Tiered Rates"
     },
     {
-      "type": "number",
-      "id": "base_price",
-      "label": "Base Price (in cents)",
-      "default": 4995000,
-      "info": "Default base price: €49.950"
+      "type": "text",
+      "id": "price_per_m2_tier1",
+      "label": "Price per m² - Tier 1 (0 to Tier 1 Max)",
+      "default": "5550.00",
+      "info": "Base rate for the first tier (e.g. 0-9 m²). Default: €49,950 for 9m²"
+    },
+    {
+      "type": "text",
+      "id": "price_per_m2_tier2",
+      "label": "Price per m² - Tier 2",
+      "default": "925.00",
+      "info": "Rate for area between Tier 1 Max and Tier 2 Max"
+    },
+    {
+      "type": "text",
+      "id": "price_per_m2_tier3",
+      "label": "Price per m² - Tier 3",
+      "default": "1725.00",
+      "info": "Rate for area between Tier 2 Max and Tier 3 Max"
+    },
+    {
+      "type": "text",
+      "id": "price_per_m2_tier4",
+      "label": "Price per m² - Tier 4",
+      "default": "1458.33",
+      "info": "Rate for area above Tier 3 Max"
+    },
+    {
+      "type": "header",
+      "content": "Pricing - Tier Boundaries (m²)"
+    },
+    {
+      "type": "text",
+      "id": "tier1_max",
+      "label": "Tier 1 Max (m²)",
+      "default": "9",
+      "info": "Upper boundary for Tier 1 pricing"
+    },
+    {
+      "type": "text",
+      "id": "tier2_max",
+      "label": "Tier 2 Max (m²)",
+      "default": "12",
+      "info": "Upper boundary for Tier 2 pricing"
+    },
+    {
+      "type": "text",
+      "id": "tier3_max",
+      "label": "Tier 3 Max (m²)",
+      "default": "16",
+      "info": "Upper boundary for Tier 3 pricing"
+    },
+    {
+      "type": "text",
+      "id": "default_options_offset",
+      "label": "Default Options Offset (€)",
+      "default": "2000",
+      "info": "Amount subtracted from base to account for included default options"
     },
     {
       "type": "header",

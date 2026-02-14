@@ -9,21 +9,33 @@
   // ================================
   // Configuration
   // ================================
+  // Load pricing config from schema (data-pricing attribute) with fallback defaults
+  const pricingData = (() => {
+    try {
+      const container = document.querySelector("#vpc-container");
+      if (container && container.dataset.pricing) {
+        return JSON.parse(container.dataset.pricing);
+      }
+    } catch (e) {
+      console.warn(
+        "Failed to parse pricing data from schema, using defaults",
+        e,
+      );
+    }
+    return {};
+  })();
+
   const CONFIG = {
     currency: "€",
-    // Tiered pricing based on reference site (deprefabriek.nl/configurator)
-    // Tier 1: 0-9m² base rate (€39,950 for 9m²)
-    pricePerM2_tier1: 4438.89,
-    // Tier 2: 9-12m² additional rate
-    pricePerM2_tier2: 925.0,
-    // Tier 3: 12-16m² additional rate
-    pricePerM2_tier3: 1725.0,
-    // Tier 4: 16+m² additional rate
-    pricePerM2_tier4: 1425.0,
+    // Tiered pricing - controlled from Shopify section schema
+    pricePerM2_tier1: pricingData.pricePerM2_tier1 || 4438.89,
+    pricePerM2_tier2: pricingData.pricePerM2_tier2 || 925.0,
+    pricePerM2_tier3: pricingData.pricePerM2_tier3 || 1725.0,
+    pricePerM2_tier4: pricingData.pricePerM2_tier4 || 1425.0,
     // Tier boundaries
-    tier1Max: 9.0,
-    tier2Max: 12.0,
-    tier3Max: 16.0,
+    tier1Max: pricingData.tier1Max || 9.0,
+    tier2Max: pricingData.tier2Max || 12.0,
+    tier3Max: pricingData.tier3Max || 16.0,
     minDepth: 150,
     maxDepth: 400,
     minLength: 200,
